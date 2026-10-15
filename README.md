@@ -28,7 +28,18 @@ scripts/dev-server.mjs  local server that mimics Vercel (not deployed)
   such as `'center 25%'` to keep faces in frame.
 - `listen: { type: 'album' | 'track' | 'artist', id, title }` adds a Spotify player inside the article;
   `apple` adds an Apple Music button.
-- **Releases**: `spotify` can be an album, track or artist URL — the ▶ preview button uses it.
+- `imgCaption` (optional) prints a "Pictured: …" credit on the article hero — use it for press photos.
+- `category` must be one of `categories` (All · News · Press Release · Album Review · Interview · Industry Insights);
+  the filter pills are generated from that list.
+- Article bodies are plain HTML. Besides `<p>`, `<h3 ' + H3 + '>`, links and `<em>`, these styled blocks are available:
+  `<figure><img src="images/…"><figcaption>…</figcaption></figure>` (inline photo),
+  `<blockquote>"…"<cite>Name</cite></blockquote>` (pull quote),
+  `<div class="factbox"><p class="factbox-title">…</p><ul><li><span class="k">When</span><span class="v">…</span></li></ul></div>`
+  (event facts) and `<ul class="winners">` with the same `k`/`v` rows (award lists). Wrap each value in
+  `<span class="v">` so links or italics stay in the value column.
+- **Releases**: `spotify` can be an album, track or artist URL — the ▶ preview button uses it. A Spotify
+  `prerelease/…` (pre-save) link shows the Spotify button without a preview. **Recess II** (Joshua Baraka) is a
+  pre-save until **Nov 12, 2026** — then swap its `spotify` link for the album URL and drop "Pre-save" from `type`.
 - Links must be real URLs. Optional ones (e.g. an artist with no Spotify) can simply be left out — the button disappears.
 - **Ali Boomaye** has no verified press photo or Spotify profile yet; his card shows an "AB" tile.
   Add `images/artists/ali-boomaye.jpg` and set his `img` to use it.
@@ -86,4 +97,5 @@ Spotify embeds and external links work on the real site; some sandboxed preview 
 
 Artist photos are official artist/press images: Spotify artist profile photos and cover art (Spotify CDN),
 Apple Music "Up Next" artwork (Kyle Simbwa), the "Treasure" press photo (Mike Mungu & Darkua — cropped),
-and 7H's own roster photos.
+and 7H's own roster photos. Press photos (credited on each article): Joshua Baraka on the Brakaland Tour —
+Sqoop (Mbarara) and Nile Post (Mbale); Echoled — Nile Post; UG Hip Hop Awards '25 launch — Nile Post.

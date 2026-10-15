@@ -145,6 +145,22 @@
     .article-body a { color: #c9a24b; text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
     .article-body a:hover { color: #f4f1ea; }
     .article-body strong { color: #f4f1ea; }
+    .article-body .note { font-size: .85rem; color: #8f8b83; }
+    .article-body figure { margin: 1.75rem 0; }
+    .article-body figure img { width: 100%; height: auto; border-radius: .75rem; border: 1px solid rgba(201,162,75,0.25); }
+    .article-body figcaption { margin-top: .5rem; font-size: .75rem; color: #8f8b83; }
+    .article-body blockquote { margin: 1.5rem 0; padding: .25rem 0 .25rem 1.1rem; border-left: 3px solid #c9a24b; color: #f4f1ea; font-style: italic; font-size: 1.05rem; }
+    .article-body blockquote cite { display: block; margin-top: .5rem; font-style: normal; font-size: .8rem; font-weight: 600; color: #c9a24b; }
+    .article-body blockquote cite::before { content: "— "; }
+    .article-body .factbox { padding: 1rem 1.25rem; border-radius: .75rem; border: 1px solid rgba(201,162,75,0.35); background: linear-gradient(135deg, rgba(201,162,75,0.10), rgba(201,162,75,0.03)); }
+    .article-body .factbox-title { font-family: 'Outfit', 'Inter', sans-serif; font-weight: 800; color: #f4f1ea; letter-spacing: .04em; margin-bottom: .35rem; }
+    .article-body .factbox ul, .article-body ul.winners { list-style: none; margin: 0; padding: 0; }
+    .article-body .factbox li, .article-body ul.winners li { display: grid; grid-template-columns: 5.5rem 1fr; gap: .75rem; padding: .45rem 0; border-top: 1px solid rgba(244,241,234,0.08); }
+    .article-body .factbox li:first-child, .article-body ul.winners li:first-child { border-top: 0; }
+    .article-body .factbox li > .k, .article-body ul.winners li > .k { color: #c9a24b; font-size: .7rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; padding-top: .2rem; }
+    .article-body ul.winners { padding: .25rem 1.1rem; border-radius: .75rem; border: 1px solid rgba(244,241,234,0.10); background: rgba(244,241,234,0.02); }
+    .article-body ul.winners li { grid-template-columns: minmax(9rem, 36%) 1fr; font-size: .95rem; }
+    @media (max-width: 520px) { .article-body ul.winners li { grid-template-columns: 1fr; gap: .1rem; } }
 
     /* image fallback tile (missing or broken image) */
     .img-fallback { display: flex; align-items: center; justify-content: center; background: radial-gradient(circle at 30% 25%, rgba(201,162,75,0.28), transparent 60%), linear-gradient(135deg, #1a1a1d, #0a0a0b); }
