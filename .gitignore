@@ -1,0 +1,10 @@
+# local dev data (mock comment store)
+.dev-data/
+
+# scratch downloads / tooling
+image-search/
+node_modules/
+.vercel/
+.env
+.env.*
+.DS_Store
