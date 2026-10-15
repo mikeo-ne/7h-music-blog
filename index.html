@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>7H Music Blog — The Voice of the Independent Sound</title>
+  <meta name="description" content="Official news, editorial pieces, and artist spotlights from 7H Music Group — Kampala, Uganda. Covering 7H artists and the wider music scene." />
+  <meta property="og:title" content="7H Music Blog — The Voice of the Independent Sound" />
+  <meta property="og:description" content="Editorial coverage of Ugandan music — 7H Music Group artists and the wider scene." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://7hmusicgroupug.vercel.app/images/hero.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#0a0a0b" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            bg: '#0a0a0b',
+            surface: '#101012',
+            ink: '#f4f1ea',
+            muted: '#8f8b83',
+            gold: '#c9a24b',
+            spot: '#1db954',
+            line: 'rgba(244,241,234,0.12)',
+          },
+          fontFamily: {
+            sans: ['Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif'],
+            display: ['Outfit', 'Inter', 'Helvetica Neue', 'sans-serif'],
+          },
+          boxShadow: {
+            glow: '0 0 40px -10px rgba(201,162,75,0.35)',
+            glowGold: '0 0 40px -10px rgba(201,162,75,0.45)',
+            card: '0 10px 40px -15px rgba(0,0,0,0.5)',
+          },
+        },
+      },
+    };
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    html, body { background: #0a0a0b; }
+    body { font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #f4f1ea; }
+    .font-display { font-family: 'Outfit', 'Inter', 'Helvetica Neue', sans-serif; }
+
+    .metal-card {
+      background: #101012;
+      border: 1px solid rgba(244,241,234,0.12);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.45), inset 0 1px 0 rgba(244,241,234,0.04);
+    }
+    .glass {
+      background: rgba(10,10,11,0.7);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid rgba(244,241,234,0.12);
+    }
+    .glass-strong {
+      background: rgba(10,10,11,0.85);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid rgba(244,241,234,0.12);
+    }
+
+    .text-gradient {
+      background: linear-gradient(90deg, #c9a24b, #f4f1ea, #c9a24b);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .text-gradient-gold {
+      background: linear-gradient(90deg, #c9a24b, #e8c97a);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero-grid {
+      background-image:
+        linear-gradient(rgba(201,162,75,0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(201,162,75,0.06) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+      -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+    }
+
+    .noise::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      mix-blend-mode: overlay;
+    }
+
+    ::-webkit-scrollbar { width: 10px; height: 10px; }
+    ::-webkit-scrollbar-track { background: #0a0a0b; }
+    ::-webkit-scrollbar-thumb { background: #2a2a2d; border-radius: 5px; }
+    ::-webkit-scrollbar-thumb:hover { background: #3a3a3e; }
+
+    .modal-backdrop { transition: opacity 0.25s ease; }
+    .modal-panel { transition: transform 0.3s cubic-bezier(.22,1,.36,1), opacity 0.3s ease; }
+
+    .card-hover { transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; }
+    .card-hover:hover { transform: translateY(-6px); box-shadow: 0 20px 50px -15px rgba(201,162,75,0.25); border-color: rgba(201,162,75,0.45); }
+
+    .audio-bar { height: 4px; }
+    .audio-progress { transition: width 0.1s linear; }
+
+    .filter-pill { transition: all 0.2s ease; }
+    .filter-pill.active { background: #c9a24b; color: #0a0a0b; font-weight: 600; }
+
+    .field:focus { outline: none; border-color: #c9a24b; box-shadow: 0 0 0 3px rgba(201,162,75,0.18); }
+
+    @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+    .shimmer { background: linear-gradient(90deg, transparent, rgba(201,162,75,0.12), transparent); background-size: 200% 100%; animation: shimmer 3s infinite; }
+
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.in { opacity: 1; transform: translateY(0); }
+
+    .toast { transition: transform 0.3s ease, opacity 0.3s ease; }
+    .lead { font-size: 1.125rem; color: #f4f1ea; font-weight: 500; }
+    .eyebrow { font-size: 11px; letter-spacing: .32em; text-transform: uppercase; color: #c9a24b; font-weight: 700; display: inline-flex; align-items: center; gap: 14px; }
+    .eyebrow::before { content: ""; width: 34px; height: 1px; background: #c9a24b; display: inline-block; }
+  </style>
+</head>
+<body class="antialiased selection:bg-gold/30 selection:text-bg bg-bg text-ink">
+
+  <!-- ============ NAVIGATION ============ -->
+  <header id="top" class="fixed top-0 inset-x-0 z-50 glass border-b border-line">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <a href="#home" class="flex items-center gap-2 group">
+          <div class="w-9 h-9 rounded-lg border-2 border-ink flex items-center justify-center font-display font-black text-ink">
+            7H
+          </div>
+          <span class="font-display font-bold tracking-wider text-sm sm:text-base text-ink">
+            7H <span class="text-gold">MUSIC</span> <span class="text-ink">BLOG</span>
+          </span>
+        </a>
+
+        <nav class="hidden md:flex items-center gap-1">
+          <a href="#home" class="nav-link px-3 py-2 text-sm text-muted hover:text-ink transition">Home</a>
+          <a href="#artists" class="nav-link px-3 py-2 text-sm text-muted hover:text-ink transition">7H Roster</a>
+          <a href="#fresh" class="nav-link px-3 py-2 text-sm text-muted hover:text-ink transition">Fresh Finds</a>
+          <a href="#articles" class="nav-link px-3 py-2 text-sm text-muted hover:text-ink transition">Articles &amp; News</a>
+          <a href="#submit" class="nav-link px-3 py-2 text-sm text-muted hover:text-ink transition">Submit Demo</a>
+        </nav>
+
+        <div class="flex items-center gap-3">
+          <a href="#submit" class="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-full bg-ink text-bg font-semibold text-sm shadow-glow hover:bg-gold transition">
+            <i data-lucide="send" class="w-4 h-4"></i> Submit Demo
+          </a>
+          <button id="menuBtn" class="md:hidden p-2 rounded-lg hover:bg-surface transition text-ink" aria-label="Open menu">
+            <i data-lucide="menu" class="w-5 h-5"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div id="mobileMenu" class="md:hidden hidden glass-strong border-t border-line">
+      <div class="px-4 py-3 flex flex-col gap-1">
+        <a href="#home" class="mobile-link px-3 py-2 rounded-lg text-muted hover:bg-surface hover:text-ink transition">Home</a>
+        <a href="#artists" class="mobile-link px-3 py-2 rounded-lg text-muted hover:bg-surface hover:text-ink transition">7H Roster</a>
+        <a href="#fresh" class="mobile-link px-3 py-2 rounded-lg text-muted hover:bg-surface hover:text-ink transition">Fresh Finds</a>
+        <a href="#articles" class="mobile-link px-3 py-2 rounded-lg text-muted hover:bg-surface hover:text-ink transition">Articles &amp; News</a>
+        <a href="#submit" class="mobile-link px-3 py-2 rounded-lg text-muted hover:bg-surface hover:text-ink transition">Submit Demo</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============ HERO ============ -->
+  <section id="home" class="relative pt-28 pb-20 sm:pt-36 sm:pb-28 overflow-hidden noise bg-bg">
+    <div class="hero-grid absolute inset-0"></div>
+    <div class="absolute -top-24 -left-24 w-96 h-96 bg-gold/10 rounded-full blur-3xl"></div>
+    <div class="absolute top-1/3 -right-24 w-[28rem] h-[28rem] bg-gold/5 rounded-full blur-3xl"></div>
+
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-4xl">
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full glass text-xs text-gold mb-6">
+          <span class="w-2 h-2 rounded-full bg-gold animate-pulse"></span>
+          Kampala, Uganda · Full-service label, management &amp; publishing
+        </div>
+        <h1 class="font-display font-black text-4xl sm:text-6xl lg:text-7xl leading-[1.05] tracking-tight text-ink">
+          THE VOICE OF THE<br/>
+          <span class="text-gradient">INDEPENDENT SOUND</span>
+        </h1>
+        <p class="mt-6 text-lg sm:text-xl text-muted max-w-2xl leading-relaxed">
+          Editorial coverage of Ugandan music — 7H Music Group artists and the wider scene.
+          Spotlights, reviews and interviews with your favourite and hottest artists on the Uganda scene.
+        </p>
+        <div class="mt-9 flex flex-wrap gap-4">
+          <a href="#articles" class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-ink text-bg font-bold shadow-glow hover:bg-gold transition">
+            <i data-lucide="newspaper" class="w-5 h-5"></i> Explore Articles
+          </a>
+          <a href="#artists" class="inline-flex items-center gap-2 px-6 py-3 rounded-full glass text-ink font-semibold hover:border-gold/50 transition">
+            <i data-lucide="sparkles" class="w-5 h-5 text-gold"></i> Spotlight Artists
+          </a>
+        </div>
+
+        <div class="mt-12 grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-2xl">
+          <div class="glass rounded-xl p-4">
+            <div class="font-display font-black text-2xl text-gold">4</div>
+            <div class="text-xs text-muted mt-1">Signed Artists</div>
+          </div>
+          <div class="glass rounded-xl p-4">
+            <div class="font-display font-black text-2xl text-gold">12+</div>
+            <div class="text-xs text-muted mt-1">Releases</div>
+          </div>
+          <div class="glass rounded-xl p-4">
+            <div class="font-display font-black text-2xl text-gold">290K+</div>
+            <div class="text-xs text-muted mt-1">Streams</div>
+          </div>
+          <div class="glass rounded-xl p-4">
+            <div class="font-display font-black text-2xl text-gold">3</div>
+            <div class="text-xs text-muted mt-1">Divisions</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ARTISTS ============ -->
+  <section id="artists" class="py-20 sm:py-28 relative bg-surface">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-12 reveal">
+        <div>
+          <p class="eyebrow">Artist Spotlight</p>
+          <h2 class="font-display font-black text-3xl sm:text-5xl mt-2 text-ink">The 7H Roster</h2>
+        </div>
+        <p class="text-muted max-w-md">The voices of 7H Music Group — from Kampala to the world.</p>
+      </div>
+
+      <div id="artistGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- Artists injected by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FRESH FINDS ============ -->
+  <section id="fresh" class="py-20 sm:py-28 relative bg-bg">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-12 reveal">
+        <div>
+          <p class="eyebrow">Fresh Finds</p>
+          <h2 class="font-display font-black text-3xl sm:text-5xl mt-2 text-ink">Fresh Finds: Uganda's Rising Voices</h2>
+        </div>
+        <p class="text-muted max-w-md">Beyond 7H — emerging artists we're watching across Uganda.</p>
+      </div>
+
+      <div id="freshGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- fresh finds injected by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ LATEST RELEASES ============ -->
+  <section id="releases" class="py-20 sm:py-28 relative bg-bg">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-12 reveal">
+        <div>
+          <p class="eyebrow">Fresh Out</p>
+          <h2 class="font-display font-black text-3xl sm:text-5xl mt-2 text-ink">Latest Releases</h2>
+        </div>
+        <a href="https://open.spotify.com/artist/5cDK2NGG0OhfT7Z2FpMgxX" target="_blank" rel="noopener" class="text-gold font-semibold text-sm hover:text-ink transition inline-flex items-center gap-1">
+          All releases on Spotify <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+        </a>
+      </div>
+
+      <div id="releaseGrid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
+        <!-- releases injected -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ARTICLES ============ -->
+  <section id="articles" class="py-20 sm:py-28 relative bg-surface">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8 reveal">
+        <div>
+          <p class="eyebrow">Editorial</p>
+          <h2 class="font-display font-black text-3xl sm:text-5xl mt-2 text-ink">Articles &amp; News</h2>
+        </div>
+        <p class="text-muted max-w-md">Press releases, reviews, interviews, and industry insights — 7H and beyond.</p>
+      </div>
+
+      <div class="glass rounded-2xl p-4 sm:p-5 mb-8 reveal">
+        <div class="flex flex-col lg:flex-row gap-4">
+          <div class="relative flex-1">
+            <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted"></i>
+            <input id="searchInput" type="text" placeholder="Search articles, artists, topics..."
+              class="field w-full pl-11 pr-4 py-3 rounded-xl bg-surface border border-line text-ink placeholder-muted transition" />
+          </div>
+          <div id="filterBar" class="flex flex-wrap gap-2">
+            <!-- filters injected -->
+          </div>
+        </div>
+      </div>
+
+      <div id="articleGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- articles injected -->
+      </div>
+
+      <div id="emptyState" class="hidden text-center py-16">
+        <i data-lucide="search-x" class="w-12 h-12 mx-auto text-muted mb-4"></i>
+        <p class="text-muted">No articles match your search. Try a different keyword or category.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SUBMIT DEMO ============ -->
+  <section id="submit" class="py-20 sm:py-28 relative bg-bg">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-10 reveal">
+        <p class="eyebrow">Pitch</p>
+        <h2 class="font-display font-black text-3xl sm:text-5xl mt-2 text-ink">Submit Your Demo</h2>
+        <p class="text-muted mt-3 max-w-2xl mx-auto">Send us your sound. Our A&amp;R team reviews every submission from Kampala and beyond. Attach a track (up to 9 MB) or paste a SoundCloud / Drive link.</p>
+      </div>
+
+      <form id="demoForm" class="glass-strong rounded-2xl p-6 sm:p-8 space-y-5 reveal" enctype="multipart/form-data">
+        <input type="hidden" name="_subject" value="New demo submission — 7H Music Blog" />
+        <input type="hidden" name="_captcha" value="false" />
+        <input type="hidden" name="_template" value="table" />
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          <div>
+            <label class="block text-sm font-medium text-ink mb-2">Artist Name *</label>
+            <input name="artistName" required type="text" placeholder="e.g. Baranga"
+              class="field w-full px-4 py-3 rounded-xl bg-surface border border-line text-ink placeholder-muted transition" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-ink mb-2">Email *</label>
+            <input name="email" required type="email" placeholder="you@example.com"
+              class="field w-full px-4 py-3 rounded-xl bg-surface border border-line text-ink placeholder-muted transition" />
+          </div>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          <div>
+            <label class="block text-sm font-medium text-ink mb-2">Track Link (SoundCloud / Drive) *</label>
+            <input name="trackLink" required type="url" placeholder="https://soundcloud.com/..."
+              class="field w-full px-4 py-3 rounded-xl bg-surface border border-line text-ink placeholder-muted transition" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-ink mb-2">Genre *</label>
+            <select name="genre" required class="field w-full px-4 py-3 rounded-xl bg-surface border border-line text-ink transition">
+              <option value="">Select a genre</option>
+              <option>Afro-Pop</option>
+              <option>Afrobeats</option>
+              <option>Hip-Hop / Rap</option>
+              <option>R&B</option>
+              <option>Reggae</option>
+              <option>Amapiano</option>
+              <option>Dancehall</option>
+              <option>Gospel</option>
+              <option>Other</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-ink mb-2">Attach a demo (optional)</label>
+          <input name="attachment" type="file" accept="audio/*,.mp3,.m4a,.wav" class="field w-full px-4 py-3 rounded-xl bg-surface border border-line text-ink transition file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:bg-gold file:text-bg file:font-semibold" />
+          <p class="text-xs text-muted mt-1">MP3 / M4A / WAV up to 9 MB. Bigger file? Paste a Google Drive or SoundCloud link above.</p>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-ink mb-2">Bio / Press Release Draft</label>
+          <textarea name="bio" rows="5" placeholder="Tell us about yourself, your sound, and your vision..."
+            class="field w-full px-4 py-3 rounded-xl bg-surface border border-line text-ink placeholder-muted transition resize-y"></textarea>
+        </div>
+        <div class="flex items-center justify-between flex-wrap gap-4 pt-2">
+          <p class="text-xs text-muted">Submissions go straight to the 7H inbox. We respond within 14 days.</p>
+          <button type="submit" id="submitBtn" class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-ink text-bg font-bold shadow-glow hover:bg-gold transition">
+            <i data-lucide="upload-cloud" class="w-5 h-5"></i> Send Submission
+          </button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="border-t border-line py-12 bg-surface">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div>
+          <div class="flex items-center gap-2">
+            <div class="w-9 h-9 rounded-lg border-2 border-ink flex items-center justify-center font-display font-black text-ink">7H</div>
+            <span class="font-display font-bold tracking-wider text-ink">7H MUSIC GROUP</span>
+          </div>
+          <p class="text-muted text-sm mt-3">Label · Management · Publishing<br/>Kampala, Uganda.</p>
+          <p class="text-xs text-muted mt-2">General / Demos / Press &amp; Booking:<br/><a href="mailto:7hmusicgroupug@gmail.com" class="text-gold hover:text-ink">7hmusicgroupug@gmail.com</a></p>
+          <p class="text-xs text-muted mt-1">Producer / Studio (Mike 1ne):<br/><a href="mailto:mikeonerecords@gmail.com" class="text-gold hover:text-ink">mikeonerecords@gmail.com</a></p>
+        </div>
+        <div>
+          <h4 class="font-display font-bold text-sm uppercase tracking-widest text-ink">Quick Links</h4>
+          <ul class="mt-3 space-y-2 text-sm text-muted">
+            <li><a href="#home" class="hover:text-gold transition">Home</a></li>
+            <li><a href="#artists" class="hover:text-gold transition">7H Roster</a></li>
+            <li><a href="#fresh" class="hover:text-gold transition">Fresh Finds</a></li>
+            <li><a href="#articles" class="hover:text-gold transition">Articles &amp; News</a></li>
+            <li><a href="#submit" class="hover:text-gold transition">Submit Demo</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-display font-bold text-sm uppercase tracking-widest text-ink">Follow</h4>
+          <div class="mt-3 flex gap-3">
+            <a href="https://www.instagram.com/7hmusicgroup/" target="_blank" rel="noopener" class="w-10 h-10 rounded-lg glass flex items-center justify-center hover:text-gold transition text-muted" aria-label="Instagram"><i data-lucide="instagram" class="w-5 h-5"></i></a>
+            <a href="https://x.com/7hmusicgroup" target="_blank" rel="noopener" class="w-10 h-10 rounded-lg glass flex items-center justify-center hover:text-gold transition text-muted" aria-label="X"><i data-lucide="twitter" class="w-5 h-5"></i></a>
+            <a href="https://www.youtube.com/@7hmusicgroup" target="_blank" rel="noopener" class="w-10 h-10 rounded-lg glass flex items-center justify-center hover:text-gold transition text-muted" aria-label="YouTube"><i data-lucide="youtube" class="w-5 h-5"></i></a>
+            <a href="https://soundcloud.com/7h-music-group" target="_blank" rel="noopener" class="w-10 h-10 rounded-lg glass flex items-center justify-center hover:text-gold transition text-muted" aria-label="SoundCloud"><i data-lucide="music-2" class="w-5 h-5"></i></a>
+          </div>
+          <p class="text-xs text-muted mt-4 flex items-center gap-1">
+            <i data-lucide="map-pin" class="w-3.5 h-3.5"></i> Kampala, Uganda
+          </p>
+        </div>
+      </div>
+      <div class="mt-10 pt-6 border-t border-line flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-muted">
+        <p>© 2026 7H Music Group. All rights reserved.</p>
+        <p>Built with ♥ for independent sound.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============ ARTICLE MODAL ============ -->
+  <div id="articleModal" class="fixed inset-0 z-[60] hidden">
+    <div id="modalBackdrop" class="modal-backdrop absolute inset-0 bg-black/70 opacity-0"></div>
+    <div class="absolute inset-0 flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+      <div id="modalPanel" class="modal-panel glass-strong rounded-2xl w-full max-w-3xl my-8 opacity-0 scale-95 relative">
+        <button id="modalClose" class="absolute top-4 right-4 z-10 w-9 h-9 rounded-full bg-surface hover:bg-bg flex items-center justify-center transition text-ink border border-line" aria-label="Close">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+        <div id="modalContent"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ TOAST ============ -->
+  <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[70] toast opacity-0 translate-y-6 pointer-events-none">
+    <div class="glass-strong rounded-full px-5 py-3 flex items-center gap-2 shadow-card">
+      <i data-lucide="check-circle-2" class="w-5 h-5 text-gold"></i>
+      <span id="toastMsg" class="text-sm font-medium text-ink">Done</span>
+    </div>
+  </div>
+
+  <script>
+    // ===================== DATA =====================
+    const BASE = 'https://7hmusicgroupug.vercel.app/images/';
+    const artists = [
+      { name: 'Baranga', genre: 'Afro-Pop / Rap', tags: ['Afro-Pop', 'Rap'], img: BASE + 'artist-baranga.jpg', bio: 'Afro-pop and rap standout. Debut album "Chapters I Never Wrote" and breakout hit "Badman" (290K+ streams) put him on Uganda\'s biggest playlists.', spotify: 'https://open.spotify.com/artist/5cDK2NGG0OhfT7Z2FpMgxX', apple: 'https://music.apple.com/us/artist/baranga/1764683984' },
+      { name: 'Mr Fallback', genre: 'Afro-Pop / Afrobeats', tags: ['Afro-Pop', 'Afrobeats'], img: BASE + 'artist-mr-fallback.jpg', bio: 'Melodic, dance-ready records like "Ndi Solidi Mu" and "Kiwatto" capturing the spirit of East Africa\'s new wave.', spotify: 'https://open.spotify.com/artist/3T80e6ycqFcK1a7M8fE5VP', apple: 'https://music.apple.com/us/artist/mr-fallback/1795137555' },
+      { name: 'Mike 1ne', genre: 'Reggae · R&B · Afrobeat', tags: ['Reggae', 'R&B', 'Afrobeat'], img: BASE + 'artist-mike-1ne.jpg', bio: 'In-house producer & sound engineer and label admin. Shapes the 7H sound; releases include "Love Look What You Made Me Do" EP and "Dance Di Night Away".', spotify: 'https://open.spotify.com/artist/4DA5LBW4NWzVLcVSOrBLsI', apple: 'https://music.apple.com/us/artist/mike-1ne/1840503931', producer: true },
+      { name: 'Smokie Cee', genre: 'Afrobeat · Afro-Pop', tags: ['Afrobeat', 'Afro-Pop'], img: BASE + 'artist-smokie-cee.jpg', bio: 'Newest to the family. Single "Island Kiss" (feat. Baranga) is out now — following their 2025 link-up on "Confirm".', spotify: 'https://open.spotify.com/artist/1sdWhxn7YxWfsDIEUCwRwt', apple: 'https://music.apple.com/us/artist/smokie-cee/1798636079' },
+    ];
+
+    const freshFinds = [
+      { name: 'Tungi', genre: 'Afrobeat / Urban', tags: ['Afrobeat', 'Urban'], img: 'https://picsum.photos/seed/tungi/600/720', bio: 'Ugandan singer-songwriter (Mutungi Keith) blending Afrobeat, hip-hop and R&B. "Bebe", "Pearl of Africa" series, "Life of Sound", and "Siteesa" with Mike 1ne.', spotify: 'https://open.spotify.com/artist/3T80e6ycqFcK1a7M8fE5VP', apple: 'https://music.apple.com/ug/artist/tungi/1529016309' },
+      { name: 'Pryce Teeba', genre: 'Dancehall / Reggae', tags: ['Dancehall', 'Reggae'], img: 'https://picsum.photos/seed/pryceteeba/600/720', bio: 'Dancehall energy and reggae roots. 2017 UG Hip-Hop Awards Artist of the Year. A crowd favourite on Kampala stages.', spotify: '#', apple: '#' },
+      { name: 'Kyle Simbwa', genre: 'Afro-Pop / Alté', tags: ['Afro-Pop', 'Alté'], img: 'https://picsum.photos/seed/kylesimbwa/600/720', bio: 'Apple Music Up Next East Africa. Blends 90s R&B, 80s synth-pop and Afrobeats into a distinctive Alté sound.', spotify: '#', apple: '#' },
+      { name: 'Mike Mungu', genre: 'Afro-Pop / R&B', tags: ['Afro-Pop', 'R&B'], img: 'https://picsum.photos/seed/mikemungu/600/720', bio: 'Kampala singer-songwriter (Munguriek Micheal). "MINE", "Finally" EP, "Maisha", "YOUR BODY", "Fallin".', spotify: '#', apple: 'https://music.apple.com/us/artist/mike-mungu/1642516254' },
+      { name: 'Soundlykbb', genre: 'Hip-Hop / Trap', tags: ['Hip-Hop', 'Trap'], img: 'https://picsum.photos/seed/soundlykbb/600/720', bio: 'Entebbe-born rapper. "Bunda Freestyle", "ZAABU", "Proof of Life", "SOUND, Vol. 1". Featured on UGHHA Song of the Year.', spotify: '#', apple: '#' },
+      { name: 'Ali Boomaye', genre: 'Afrobeats / Afro-Pop', tags: ['Afrobeats', 'Afro-Pop'], img: 'https://picsum.photos/seed/aliboomaye/600/720', bio: 'Kampala Afrobeats artist (Prïncë Dïämõnd). Dancefloor-ready records with a distinctly Ugandan flavour.', spotify: '#', apple: 'https://music.apple.com/gh/artist/ali-boomaye/1515871894' },
+    ];
+
+    const releases = [
+      { title: 'Chapters I Never Wrote', artist: 'Baranga', type: 'Album · Latest', img: BASE + 'cover-chapters.jpg', spotify: 'https://open.spotify.com/album/1A3yUmi9B5GRwY0PjeQTMp', apple: 'https://music.apple.com/us/album/chapters-i-never-wrote/6768973076' },
+      { title: 'Badman', artist: 'Baranga', type: 'Single · 290K+ streams', img: BASE + 'cover-badman.jpg', spotify: 'https://open.spotify.com/album/1naYEYjsM85p1bKdygXurU', apple: 'https://music.apple.com/us/album/badman-feat-stando-andrinah-single/1812327603' },
+      { title: 'Kiwatto', artist: 'Mr Fallback', type: 'Single · Latest', img: BASE + 'cover-kiwatto.jpg', spotify: 'https://open.spotify.com/album/4ynVnzXIhbYeGQc8Z6cMt7', apple: 'https://music.apple.com/us/album/kiwatto-single/1896243349' },
+      { title: 'Ndi Solidi Mu', artist: 'Mr Fallback', type: 'Single', img: BASE + 'cover-ndi-solidi.jpg', spotify: 'https://open.spotify.com/album/1Spqnxt8kzm9jNUTPsPdC3', apple: 'https://music.apple.com/us/album/ndi-solidi-mu-single/1838661663' },
+      { title: 'Party Riddim', artist: 'Baranga', type: 'Single', img: BASE + 'cover-party-riddim.jpg', spotify: 'https://open.spotify.com/album/0REbwvJbDhY1mNlm8Db0oP', apple: 'https://music.apple.com/us/album/party-riddim-single/6792434306' },
+      { title: 'Abeyoo', artist: 'Mr Fallback', type: 'Single · 2026', img: BASE + 'cover-abeyoo.jpg', spotify: 'https://open.spotify.com/album/18QFZNsmesjU5aRbo8vDgq', apple: 'https://music.apple.com/us/album/abeyoo-feat-sopreno-c-single/1885183494' },
+      { title: 'Siteesa', artist: 'Tungi & Mike 1ne', type: 'Feature · 2026', img: BASE + 'cover-siteesa.jpg', spotify: 'https://open.spotify.com/track/4GDB9tMylfRQavVoI6UOkq', apple: 'https://music.apple.com/us/album/siteesa/1888289462?i=1888289464' },
+      { title: 'Love Look What You Made Me Do', artist: 'Mike 1ne', type: 'EP · 2025', img: BASE + 'cover-love-look.jpg', spotify: 'https://open.spotify.com/album/0TrL2jfJpf0FoBoVViirzd', apple: 'https://music.apple.com/us/album/love-look-what-you-made-me-do-ep/1845577640' },
+      { title: 'Dance Di Night Away', artist: 'Mike 1ne', type: 'Single · 2025', img: BASE + 'cover-dance-di-night-away.jpg', spotify: 'https://open.spotify.com/album/70bRxZOS19STmxNCiQYtu0', apple: 'https://music.apple.com/us/album/dance-di-night-away-single/1841616321' },
+      { title: 'Island Kiss', artist: 'Smokie Cee ft. Baranga', type: 'Single · 2026', img: BASE + 'cover-island-kiss.jpg', spotify: 'https://open.spotify.com/track/5d6GZiK7C86C4V2H6qKZcC', apple: 'https://music.apple.com/us/album/island-kiss-feat-baranga-single/6804911850' },
+      { title: 'Confirm', artist: 'Baranga & Smokie Cee', type: 'Single · 2025', img: BASE + 'cover-confirm.jpg', spotify: 'https://open.spotify.com/album/3c8MQvQjbFV7SdteWDPoWa', apple: 'https://music.apple.com/us/album/confirm-feat-smokie-cee-single/1798636078' },
+      { title: 'East African Summer', artist: 'Kyle Simbwa', type: 'EP · 2026', img: 'https://picsum.photos/seed/kylesimbwa/400/400', spotify: '#', apple: '#' },
+      { title: 'East African Girl', artist: 'Kyle Simbwa', type: 'Single · 2026', img: 'https://picsum.photos/seed/kylesimbwa2/400/400', spotify: '#', apple: '#' },
+      { title: 'Life of Sound', artist: 'Tungi', type: 'Album · 2024', img: 'https://picsum.photos/seed/tungi/400/400', spotify: '#', apple: 'https://music.apple.com/ug/artist/tungi/1529016309' },
+      { title: 'Rush', artist: 'Tungi', type: 'EP · 2025', img: 'https://picsum.photos/seed/tungi2/400/400', spotify: '#', apple: 'https://music.apple.com/ug/artist/tungi/1529016309' },
+      { title: 'Wonder', artist: 'Tungi', type: 'Single · 2025', img: 'https://picsum.photos/seed/tungi3/400/400', spotify: '#', apple: 'https://music.apple.com/ug/artist/tungi/1529016309' },
+      { title: 'ZAABU', artist: 'Soundlykbb', type: 'EP · 2023', img: 'https://picsum.photos/seed/soundlykbb/400/400', spotify: '#', apple: '#' },
+      { title: 'Proof of Life', artist: 'Soundlykbb', type: 'EP · 2024', img: 'https://picsum.photos/seed/soundlykbb2/400/400', spotify: '#', apple: '#' },
+      { title: 'Differently', artist: 'Soundlykbb', type: 'Single · 2025', img: 'https://picsum.photos/seed/soundlykbb3/400/400', spotify: '#', apple: '#' },
+      { title: 'Finally', artist: 'Mike Mungu', type: 'EP · 2023', img: 'https://picsum.photos/seed/mikemungu/400/400', spotify: '#', apple: 'https://music.apple.com/us/artist/mike-mungu/1642516254' },
+      { title: 'Fallin', artist: 'Mike Mungu', type: 'Single · 2025', img: 'https://picsum.photos/seed/mikemungu2/400/400', spotify: '#', apple: 'https://music.apple.com/us/artist/mike-mungu/1642516254' },
+      { title: 'Maisha', artist: 'Mike Mungu', type: 'Single · 2024', img: 'https://picsum.photos/seed/mikemungu3/400/400', spotify: '#', apple: 'https://music.apple.com/us/artist/mike-mungu/1642516254' },
+      { title: 'Kiwedde', artist: 'Pryce Teeba', type: 'Mixtape · 2014', img: 'https://picsum.photos/seed/pryceteeba/400/400', spotify: '#', apple: '#' },
+      { title: 'Kambajulire', artist: 'Pryce Teeba', type: 'Mixtape · 2016', img: 'https://picsum.photos/seed/pryceteeba2/400/400', spotify: '#', apple: '#' },
+      { title: 'Side Zeno', artist: 'Pryce Teeba', type: 'Single · Hit', img: 'https://picsum.photos/seed/pryceteeba3/400/400', spotify: '#', apple: '#' },
+    ];
+
+    const articles = [
+      { id: 1, category: 'Press Release', title: 'Smokie Cee joins the 7H roster with "Island Kiss"', excerpt: '7H welcomes Afrobeat and Afro-pop artist Smokie Cee to the family. His single "Island Kiss", featuring Baranga, is out now everywhere.', date: 'Oct 12, 2026', readTime: '5 min read', img: BASE + 'cover-island-kiss.jpg', author: { name: '7H Music Group', role: 'Press Office', avatar: BASE + 'artist-smokie-cee.jpg' }, body: `<p class="lead">7H Music Group is proud to welcome Afrobeat and Afro-pop artist Smokie Cee to the family.</p><p>His single <em>Island Kiss</em>, featuring Baranga, is out now on all platforms — following the pair's 2025 link-up on <em>Confirm</em>. The track blends sun-soaked Afrobeat grooves with a melodic hook built for the dancefloor, and marks Smokie Cee as the fourth signed artist on the 7H roster, joining Baranga, Mr Fallback and Mike 1ne.</p><h3 class="font-display font-bold text-xl mt-6 mb-2 text-gold">A New Voice in the House</h3><p>"He's got that rare thing — a voice you recognise after one bar," says the label. The single is available now on Spotify and Apple Music, with the official audio and artwork circulating across 7H's social channels (Instagram @7hmusicgroup, X @7hmusicgroup).</p><p>Stream <em>Island Kiss</em> now and follow Smokie Cee's journey as the newest member of the house. <em>Credit: 7H Music Group press office.</em></p>` },
+      { id: 2, category: 'Press Release', title: 'Baranga releases debut album "Chapters I Never Wrote"', excerpt: 'The full-length project is out now on all platforms, with Mr Fallback among the features — the most complete statement yet from the 7H camp.', date: 'Oct 8, 2026', readTime: '4 min read', img: BASE + 'cover-chapters.jpg', author: { name: '7H Music Group', role: 'Press Office', avatar: BASE + 'artist-baranga.jpg' }, body: `<p class="lead">Baranga's debut album <em>Chapters I Never Wrote</em> is out now on all platforms.</p><p>The full-length project features Mr Fallback among others and represents the most complete statement yet from the 7H camp — blending Afro-pop, rap and street storytelling across a cohesive body of work. It follows the breakout success of <em>Badman</em>, which passed 290,000 streams and landed Baranga on Uganda's biggest Spotify playlists and the Ugandan Top 100.</p><h3 class="font-display font-bold text-xl mt-6 mb-2 text-gold">From Breakout to Album</h3><p>Where <em>Badman</em> (feat. Stando & Andrinah) introduced Baranga to a wider audience, <em>Chapters I Never Wrote</em> widens the frame — pairing anthemic singles like <em>Party Riddim</em> with deeper cuts that show his range as a writer. Production is handled in-house by Mike 1ne, who mixed and mastered the project.</p><p>Listen now on Spotify and Apple Music. <em>Credit: 7H Music Group press office.</em></p>` },
+      { id: 3, category: 'Press Release', title: 'Mr Fallback returns with new single "Kiwatto"', excerpt: 'Fresh off "Ndi Solidi Mu" and "Abeyoo", Mr Fallback keeps the run going with another infectious Afro-pop cut made for the dancefloor.', date: 'Oct 3, 2026', readTime: '4 min read', img: BASE + 'cover-kiwatto.jpg', author: { name: '7H Music Group', role: 'Press Office', avatar: BASE + 'artist-mr-fallback.jpg' }, body: `<p class="lead">Mr Fallback keeps his hot streak alive with new single <em>Kiwatto</em>.</p><p>Fresh off <em>Ndi Solidi Mu</em> and <em>Abeyoo</em>, the Afro-pop rising star delivers another infectious, dance-ready cut built for East Africa's new wave. Produced in-house by Mike 1ne, <em>Kiwatto</em> is out now on Spotify and Apple Music, joining a run of singles that has made Mr Fallback one of the most consistent voices on the 7H roster.</p><p>His melodic, dance-ready records — from <em>Ndi Solidi Mu</em> to <em>Party Riddim</em>-adjacent collaborations — capture the spirit of East Africa's new wave, and <em>Kiwatto</em> continues that momentum. <em>Credit: 7H Music Group press office.</em></p>` },
+      { id: 4, category: 'Press Release', title: '"Badman" passes 290K streams as Baranga hits the Ugandan Top 100', excerpt: 'The breakout single keeps climbing, landing Baranga on Uganda\'s biggest Spotify playlists and marking him as one to watch.', date: 'Sep 25, 2026', readTime: '3 min read', img: BASE + 'cover-badman.jpg', author: { name: '7H Music Group', role: 'Press Office', avatar: BASE + 'artist-baranga.jpg' }, body: `<p class="lead">Baranga's breakout single <em>Badman</em> has passed 290,000 streams.</p><p>The track continues to climb Uganda's Spotify charts, landing Baranga on the country's biggest playlists and the Ugandan Top 100 — marking him as one of the most exciting new voices in East African music. The single, featuring Stando and Andrinah, is available now on Spotify and Apple Music.</p><p>Stream <em>Badman</em> now and pre-save the rest of <em>Chapters I Never Wrote</em>. <em>Credit: 7H Music Group press office.</em></p>` },
+      { id: 5, category: 'Interview', title: 'Meet Mike 1ne — the sound behind 7H', excerpt: 'The label\'s in-house producer and sound engineer steps up with his own music: the EP "Love Look What You Made Me Do" and single "Dance Di Night Away" are out now.', date: 'Sep 18, 2026', readTime: '6 min read', img: BASE + 'artist-mike-1ne.jpg', author: { name: '7H Music Group', role: 'Editorial', avatar: BASE + 'artist-mike-1ne.jpg' }, body: `<p class="lead">"If it comes out of 7H sounding like that, Mike 1ne is the reason."</p><p>Mike 1ne is the label's in-house music producer and sound engineer, and an admin of the house. He shapes the 7H sound from the studio — mixing and mastering the releases, running sessions for the roster, and helping steer the business day to day. He is credited on Baranga's <em>Chapters I Never Wrote</em>, Mr Fallback's <em>Kiwatto</em>, and the Tungi collaboration <em>Siteesa</em>, among others.</p><h3 class="font-display font-bold text-xl mt-6 mb-2 text-gold">Stepping Out Front</h3><p>Now he's stepping up with his own music: the EP <em>Love Look What You Made Me Do</em> and the single <em>Dance Di Night Away</em> are out now on Spotify and Apple Music. Studio sessions and production bookings are open — reach him at mikeonerecords@gmail.com. <em>Credit: 7H Music Group.</em></p>` },
+      { id: 6, category: 'Album Review', title: 'Review: Baranga — "Chapters I Never Wrote"', excerpt: 'A confident, cohesive debut that cements Baranga as one of Uganda\'s most compelling new voices.', date: 'Oct 10, 2026', readTime: '7 min read', img: BASE + 'cover-chapters.jpg', author: { name: '7H Music Blog', role: 'Contributor', avatar: 'https://picsum.photos/seed/reviewer1/80/80' }, body: `<p class="lead">Baranga's debut album <em>Chapters I Never Wrote</em> is the most complete statement yet from the 7H camp.</p><p>Across the project, the Afro-pop/rap standout blends street storytelling with melodic hooks, with Mr Fallback among the features. The production — handled in-house by Mike 1ne — is warm, punchy and radio-ready without losing its edge. Standout cuts include the breakout <em>Badman</em> and the title track, which ties the album's themes together.</p><p>It's a debut that sounds like an artist who already knows who he is — and a defining Kampala record of 2026. <strong>Rating:</strong> 8.5 / 10. <em>Credit: 7H Music Blog editorial.</em></p>` },
+      { id: 7, category: 'Industry Insights', title: 'The Rise of Independent Music in East Africa', excerpt: 'How Kampala, Nairobi, and Dar es Salaam are building a new model for artist ownership and global reach.', date: 'Sep 28, 2026', readTime: '8 min read', img: 'https://picsum.photos/seed/industry1/800/450', author: { name: '7H Music Blog', role: 'Editorial', avatar: 'https://picsum.photos/seed/editor1/80/80' }, body: `<p class="lead">A decade ago, breaking out of East Africa meant leaving it. Today, the region's independent artists are building global audiences from home.</p><p>Streaming platforms, social media, and a new generation of local labels — 7H Music Group among them — have reshaped the economics of music in the region. Artists retain ownership, control their masters, and reach listeners in Lagos, London, and Los Angeles without a major-label middleman. Rolling Stone Africa has highlighted this momentum, noting Ugandan acts like Soundlykbb, Elijah Kitaka, Azawi, CXNRVD and Kohen Jaycee alongside the wider scene.</p><h3 class="font-display font-bold text-xl mt-6 mb-2 text-gold">The 7H Model</h3><p>At 7H, the philosophy is simple: artist-first deals across three divisions — 7H Records, 7H Management, and 7H Publishing — with transparent royalties and long-term publishing partnerships. "We're not here to own artists," says the label. "We're here to amplify them."</p><p>The challenge now is infrastructure — better live venues, stronger collection societies, and fairer streaming payouts. But the momentum is unstoppable. <em>Credit: 7H Music Blog editorial; Rolling Stone Africa.</em></p>` },
+      { id: 8, category: 'Interview', title: 'Beyond 7H: Uganda\'s new wave of independent voices', excerpt: 'A round-up of the artists, producers and songwriters shaping Kampala\'s sound outside the major-label system.', date: 'Sep 14, 2026', readTime: '7 min read', img: 'https://picsum.photos/seed/scene1/800/450', author: { name: '7H Music Blog', role: 'Contributor', avatar: 'https://picsum.photos/seed/contrib1/80/80' }, body: `<p class="lead">Kampala's music scene has never been louder — or more independent.</p><p>From Afro-pop and dancehall to R&B and amapiano, a new generation of artists is building audiences on their own terms, often with nothing more than a home studio and a SoundCloud link. This blog exists to cover all of them — 7H artists and the wider scene alike.</p><h3 class="font-display font-bold text-xl mt-6 mb-2 text-gold">Fresh Finds</h3><p>Alongside 7H's Baranga, Mr Fallback, Mike 1ne and Smokie Cee, keep an eye on Fresh Finds like Pryce Teeba, Kyle Simbwa, Mike Mungu, Soundlykbb and Ali Boomaye — the emerging voices rising out of Ntinda, Nansana and beyond. Got a story or a release we should cover? Reach out at 7hmusicgroupug@gmail.com. <em>Credit: 7H Music Blog editorial.</em></p>` },
+      { id: 9, category: 'Interview', title: 'Spotlight: Kyle Simbwa — Apple Music\'s Up Next artist for East Africa', excerpt: 'The Ugandan vocalist, producer and multi-instrumentalist is celebrated for blending 90s R&B, 80s synth-pop and Afrobeats into a distinctive Alté sound.', date: 'Oct 11, 2026', readTime: '7 min read', img: 'https://picsum.photos/seed/kylesimbwa/800/450', author: { name: '7H Music Blog', role: 'Contributor', avatar: 'https://picsum.photos/seed/contrib2/80/80' }, body: `<p class="lead">Kyle Simbwa has been named Apple Music's Up Next artist for East Africa — a major milestone for Ugandan and East African music on the global stage.</p><p>The 27-year-old from Kasangati, a town near Kampala, is celebrated for blending '90s R&B, '80s synth-pop, A.O.R. and Disney TV influences with Afrobeats and Hip-Hop, creating a distinctive Afrobeat/Alté sound. "Being selected for Up Next East Africa by Apple Music means a lot because I'm part of a generation of African artists building something uniquely ours," Simbwa said. "I want people to hear my music, feel where I'm from, and see how far it can travel."</p><h3 class="font-display font-bold text-xl mt-6 mb-2 text-gold">Hands-On Craft</h3><p>Deeply involved in every stage of his music, Simbwa works across songwriting, production, recording, mixing and engineering, giving him the freedom to experiment. His growing live presence includes headline performances at Xpressions and appearances at Afro Urban alongside Mike Kayihura and Kohen Jaycee. His 2025 debut project <em>Person</em> and singles like "Mwana Gwe" and "East African Girl" established him as a rising force, and his seven-track EP <em>East African Summer</em> (2026) explores love, nightlife and youth culture.</p><p>"2026 is about taking everything I've been building and pushing it further," he said. <em>Credit: Nyakundi Report; KBC; Global Publishers; Shazam. Apple Music Up Next East Africa.</em></p>` },
+      { id: 10, category: 'Interview', title: 'Tungi: from "Bebe" to "Life of Sound" — a Kampala Afrobeat story', excerpt: 'Mutungi Keith, the Ugandan singer-songwriter blending Afrobeat, hip-hop and R&B, and his journey from a 2020 debut single to a growing catalogue.', date: 'Oct 6, 2026', readTime: '7 min read', img: 'https://picsum.photos/seed/tungi/800/450', author: { name: '7H Music Blog', role: 'Contributor', avatar: 'https://picsum.photos/seed/contrib3/80/80' }, body: `<p class="lead">Tungi — real name Mutungi Keith — is a Ugandan singer and songwriter born and raised in Uganda, emerging as a prominent figure in the Afrobeat, hip-hop and R&B scenes since the early 2020s.</p><p>His entry into music was shaped by childhood in Uganda, where music played a central role; early memories of singing for peers ignited his passion. His debut single "Bebe" (August 28, 2020) marked his first foray into Afrobeat and urban sounds, followed by the <em>Pearl of Africa</em> EP series (2022–2023) and <em>Life of Sound</em> (2024). Influenced by Wizkid, J Hus and others, Tungi blends Afrobeat rhythms with hip-hop and R&B, exploring love, self-discovery and Ugandan urban life.</p><h3 class="font-display font-bold text-xl mt-6 mb-2 text-gold">Collaborations & Reach</h3><p>He has collaborated with Joshua Karuhanga on "Bandale" and with Mike 1ne on "Siteesa" (2026), and appears on Kyle Simbwa's <em>East African Summer</em> ("Sugar Honey"). His catalogue spans EPs like <em>Rush</em>, <em>Free Time</em> and singles such as "Wonder", "G Energy" and "Mademoiselle". "My dream is for my music to travel worldwide," he says. <em>Credit: The Culturing; Grokipedia; Apple Music; Deezer.</em></p>` },
+      { id: 11, category: 'Press Release', title: 'Tungi & Mike 1ne link up on "Siteesa"', excerpt: 'The new collaboration blends Afro-pop bounce with Mike 1ne\'s in-house production touch.', date: 'Oct 6, 2026', readTime: '3 min read', img: BASE + 'cover-siteesa.jpg', author: { name: '7H Music Group', role: 'Press Office', avatar: BASE + 'artist-mike-1ne.jpg' }, body: `<p class="lead">Tungi teams up with 7H's in-house producer Mike 1ne on new single "Siteesa".</p><p>The collaboration pairs Tungi's melodic Afro-pop delivery with Mike 1ne's production, mixing and mastering — a cross-scene link-up that shows how Kampala's artists and producers are increasingly working together across label lines. "Siteesa" is out now on Spotify and Apple Music. <em>Credit: 7H Music Group press office.</em></p>` },
+      { id: 12, category: 'Album Review', title: 'Review: Soundlykbb — "Hard Bars" (EP)', excerpt: 'A raw, unfiltered statement from one of Kampala\'s most consistent underground rappers.', date: 'Oct 2, 2026', readTime: '6 min read', img: 'https://picsum.photos/seed/soundlykbb/800/450', author: { name: '7H Music Blog', role: 'Contributor', avatar: 'https://picsum.photos/seed/reviewer2/80/80' }, body: `<p class="lead">Soundlykbb has never been interested in being polite.</p><p>Born and raised in Entebbe, Soundlykbb is an emerging Ugandan artist whose music blends Afrobeat rhythms, reggae influences and contemporary R&B. His first song "Bunda Freestyle" dropped June 2, 2023, and he has since released projects like <em>ZAABU</em> (2023), <em>Proof of Life</em> (2024), <em>SOUND, Vol. 1</em> (2024), and singles "Differently", "NJAGALA GWE" and "It All Depends" (2025). He also featured on Axon & Denim Cartel's "Niggas in Fashion", nominated for Song of the Year at the Ugandan Hip-Hop Awards.</p><p>Rolling Stone Africa has named Soundlykbb among Uganda's standout artists. On "Hard Bars", the rapper doubles down on trap-influenced production and unfiltered lyricism. <strong>Rating:</strong> 7.8 / 10. <em>Credit: RecentMusic; Genius; Rolling Stone Africa; UGHHA.</em></p>` },
+      { id: 13, category: 'Interview', title: 'Pryce Teeba on dancehall, Kampala stages and staying independent', excerpt: 'The dancehall-reggae artist and 2017 UG Hip-Hop Awards Artist of the Year talks live energy, crowd connection and the road ahead.', date: 'Sep 29, 2026', readTime: '6 min read', img: 'https://picsum.photos/seed/pryceteeba/800/450', author: { name: '7H Music Blog', role: 'Contributor', avatar: 'https://picsum.photos/seed/contrib3/80/80' }, body: `<p class="lead">"When the crowd moves, that's the whole point," says Pryce Teeba.</p><p>Pryce Teeba (aka BabyJajja) is a rapper/songwriter from Kampala, Uganda, signed under Dustville Records. His career spans from 2012; his first mixtape <em>Kiwedde</em> (July 2014) introduced him to the Ugandan hip-hop scene, and his lead single "Side Zeno" won Song of the Year at the inaugural UG Hip-Hop Awards. He released <em>Kambajulire</em>, secured collaborations with Patrobas, TuckerHD, Byg Ben, Ruyonga and BigTril, and won Artist of the Year at the 2017 UG Hip-Hop Awards. He later signed to Green Hits Records, releasing "Mutima Gwo", "Lighter", "Obangaina" and "Plan B to A".</p><p>Known for live energy and dancehall-reggae roots, Pryce remains a crowd favourite on Kampala stages. "There's so much talent here. The world just needs to listen properly," he says. <em>Credit: Red Pepper (2020); Ug Ziki; ReverbNation; UGHHA.</em></p>` },
+      { id: 14, category: 'Press Release', title: 'Ali Boomaye drops new Afrobeats single', excerpt: 'The Kampala artist keeps the momentum going with a fresh Afrobeats cut built for the dancefloor.', date: 'Sep 24, 2026', readTime: '3 min read', img: 'https://picsum.photos/seed/aliboomaye/800/450', author: { name: '7H Music Blog', role: 'Editorial', avatar: 'https://picsum.photos/seed/editor2/80/80' }, body: `<p class="lead">Ali Boomaye is back with a new Afrobeats single.</p><p>The Kampala artist (Prïncë Dïämõnd on Instagram @ali.boomaye) continues his run of dancefloor-ready records, blending Afrobeats bounce with a distinctly Ugandan flavour. Available on Apple Music and SoundCloud, the track is out now across streaming platforms. <em>Credit: Apple Music; Instagram.</em></p>` },
+      { id: 15, category: 'Press Release', title: 'Mike Mungu announces new project', excerpt: 'The Kampala rapper teases an upcoming release and a run of live shows.', date: 'Sep 8, 2026', readTime: '4 min read', img: 'https://picsum.photos/seed/mikemungu/800/450', author: { name: '7H Music Blog', role: 'Editorial', avatar: 'https://picsum.photos/seed/editor4/80/80' }, body: `<p class="lead">Mike Mungu is gearing up for his next move.</p><p>Born Munguriek Micheal (February 19, 2001) in Kampala, Uganda, Mike Mungu is a singer-songwriter blending pop, R&B, hip-hop and Afrobeats into what he calls "afro vocaloid" music. Inspired by Justin Bieber, Buju, Joshua Baraka, Ayra Starr and Mike Kayihura, he debuted with the single "MINE" and the EP <em>Finally</em> (2023), followed by "Maisha", "Kagina", "YOUR BODY" and "Fallin" (2025). He has collaborated with Kirikou, Andyah and others, and is available on Apple Music, Audiomack and Boomplay. <em>Credit: Apple Music; Boomplay; Audiomack.</em></p>` },
+      { id: 16, category: 'Industry Insights', title: 'East African music goes global: the new wave', excerpt: 'From Joshua Baraka to Soundlykbb, how Ugandan artists are reaching international audiences without leaving home.', date: 'Sep 1, 2026', readTime: '7 min read', img: 'https://picsum.photos/seed/global1/800/450', author: { name: '7H Music Blog', role: 'Editorial', avatar: 'https://picsum.photos/seed/editor5/80/80' }, body: `<p class="lead">East African music is having a moment on the global stage.</p><p>Joshua Baraka's viral hit "Nana" and follow-ups like "Wrong Places" have made him one of Uganda's biggest musical exports, with over 20 million streams and Grammy-linked production. Rolling Stone Africa has spotlighted a new generation — including Soundlykbb, Elijah Kitaka, Azawi, CXNRVD and Kohen Jaycee — while Apple Music's Up Next East Africa programme has elevated Kyle Simbwa. These artists blend local traditions with global genres, proving that Kampala can be both home base and launchpad.</p><p>As 7H Music Group and independent voices alike push forward, the question is no longer whether Ugandan music can travel — it's how far. <em>Credit: Rolling Stone Africa; SICKA VISION; Apple Music.</em></p>` },
+    ];
+
+    const categories = ['All', 'Press Release', 'Album Review', 'Interview', 'Industry Insights'];
+
+    // ===================== RENDER ARTISTS =====================
+    const artistGrid = document.getElementById('artistGrid');
+    function renderArtists() {
+      artistGrid.innerHTML = artists.map((a) => `
+        <article class="metal-card card-hover rounded-2xl overflow-hidden reveal">
+          <div class="relative">
+            <img src="${a.img}" alt="${a.name}" loading="lazy" class="w-full h-64 object-cover" />
+            <div class="absolute inset-0 bg-gradient-to-t from-bg via-bg/30 to-transparent"></div>
+            <div class="absolute bottom-3 left-3 flex flex-wrap gap-2">
+              ${a.tags.map(t => `<span class="px-2.5 py-1 rounded-full text-xs font-medium bg-bg/80 backdrop-blur border border-gold/40 text-gold">${t}</span>`).join('')}
+            </div>
+            ${a.producer ? '<span class="absolute top-3 left-3 px-2.5 py-1 rounded-full text-xs font-semibold bg-gold text-bg">Producer</span>' : ''}
+            <div class="absolute top-3 right-3 flex gap-1.5">
+              <a href="${a.spotify}" target="_blank" rel="noopener" class="w-8 h-8 rounded-full bg-spot flex items-center justify-center hover:scale-110 transition" title="Spotify"><i data-lucide="music" class="w-4 h-4 text-bg"></i></a>
+              <a href="${a.apple}" target="_blank" rel="noopener" class="w-8 h-8 rounded-full bg-gradient-to-br from-pink-500 to-red-500 flex items-center justify-center hover:scale-110 transition" title="Apple Music"><i data-lucide="play" class="w-4 h-4 text-white"></i></a>
+            </div>
+          </div>
+          <div class="p-5">
+            <h3 class="font-display font-bold text-xl text-ink">${a.name}</h3>
+            <p class="text-sm text-gold mt-0.5">${a.genre}</p>
+            <p class="text-sm text-muted mt-3 leading-relaxed">${a.bio}</p>
+          </div>
+        </article>
+      `).join('');
+      lucide.createIcons();
+      observeReveal();
+    }
+
+    // ===================== RENDER FRESH FINDS =====================
+    const freshGrid = document.getElementById('freshGrid');
+    function renderFresh() {
+      freshGrid.innerHTML = freshFinds.map((a) => `
+        <article class="metal-card card-hover rounded-2xl overflow-hidden reveal">
+          <div class="relative">
+            <img src="${a.img}" alt="${a.name}" loading="lazy" class="w-full h-64 object-cover" />
+            <div class="absolute inset-0 bg-gradient-to-t from-bg via-bg/30 to-transparent"></div>
+            <div class="absolute bottom-3 left-3 flex flex-wrap gap-2">
+              ${a.tags.map(t => `<span class="px-2.5 py-1 rounded-full text-xs font-medium bg-bg/80 backdrop-blur border border-gold/40 text-gold">${t}</span>`).join('')}
+            </div>
+          </div>
+          <div class="p-5">
+            <h3 class="font-display font-bold text-xl text-ink">${a.name}</h3>
+            <p class="text-sm text-gold mt-0.5">${a.genre}</p>
+            <p class="text-sm text-muted mt-3 leading-relaxed">${a.bio}</p>
+          </div>
+        </article>
+      `).join('');
+      lucide.createIcons();
+      observeReveal();
+    }
+
+    // ===================== RENDER RELEASES =====================
+    const releaseGrid = document.getElementById('releaseGrid');
+    function renderReleases() {
+      releaseGrid.innerHTML = releases.map(r => `
+        <article class="metal-card card-hover rounded-2xl overflow-hidden reveal">
+          <div class="relative">
+            <img src="${r.img}" alt="${r.title}" loading="lazy" class="w-full aspect-square object-cover" />
+            <div class="absolute inset-0 bg-gradient-to-t from-bg/80 to-transparent"></div>
+            <div class="absolute bottom-2 left-2 right-2 flex gap-1.5">
+              <a href="${r.spotify}" target="_blank" rel="noopener" class="flex-1 text-center text-xs font-semibold py-1.5 rounded-lg bg-spot text-bg hover:opacity-90 transition">Spotify</a>
+              <a href="${r.apple}" target="_blank" rel="noopener" class="flex-1 text-center text-xs font-semibold py-1.5 rounded-lg bg-gradient-to-r from-pink-500 to-red-500 text-white hover:opacity-90 transition">Apple</a>
+            </div>
+          </div>
+          <div class="p-3">
+            <h3 class="font-display font-bold text-sm leading-snug text-ink">${r.title}</h3>
+            <p class="text-xs text-gold mt-0.5">${r.artist}</p>
+            <p class="text-xs text-muted mt-1">${r.type}</p>
+          </div>
+        </article>
+      `).join('');
+      lucide.createIcons();
+      observeReveal();
+    }
+
+    // ===================== ARTICLES =====================
+    let activeCategory = 'All';
+    let searchQuery = '';
+
+    const filterBar = document.getElementById('filterBar');
+    function renderFilters() {
+      filterBar.innerHTML = categories.map(c => `
+        <button class="filter-pill px-4 py-2 rounded-full text-sm border border-line text-muted hover:border-gold/50 ${c === activeCategory ? 'active' : ''}" data-cat="${c}">
+          ${c}
+        </button>
+      `).join('');
+      filterBar.querySelectorAll('.filter-pill').forEach(b => {
+        b.addEventListener('click', () => {
+          activeCategory = b.dataset.cat;
+          renderFilters();
+          renderArticles();
+        });
+      });
+    }
+
+    const articleGrid = document.getElementById('articleGrid');
+    const emptyState = document.getElementById('emptyState');
+    function filteredArticles() {
+      return articles.filter(a => {
+        const catOk = activeCategory === 'All' || a.category === activeCategory;
+        const q = searchQuery.trim().toLowerCase();
+        const searchOk = !q || (a.title + ' ' + a.excerpt + ' ' + a.category + ' ' + a.author.name).toLowerCase().includes(q);
+        return catOk && searchOk;
+      });
+    }
+    function renderArticles() {
+      const list = filteredArticles();
+      if (list.length === 0) { articleGrid.innerHTML = ''; emptyState.classList.remove('hidden'); return; }
+      emptyState.classList.add('hidden');
+      articleGrid.innerHTML = list.map(a => `
+        <article class="metal-card card-hover rounded-2xl overflow-hidden reveal flex flex-col">
+          <div class="relative">
+            <img src="${a.img}" alt="${a.title}" loading="lazy" class="w-full h-48 object-cover" />
+            <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full text-xs font-semibold bg-bg/80 backdrop-blur border border-gold/40 text-gold">${a.category}</span>
+          </div>
+          <div class="p-5 flex flex-col flex-1">
+            <div class="flex items-center gap-3 text-xs text-muted">
+              <span class="flex items-center gap-1"><i data-lucide="calendar" class="w-3.5 h-3.5"></i>${a.date}</span>
+              <span class="flex items-center gap-1"><i data-lucide="clock" class="w-3.5 h-3.5"></i>${a.readTime}</span>
+            </div>
+            <h3 class="font-display font-bold text-lg mt-3 leading-snug text-ink">${a.title}</h3>
+            <p class="text-sm text-muted mt-2 leading-relaxed flex-1">${a.excerpt}</p>
+            <button class="read-btn mt-4 inline-flex items-center gap-2 text-gold font-semibold text-sm hover:text-ink transition" data-id="${a.id}">
+              Read Article <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </article>
+      `).join('');
+      lucide.createIcons();
+      articleGrid.querySelectorAll('.read-btn').forEach(b => b.addEventListener('click', () => openArticle(+b.dataset.id)));
+      observeReveal();
+    }
+
+    // ===================== MODAL =====================
+    const modal = document.getElementById('articleModal');
+    const backdrop = document.getElementById('modalBackdrop');
+    const panel = document.getElementById('modalPanel');
+    const modalContent = document.getElementById('modalContent');
+    function openArticle(id) {
+      const a = articles.find(x => x.id === id);
+      if (!a) return;
+      modalContent.innerHTML = `
+        <div class="relative">
+          <img src="${a.img}" alt="${a.title}" class="w-full h-64 sm:h-80 object-cover rounded-t-2xl" />
+          <div class="absolute inset-0 bg-gradient-to-t from-bg/90 to-transparent rounded-t-2xl"></div>
+        </div>
+        <div class="p-6 sm:p-8">
+          <span class="inline-block px-2.5 py-1 rounded-full text-xs font-semibold bg-gold/15 border border-gold/40 text-gold">${a.category}</span>
+          <h2 class="font-display font-black text-2xl sm:text-3xl mt-3 leading-tight text-ink">${a.title}</h2>
+          <div class="flex flex-wrap items-center gap-4 mt-3 text-sm text-muted">
+            <span class="flex items-center gap-1.5"><i data-lucide="calendar" class="w-4 h-4"></i>${a.date}</span>
+            <span class="flex items-center gap-1.5"><i data-lucide="clock" class="w-4 h-4"></i>${a.readTime}</span>
+          </div>
+          <div class="mt-6 max-w-none text-ink leading-relaxed space-y-4">${a.body}</div>
+          <div class="mt-8 p-4 rounded-xl glass flex items-center gap-4">
+            <img src="${a.author.avatar}" alt="${a.author.name}" class="w-14 h-14 rounded-full object-cover border-2 border-gold/40" />
+            <div>
+              <p class="font-display font-bold text-ink">${a.author.name}</p>
+              <p class="text-sm text-muted">${a.author.role}</p>
+            </div>
+          </div>
+          <div class="mt-6 flex flex-wrap items-center gap-3">
+            <span class="text-sm text-muted">Share:</span>
+            <button class="share-btn w-9 h-9 rounded-full glass flex items-center justify-center hover:text-gold transition text-muted" data-platform="twitter" aria-label="Share on X"><i data-lucide="twitter" class="w-4 h-4"></i></button>
+            <button class="share-btn w-9 h-9 rounded-full glass flex items-center justify-center hover:text-gold transition text-muted" data-platform="facebook" aria-label="Share on Facebook"><i data-lucide="facebook" class="w-4 h-4"></i></button>
+            <button class="share-btn w-9 h-9 rounded-full glass flex items-center justify-center hover:text-gold transition text-muted" data-platform="link" aria-label="Copy link"><i data-lucide="link" class="w-4 h-4"></i></button>
+          </div>
+          <div class="mt-8">
+            <h3 class="font-display font-bold text-lg mb-3 text-ink">Leave a Comment</h3>
+            <div class="space-y-3">
+              <input type="text" placeholder="Your name" class="field w-full px-4 py-2.5 rounded-xl bg-surface border border-line text-ink placeholder-muted transition text-sm" />
+              <textarea rows="3" placeholder="Share your thoughts..." class="field w-full px-4 py-2.5 rounded-xl bg-surface border border-line text-ink placeholder-muted transition text-sm resize-y"></textarea>
+              <button class="comment-submit inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-ink text-bg font-semibold text-sm shadow-glow hover:bg-gold transition">
+                <i data-lucide="message-circle" class="w-4 h-4"></i> Post Comment
+              </button>
+            </div>
+            <div class="mt-4 space-y-3">
+              <div class="p-3 rounded-xl bg-surface border border-line">
+                <p class="text-sm font-semibold text-gold">Juma K.</p>
+                <p class="text-sm text-ink mt-1">Great piece — really captures the energy of the scene right now.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+      lucide.createIcons();
+      modalContent.querySelectorAll('.share-btn').forEach(b => b.addEventListener('click', () => {
+        const p = b.dataset.platform;
+        if (p === 'link') navigator.clipboard?.writeText(window.location.href + '#article-' + a.id).then(() => showToast('Link copied to clipboard'));
+        else showToast('Shared to ' + (p === 'twitter' ? 'X' : 'Facebook'));
+      }));
+      modalContent.querySelector('.comment-submit')?.addEventListener('click', () => showToast('Comment posted (demo)'));
+      modal.classList.remove('hidden');
+      requestAnimationFrame(() => { backdrop.classList.remove('opacity-0'); panel.classList.remove('opacity-0','scale-95'); panel.classList.add('scale-100'); });
+      document.body.style.overflow = 'hidden';
+    }
+    function closeModal() { backdrop.classList.add('opacity-0'); panel.classList.add('opacity-0','scale-95'); panel.classList.remove('scale-100'); setTimeout(() => modal.classList.add('hidden'), 250); document.body.style.overflow = ''; }
+    document.getElementById('modalClose').addEventListener('click', closeModal);
+    backdrop.addEventListener('click', closeModal);
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !modal.classList.contains('hidden')) closeModal(); });
+
+    // ===================== FORM (FormSubmit) =====================
+    const FORM_ENDPOINT = 'https://formsubmit.co/ajax/7hmusicgroupug@gmail.com';
+    document.getElementById('demoForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const form = e.target;
+      const btn = document.getElementById('submitBtn');
+      btn.disabled = true;
+      btn.innerHTML = '<i data-lucide="loader-2" class="w-5 h-5 animate-spin"></i> Sending...';
+      lucide.createIcons();
+      try {
+        const res = await fetch(FORM_ENDPOINT, {
+          method: 'POST',
+          headers: { 'Accept': 'application/json' },
+          body: new FormData(form),
+        });
+        const json = await res.json().catch(() => ({}));
+        if (res.ok) {
+          showToast('Demo submitted! Our A&R team will review it shortly.');
+          form.reset();
+        } else {
+          throw new Error(json.message || 'Submission failed');
+        }
+      } catch (err) {
+        console.error(err);
+        showToast('Could not send. Please email 7hmusicgroupug@gmail.com directly.');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<i data-lucide="upload-cloud" class="w-5 h-5"></i> Send Submission';
+        lucide.createIcons();
+      }
+    });
+
+    // ===================== TOAST =====================
+    let toastTimer;
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      document.getElementById('toastMsg').textContent = msg;
+      t.classList.remove('opacity-0','translate-y-6','pointer-events-none');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => t.classList.add('opacity-0','translate-y-6','pointer-events-none'), 3200);
+    }
+
+    // ===================== SEARCH =====================
+    document.getElementById('searchInput').addEventListener('input', (e) => { searchQuery = e.target.value; renderArticles(); });
+
+    // ===================== MOBILE MENU =====================
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    menuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+    mobileMenu.querySelectorAll('.mobile-link').forEach(l => l.addEventListener('click', () => mobileMenu.classList.add('hidden')));
+
+    // ===================== REVEAL ON SCROLL =====================
+    function observeReveal() {
+      const els = document.querySelectorAll('.reveal:not(.in)');
+      const io = new IntersectionObserver((entries) => { entries.forEach(en => { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } }); }, { threshold: 0.12 });
+      els.forEach(el => io.observe(el));
+    }
+
+    // ===================== INIT =====================
+    renderArtists();
+    renderFresh();
+    renderReleases();
+    renderFilters();
+    renderArticles();
+    observeReveal();
+    lucide.createIcons();
+  </script>
+</body>
+</html>
