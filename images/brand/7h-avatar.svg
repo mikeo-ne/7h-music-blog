@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" role="img" aria-label="7H Music Blog">
+  <defs><radialGradient id="g" cx="30%" cy="25%" r="80%"><stop offset="0" stop-color="#2a2414"/><stop offset="1" stop-color="#0a0a0b"/></radialGradient></defs>
+  <rect width="80" height="80" fill="url(#g)"/>
+  <rect x="17" y="17" width="46" height="46" rx="9" fill="none" stroke="#f4f1ea" stroke-width="3"/>
+  <text x="40" y="49.5" text-anchor="middle" font-family="Outfit, Inter, Arial, sans-serif" font-weight="900" font-size="24" fill="#f4f1ea">7H</text>
+</svg>

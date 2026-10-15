@@ -1,0 +1,4 @@
+# Not needed on the live site (local development only)
+scripts/
+.dev-data/
+image-search/
