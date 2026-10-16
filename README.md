@@ -98,8 +98,30 @@ scripts/dev-server.mjs  local server that mimics Vercel (not deployed)
   the 12-week Artist Accelerator Programme, the ARMC Johannesburg delegation (Mbeewo, Vini Mercy, Amanya,
   Matt Travers, Nana Nyadia — Uganda focus country, May 22-23, 2026) and the AUMEX Conference in Kampala on
   November 14, 2026, which is also in the events list and the live-season calendar. Its header is a generated
-  illustration, `images/articles/aumex-conference-2026.jpg`. Nana Nyadia's spotlight now says "the programme's
-  second cohort" (the founder's wording) instead of "first".
+  illustration, `images/articles/aumex-conference-2026.jpg`. Nana Nyadia's spotlight says "the programme's
+  second cohort" (the founder's wording) instead of "first". The piece now also covers the **2025 second
+  edition** (November 7, 2025, MOTIV Kampala): the conference day under "Building a Scalable Future for
+  Ugandan Music", the AUMEX Showcase — Son of Aboda, Vini Mercy, Tungi, Echoled, Expect Xhavi, DJ City Girl —
+  and the headline set by **Nasty C** as part of his **Ivyson Tour** for the album *FREE* ("Strings and Bling",
+  "Soft", "SMA"; on stage at 11pm), the tour's only East African stop, unlocked by fan ticket pledges. Its
+  `listen` embed is therefore **Nasty C** (Spotify artist `2gzWmhOZhDN6gXL49JW9qj` / Apple Music artist
+  `1041347781`) rather than Nana Nyadia.
+- **Nasty C at AUMEX** has its own *News* piece, `aumex-nasty-c-showcase-2025` (id 43): the showcase bill, the
+  panel names (Blessing Manafa/OneRPM, Motolani Alake/Virgin, Geoffrey Ekongot/UMA, David Tayebwa/Josplay;
+  Jenny Tan/TOORLY, Ali Alibhai/Talent Africa Group, Ayanda Ngcobo — Nasty C's manager), the *FREE* chart
+  facts (released Sept 30, 2025; #1 in Uganda; 44 countries; first SA artist with ten #1 territories; tour =
+  11 countries, 18 stops) and a factbox. Header is a generated illustration,
+  `images/articles/aumex-showcase-2025.jpg`; credits name Nile Post, Pulse Uganda, Sqoop, MBU, PML Daily,
+  Voice of Uganda, Sanyu FM, MyJoyOnline. No events-calendar row — that calendar only lists upcoming dates.
+- **Label correction (Oct 2026)**: Never write Nana Nyadia as a Party Wright Records artist — per the label
+  side she has **left Party Wright Records and releases independently**. Her spotlight excerpt, the "label
+  years" paragraph in `nana-nyadia-afro-fusion-spotlight` and the AUMEX party-circle sentence were corrected;
+  the **Party Wright Records / Himaya Music** credit belongs to **AYMA** (`ayma-gone-ass-titude`, whose
+  "Kampala-to-Juba axis" line now reads "also carried Nana Nyadia before she left Party Wright to go
+  independent" and spells *licence* in British English), while **Amanya** is an **independent** artist
+  (PALAGROOVE / RAIN. LABS; Mozaka, DJ Spinny) and is listed with the independent cohort around Mbeewo and
+  Matt Travers. Her earlier singles (STAND FOR → Not Promised) keep their Party Wright ℗ credits — the split
+  is not dated in the copy.
 - **Strictly Nyigos (Oct 2026)**: two *Events* articles at the head of `articles` — the explainer
   `strictly-nyigos-in-the-jungle` (DJ Alza's "The Most Killa Experience" concept; the jungle edition ran a full
   24 hours, Oct 9 12:00 → Oct 10 12:00, at Nyungu Yamawe Forest Park, Kitukutwe; presented by **Club Canvas**
@@ -233,8 +255,9 @@ the artist's own Instagram shot). Release rows always keep their original cover 
 *Kiwatto*, *Chapters I Never Wrote* (press release + review), *Badman*, *Siteesa*, *Ali Bomaye the Ep*,
 *Recess II*, *Commando*, *ASS TITUDE*, *READY* and *Kush After Hour* articles wear cover art, while Joka's and
 Quency's cards and spotlights use the Instagram shots saved to `images/artists/joka.jpg` and
-`images/artists/quency.jpg`. Only the six news/events/trends pieces with no single featured artist keep
+`images/artists/quency.jpg`. Only the news/events/trends pieces with no single featured artist keep
 original 7H-generated header illustrations in `images/articles/` (no press photos, no logos, no identifiable
 faces) — `nyege-nyege-2026-nile.jpg`, `blankets-and-wine-2026.jpg`, `kampala-live-season.jpg`,
-`uganda-music-economy.jpg`, `east-africa-streaming-wave.jpg` and `african-music-global-2026.jpg` — each
+`uganda-music-economy.jpg`, `east-africa-streaming-wave.jpg`, `african-music-global-2026.jpg` and
+`aumex-showcase-2025.jpg` (the Nasty C/AUMEX showcase piece) — each
 credited as an illustration in its article's `imgCaption`. Event listings carry a source link instead of a photo.
