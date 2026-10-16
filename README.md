@@ -41,8 +41,12 @@ scripts/dev-server.mjs  local server that mimics Vercel (not deployed)
   `prerelease/…` (pre-save) link shows the Spotify button without a preview. **Recess II** (Joshua Baraka) is a
   pre-save until **Nov 12, 2026** — then swap its `spotify` link for the album URL and drop "Pre-save" from `type`.
 - Links must be real URLs. Optional ones (e.g. an artist with no Spotify) can simply be left out — the button disappears.
-- **Ali Boomaye** has no verified press photo or Spotify profile yet; his card shows an "AB" tile.
-  Add `images/artists/ali-boomaye.jpg` and set his `img` to use it.
+- **Ali Bomaye** (Apple Music artist `488394174`) has no Spotify profile, so his card and article show a
+  Spotify-free "Apple Music" listen button and a real ▶ preview is not available. His card art is the
+  "Ali Bomaye the Ep" cover from Apple's CDN; drop a portrait in `images/artists/ali-bomaye.jpg` and set
+  `img` if a press photo turns up. His article slug stays `ali-boomaye-new-single` (live comments key).
+- **Remz** (Spotify `2UJWgPQKyu8nm5eHE2WAL8`, Apple Music `1873055478`) joined Fresh Finds in Oct 2026 with
+  the article `remz-down-new-wave-spotlight`; all of her artwork is hot-linked from Apple/Spotify CDNs.
 
 ## Comments — one-time setup (≈2 minutes)
 
@@ -99,3 +103,6 @@ Artist photos are official artist/press images: Spotify artist profile photos an
 Apple Music "Up Next" artwork (Kyle Simbwa), the "Treasure" press photo (Mike Mungu & Darkua — cropped),
 and 7H's own roster photos. Press photos (credited on each article): Joshua Baraka on the Brakaland Tour —
 Sqoop (Mbarara) and Nile Post (Mbale); Echoled — Nile Post; UG Hip Hop Awards '25 launch — Nile Post.
+Remz's portrait is her Spotify artist photo; Ali Bomaye's card is the official *Ali Bomaye the Ep* cover
+(Apple Music). `images/articles/ali-bomaye-card.jpg` is a 7H-designed card (regenerated when the artist's
+name was corrected to **Ali Bomaye**).
