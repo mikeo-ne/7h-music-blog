@@ -86,6 +86,17 @@ scripts/dev-server.mjs  local server that mimics Vercel (not deployed)
   `6813492187`) has its own momentum article, `joka-ready-new-era`, plus a release row carrying the official
   Apple artwork and an updated "Latest" row in his spotlight factbox. As with his other rows, the Spotify
   button uses his artist page (`7umpHJB8guUwgjaP2ZryKw`) until the single's own Spotify URL is confirmed.
+- **Fresh Finds round 3 (Oct 2026): ECEE & YUKO** — the "Focus" collaboration pair, each with a spotlight
+  article, a Fresh Find card (Spotify artist photos) and release rows with official artwork on both platforms.
+  ECEE: Spotify `4Fjy32nOkX6jFJlDjSjabL` / Apple `496045825` (Ecee UG). YUKO: Spotify `20AESzvXafH4xLWjicmKLV` /
+  Apple `1772291652` (YUKOLAND; "Kingdom" on PALAGROOVE / RAIN. LABS) — note a second, unrelated Apple "yuko"
+  profile (`1705448763`) exists with only an EMI feature; keep every button on `1772291652`.
+- **AUMEX** (Amplify Ugandan Music Expo) gets an Industry Insights piece, `aumex-artist-accelerator-conference`:
+  the 12-week Artist Accelerator Programme, the ARMC Johannesburg delegation (Mbeewo, Vini Mercy, Amanya,
+  Matt Travers, Nana Nyadia — Uganda focus country, May 22-23, 2026) and the AUMEX Conference in Kampala on
+  November 14, 2026, which is also in the events list and the live-season calendar. Its header is a generated
+  illustration, `images/articles/aumex-conference-2026.jpg`. Nana Nyadia's spotlight now says "the programme's
+  second cohort" (the founder's wording) instead of "first".
 - **Platform pairing is enforced**: every roster artist, Fresh Find, release and article must carry **both** a
   Spotify and an Apple Music link. There is **no single-platform fallback** — cards always render the pair
   (icons top-right, labelled *Spotify* + *Apple Music* buttons in the footer), built by `spotifyBtn()` /
