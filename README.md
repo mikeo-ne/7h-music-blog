@@ -61,6 +61,20 @@ scripts/dev-server.mjs  local server that mimics Vercel (not deployed)
   rapper and a Dutch hardstyle project), so keep the ID, not a name search, as the reference. His own 2022-24
   albums remain Apple/Deezer-first, so his four release rows carry the Spotify *artist* link (the ▶ button
   plays his top tracks) alongside the Apple album link.
+- **Quency** (Spotify `4cd1RhZnbFFkmPgY4rmj7R`, Apple Music `1587395509`) — the Fresh Find from Oct 2026 whose
+  card, article and release rows opened *search* links until the artist supplied his profiles. Both are now
+  wired in: `quency-jus-sayin-freestyle-spotlight` embeds "Jus Sayin' (Freestyle)" (Spotify album
+  `2fNmYzBomojUZJYuwrPHfC`, the **May 20, 2026** edition with Pryce Teeba, 2:54; Apple Music
+  `/us/album/jus-sayin-freestyle-feat-pryce-teeba-single/6768497351`), and his three release rows cover
+  "Pg" (Sept 2026), the Pryce Teeba version and the solo version of the freestyle (Feb 27, 2026). His card
+  photo is his official Spotify artist image, hot-linked, so no local file is added. Two notes for later
+  edits: Apple also carries a **duplicate Quency profile** (`6773025034`, ℗ Uncle Q Records 2026) that holds
+  "Pg"/"THR33 4 THR33" — the artist buttons stay on `1587395509`, which has the full catalogue and the bio;
+  and `images/articles/quency-kampala-rap.jpg` is still his article hero (credited as an illustration).
+- **Mr Fallback's "Jennifer"** (Oct 16, 2026) is live on both platforms — Spotify album
+  `4Vb1RrTyRhPfnJfiwNX9Rh`, Apple Music "Jennifer - Single" `6822713688` — so its release card now uses the
+  official cover art and the press-release article plays the single instead of the artist top-tracks fallback.
+  The article hero keeps the 7H illustration.
 - **Platform pairing is enforced**: every roster artist, Fresh Find, release and article must carry **both** a
   Spotify and an Apple Music link. There is **no single-platform fallback** — cards always render the pair
   (icons top-right, labelled *Spotify* + *Apple Music* buttons in the footer), built by `spotifyBtn()` /
@@ -174,6 +188,11 @@ his release card and article hero use the official *Ali Bomaye the Ep* cover (Ap
 name was corrected to **Ali Bomaye**). Fresh Finds round 2 (Tai Dai, Amanda Moon, AYMA, Nana Nyadia) uses
 official Spotify artist photos, hot-linked, on both the Fresh Find cards and the article heroes (credited in
 each `imgCaption`). No local image files were added for these artists.
+Quency's Fresh Find card likewise uses his official Spotify artist photo (hot-linked); his article hero is the
+7H illustration `images/articles/quency-kampala-rap.jpg` (credited in `imgCaption`), and his release rows mix
+official Spotify cover art with Apple Music artwork for "Pg". Mr Fallback's "Jennifer" release card uses the
+official Spotify cover art, while that article's hero stays the 7H illustration
+`images/articles/mr-fallback-jennifer.jpg`.
 Joka's Fresh Find card and all four of his release cards use official Apple Music cover art (hot-linked from
 Apple's CDN). The seven news/events/trends articles and the Joka spotlight use original 7H-generated header
 illustrations in `images/articles/` (no press photos, no logos, no identifiable faces) —
