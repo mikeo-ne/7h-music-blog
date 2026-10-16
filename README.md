@@ -148,9 +148,16 @@ scripts/dev-server.mjs  local server that mimics Vercel (not deployed)
   to navigating the top window. Modified clicks (ctrl/cmd/shift/middle) are never hijacked, and the real `href`
   stays on the anchor for right-click, keyboard and crawlers.
 - **Events** (`data.js` → `events`) drive the `#events` section (*Events & Live Calendar*), rendered by
-  `renderEvents()` in `app.js` and sorted earliest-first. Each row: `name`, `date` (`'Nov 19-22, 2026'`),
-  `venue`, `city`, `note`, `link` (must be https). Listings are editor-curated from organiser/press listings —
-  keep them factual, and never write a first-person "we were there" report.
+  `renderEvents()` in `app.js` and sorted earliest-first. Core fields are `name`, `date` (`'Nov 19-22, 2026'`),
+  `venue`, `city`, `note` and `link` (must be https). Event artwork uses optional `img` / `imgPos`; `price`
+  shows the current ticket summary, and `article` links the card to a matching article slug. Listings are
+  editor-curated from organiser/press listings — keep them factual, and never write a first-person "we were
+  there" report.
+- **December 2026 event posters**: Pare Pare Rave (`pare-pare-rave-uncle-waffles-kampala-2026`) and Spinny
+  and Friends Festival (`spinny-and-friends-festival-kololo-2026`) each have an illustrated calendar card,
+  an Events article and all supplied campaign artwork under `images/events/`. Pare Pare lists the live
+  UGX 120,000 early-bird offer (expires Oct 31) and sold-out Die Hard tier; Spinny and Friends lists the
+  advertised Uganda and Rwanda table packages and explicitly leaves general-admission pricing unreported.
 - **News/events/trends coverage** (Oct 2026): seven articles sit at the head of `articles` —
   Nyege Nyege 2026 preview (`nyege-nyege-2026-wakaliwood-edition-preview`), Joshua Baraka × Tiwa Savage
   "Commando" (`joshua-baraka-tiwa-savage-commando`), the Kampala live-season calendar

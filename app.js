@@ -199,22 +199,29 @@
     const month = m ? m[1].toUpperCase() : '';
     const days = m ? (m[3] ? `${m[2]}–${m[3]}` : m[2]) : '••';
     return `
-        <article class="metal-card card-hover rounded-2xl p-5 reveal flex flex-col gap-3">
-          <div class="flex items-start gap-3">
-            <div class="w-16 shrink-0 rounded-xl border border-gold/40 bg-gold/10 py-2 text-center">
-              <p class="font-display font-black text-lg leading-none text-gold">${esc(days)}</p>
-              <p class="text-[10px] font-semibold tracking-widest text-muted mt-1">${esc(month)}</p>
+        <article class="metal-card card-hover rounded-2xl overflow-hidden reveal flex flex-col">
+          ${ev.img ? `<a href="${ev.article ? `#article/${esc(ev.article)}` : esc(ev.link || '#events')}" class="block overflow-hidden" aria-label="${ev.article ? `Read the ${esc(ev.name)} preview` : `View ${esc(ev.name)} information`}">${img(ev.img, `${ev.name} event artwork`, 'w-full h-52 object-cover transition duration-500 hover:scale-105', { pos: ev.imgPos || 'center 30%' })}</a>` : ''}
+          <div class="p-5 flex flex-col gap-3 flex-1">
+            <div class="flex items-start gap-3">
+              <div class="w-16 shrink-0 rounded-xl border border-gold/40 bg-gold/10 py-2 text-center">
+                <p class="font-display font-black text-lg leading-none text-gold">${esc(days)}</p>
+                <p class="text-[10px] font-semibold tracking-widest text-muted mt-1">${esc(month)}</p>
+              </div>
+              <div class="min-w-0">
+                <h3 class="font-display font-bold text-base leading-snug text-ink">${esc(ev.name)}</h3>
+                <p class="text-xs text-muted mt-1">${esc(ev.date)}${ev.city ? ` · ${esc(ev.city)}` : ''}</p>
+              </div>
             </div>
-            <div class="min-w-0">
-              <h3 class="font-display font-bold text-base leading-snug text-ink">${esc(ev.name)}</h3>
-              <p class="text-xs text-muted mt-1">${esc(ev.date)}${ev.city ? ` · ${esc(ev.city)}` : ''}</p>
+            <p class="text-sm text-muted flex items-start gap-2">
+              <i data-lucide="map-pin" class="w-4 h-4 mt-0.5 shrink-0 text-gold"></i><span>${esc(ev.venue)}</span>
+            </p>
+            ${ev.price ? `<p class="text-sm text-ink flex items-start gap-2"><i data-lucide="ticket" class="w-4 h-4 mt-0.5 shrink-0 text-gold"></i><span>${esc(ev.price)}</span></p>` : ''}
+            ${ev.note ? `<p class="text-sm text-muted leading-relaxed">${esc(ev.note)}</p>` : ''}
+            <div class="mt-auto pt-1 flex flex-wrap items-center gap-4">
+              ${ev.article ? `<a href="#article/${esc(ev.article)}" class="inline-flex items-center gap-1.5 text-sm font-semibold text-ink hover:text-gold transition">Read preview <i data-lucide="arrow-right" class="w-4 h-4"></i></a>` : ''}
+              ${ev.link ? `<a href="${esc(ev.link)}" target="_blank" rel="noopener" data-out class="inline-flex items-center gap-1.5 text-sm font-semibold text-gold hover:text-ink transition">Tickets &amp; info <i data-lucide="arrow-up-right" class="w-4 h-4"></i></a>` : ''}
             </div>
           </div>
-          <p class="text-sm text-muted flex items-start gap-2">
-            <i data-lucide="map-pin" class="w-4 h-4 mt-0.5 shrink-0 text-gold"></i><span>${esc(ev.venue)}</span>
-          </p>
-          ${ev.note ? `<p class="text-sm text-muted leading-relaxed">${esc(ev.note)}</p>` : ''}
-          ${ev.link ? `<a href="${esc(ev.link)}" target="_blank" rel="noopener" data-out class="mt-auto pt-1 inline-flex items-center gap-1.5 text-sm font-semibold text-gold hover:text-ink transition">Tickets &amp; info <i data-lucide="arrow-up-right" class="w-4 h-4"></i></a>` : ''}
         </article>`;
   }
   function renderEvents() {
