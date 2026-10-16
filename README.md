@@ -30,6 +30,9 @@ scripts/dev-server.mjs  local server that mimics Vercel (not deployed)
 - `listen: { type: 'album' | 'track' | 'artist', id, title }` adds a Spotify player inside the article;
   `apple` adds an Apple Music button.
 - `imgCaption` (optional) prints a "Pictured: …" credit on the article hero — use it for press photos.
+- **Cover rule**: an article about a single/album/EP sets `img` to that release's official artwork (and credits
+  it in `imgCaption`); an article about an artist sets `img` to the artist's picture. Release rows always keep
+  the original artwork, and songs discussed inside an article can also appear as `<figure>` blocks.
 - **Proofing**: run `codespell` over the repo and re-read new prose before publishing. Song/album titles keep
   their official styling (`"Jus Sayin'"`, `LOVE ISNT ENOUGH`, `WHET`, `ASS TITUDE`, `Barna`, `Afro Netion`), so
   spellcheck flags on those are false positives. Pronouns: AYMA, Joka, Quency, Echoled, Senté, Tungi, Mike
@@ -81,7 +84,7 @@ scripts/dev-server.mjs  local server that mimics Vercel (not deployed)
 - **Mr Fallback's "Jennifer"** (Oct 16, 2026) is live on both platforms — Spotify album
   `4Vb1RrTyRhPfnJfiwNX9Rh`, Apple Music "Jennifer - Single" `6822713688`. The official 2Puff Records cover art
   (supplied by the label) is saved locally at `images/covers/jennifer.jpg` and used on the release card, as an
-  in-article figure and in share previews; the article itself previews with Mr Fallback's photo.
+  in-article figure and in share previews; the article hero carries the cover art itself (song-article rule).
 - **Joka's "READY"** (Oct 2, 2026 — Villaggio Media / Zonke Africa / Ria Entertainment; Apple album
   `6813492187`) has its own momentum article, `joka-ready-new-era`, plus a release row carrying the official
   Apple artwork and an updated "Latest" row in his spotlight factbox. As with his other rows, the Spotify
@@ -210,13 +213,14 @@ artist photo while his release card keeps the official *Ali Bomaye the Ep* cover
 name was corrected to **Ali Bomaye**). Fresh Finds round 2 (Tai Dai, Amanda Moon, AYMA, Nana Nyadia) uses
 official Spotify artist photos, hot-linked, on both the Fresh Find cards and the article heroes (credited in
 each `imgCaption`). No local image files were added for these artists.
-Since the Oct 2026 artwork pass, **every article about an artist previews with that artist's own picture**
-(roster photo, Spotify artist photo, press photo or the artist's own Instagram shot), while **every release
-row keeps its original cover artwork**. Joka's card and spotlight hero use a live shot from his Instagram
-(@joka_ug) saved to `images/artists/joka.jpg`; Quency's card and spotlight hero use a press shot from his
-Instagram (@quency_4sho) saved to `images/artists/quency.jpg`. The single-specific press releases and reviews
-(Island Kiss, Chapters, Kiwatto, Badman, Siteesa, Ali Bomaye the Ep) now preview with the artist's photo
-instead of the single's cover. Only the six news/events/trends pieces with no single featured artist keep
+Since the Oct 2026 artwork pass the cover rule is: **if an article speaks about a song, album or EP, its hero
+and share preview carry that release's official artwork; if it speaks about an artist (spotlight, Fresh Find,
+signing, profile), they carry the artist's own picture** (roster photo, Spotify artist photo, press photo or
+the artist's own Instagram shot). Release rows always keep their original cover artwork. So the *Jennifer*,
+*Kiwatto*, *Chapters I Never Wrote* (press release + review), *Badman*, *Siteesa*, *Ali Bomaye the Ep*,
+*Recess II*, *Commando*, *ASS TITUDE*, *READY* and *Kush After Hour* articles wear cover art, while Joka's and
+Quency's cards and spotlights use the Instagram shots saved to `images/artists/joka.jpg` and
+`images/artists/quency.jpg`. Only the six news/events/trends pieces with no single featured artist keep
 original 7H-generated header illustrations in `images/articles/` (no press photos, no logos, no identifiable
 faces) — `nyege-nyege-2026-nile.jpg`, `blankets-and-wine-2026.jpg`, `kampala-live-season.jpg`,
 `uganda-music-economy.jpg`, `east-africa-streaming-wave.jpg` and `african-music-global-2026.jpg` — each
