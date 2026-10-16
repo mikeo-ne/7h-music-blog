@@ -30,6 +30,11 @@ scripts/dev-server.mjs  local server that mimics Vercel (not deployed)
 - `listen: { type: 'album' | 'track' | 'artist', id, title }` adds a Spotify player inside the article;
   `apple` adds an Apple Music button.
 - `imgCaption` (optional) prints a "Pictured: …" credit on the article hero — use it for press photos.
+- **Proofing**: run `codespell` over the repo and re-read new prose before publishing. Song/album titles keep
+  their official styling (`"Jus Sayin'"`, `LOVE ISNT ENOUGH`, `WHET`, `ASS TITUDE`, `Barna`, `Afro Netion`), so
+  spellcheck flags on those are false positives. Pronouns: AYMA, Joka, Quency, Echoled, Senté, Tungi, Mike
+  Mungu, Soundlykbb and the 7H roster are he/him; Amanya, Remz, Nana Nyadia and Amanda Moon are she/her.
+  The site writes British English (organiser, behaviour, favourite).
 - `category` must be one of `categories` (All · News · Press Release · Album Review · Interview · Industry Insights);
   the filter pills are generated from that list.
 - Article bodies are plain HTML. Besides `<p>`, `<h3 ' + H3 + '>`, links and `<em>`, these styled blocks are available:
@@ -77,6 +82,10 @@ scripts/dev-server.mjs  local server that mimics Vercel (not deployed)
   `4Vb1RrTyRhPfnJfiwNX9Rh`, Apple Music "Jennifer - Single" `6822713688`. The official 2Puff Records cover art
   (supplied by the label) is saved locally at `images/covers/jennifer.jpg` and used on the release card, as an
   in-article figure and in share previews; the article itself previews with Mr Fallback's photo.
+- **Joka's "READY"** (Oct 2, 2026 — Villaggio Media / Zonke Africa / Ria Entertainment; Apple album
+  `6813492187`) has its own momentum article, `joka-ready-new-era`, plus a release row carrying the official
+  Apple artwork and an updated "Latest" row in his spotlight factbox. As with his other rows, the Spotify
+  button uses his artist page (`7umpHJB8guUwgjaP2ZryKw`) until the single's own Spotify URL is confirmed.
 - **Platform pairing is enforced**: every roster artist, Fresh Find, release and article must carry **both** a
   Spotify and an Apple Music link. There is **no single-platform fallback** — cards always render the pair
   (icons top-right, labelled *Spotify* + *Apple Music* buttons in the footer), built by `spotifyBtn()` /
