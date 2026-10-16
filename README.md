@@ -100,6 +100,15 @@ scripts/dev-server.mjs  local server that mimics Vercel (not deployed)
   November 14, 2026, which is also in the events list and the live-season calendar. Its header is a generated
   illustration, `images/articles/aumex-conference-2026.jpg`. Nana Nyadia's spotlight now says "the programme's
   second cohort" (the founder's wording) instead of "first".
+- **Strictly Nyigos (Oct 2026)**: two *Events* articles at the head of `articles` — the explainer
+  `strictly-nyigos-in-the-jungle` (DJ Alza's "The Most Killa Experience" concept; the jungle edition ran a full
+  24 hours, Oct 9 12:00 → Oct 10 12:00, at Nyungu Yamawe Forest Park, Kitukutwe; no cameras, 18+, tickets from
+  USh100,000 on Quicket; residency home is **Silo 15**, Bandali Rise, Bugolobi — the club backing behind the
+  forest edition's production) and the first-person diary `strictly-nyigos-first-timer-diary`, bylined **Mike 1ne**
+  (label admin; avatar `artist-mike-1ne.jpg`; embeds Soundlykbb's top tracks with the matching Apple Music
+  artist link, plus a Soundlykbb figure in the body). Both headers are generated illustrations:
+  `images/articles/strictly-nyigos-jungle.jpg` and `images/articles/strictly-nyigos-dawn.jpg`. The party is
+  past, so no row was added to the `events` calendar (rows there are for upcoming listings only).
 - **Platform pairing is enforced**: every roster artist, Fresh Find, release and article must carry **both** a
   Spotify and an Apple Music link. There is **no single-platform fallback** — cards always render the pair
   (icons top-right, labelled *Spotify* + *Apple Music* buttons in the footer), built by `spotifyBtn()` /
