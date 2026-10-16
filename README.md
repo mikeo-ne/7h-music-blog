@@ -62,11 +62,17 @@ scripts/dev-server.mjs  local server that mimics Vercel (not deployed)
   albums remain Apple/Deezer-first, so his four release rows carry the Spotify *artist* link (the ▶ button
   plays his top tracks) alongside the Apple album link.
 - **Platform pairing is enforced**: every roster artist, Fresh Find, release and article must carry **both** a
-  Spotify and an Apple Music link. Cards render both icons top-right; a card only falls back to the pink Apple
-  *Listen* button when there is genuinely no Spotify link. `listen: { type, id, title }` plus `apple` is the
-  pattern for articles — news and industry pieces pair a scene-relevant artist (the Nyege Nyege preview embeds
-  King Saha, the Blankets & Wine piece embeds Fave, the streaming-trends piece embeds Kabza De Small). The
-  validator fails if any of those links goes missing.
+  Spotify and an Apple Music link. There is **no single-platform fallback** — cards always render the pair
+  (icons top-right, labelled *Spotify* + *Apple Music* buttons in the footer), built by `spotifyBtn()` /
+  `appleBtn()` in `app.js`. `listen: { type, id, title }` plus `apple` is the pattern for articles — news and
+  industry pieces pair a scene-relevant artist (the Nyege Nyege preview embeds King Saha, the Blankets & Wine
+  piece embeds Fave, the streaming-trends piece embeds Kabza De Small). The validator fails if any link is
+  missing.
+- **Redirects always land**: every external link is tagged `data-out` and handled by one delegated click
+  listener. A normal click opens the chosen platform in a new tab; if the environment blocks pop-ups (common
+  inside sandboxed preview frames, where a bare `target="_blank"` silently does nothing) the handler falls back
+  to navigating the top window. Modified clicks (ctrl/cmd/shift/middle) are never hijacked, and the real `href`
+  stays on the anchor for right-click, keyboard and crawlers.
 - **Events** (`data.js` → `events`) drive the `#events` section (*Events & Live Calendar*), rendered by
   `renderEvents()` in `app.js` and sorted earliest-first. Each row: `name`, `date` (`'Nov 19-22, 2026'`),
   `venue`, `city`, `note`, `link` (must be https). Listings are editor-curated from organiser/press listings —

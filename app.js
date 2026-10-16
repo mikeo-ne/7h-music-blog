@@ -28,6 +28,36 @@
   };
   const brand = (name, cls = 'w-4 h-4') => BRAND[name].replace('<svg ', `<svg class="${cls}" `);
 
+  // ---------------------------------------------------------- platforms ---
+  // Every artist card, release card and article carries BOTH buttons, and each one
+  // redirects to the platform the visitor picked. `data-out` opts a link into the
+  // delegated handler below, so the redirect still lands when a sandboxed preview
+  // frame blocks pop-ups (a bare target="_blank" silently does nothing there).
+  function spotifyBtn(url, label = 'Spotify', extra = '') {
+    if (!url) return '';
+    return `<a href="${esc(url)}" target="_blank" rel="noopener" data-out class="inline-flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-full bg-spot text-bg text-xs font-semibold hover:opacity-90 transition ${extra}">${brand('spotify', 'w-3.5 h-3.5')} ${esc(label)}</a>`;
+  }
+  function appleBtn(url, label = 'Apple Music', extra = '') {
+    if (!url) return '';
+    return `<a href="${esc(url)}" target="_blank" rel="noopener" data-out class="inline-flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-full bg-gradient-to-r from-pink-500 to-red-500 text-white text-xs font-semibold hover:opacity-90 transition ${extra}">${brand('apple', 'w-3 h-3 -mt-px')} ${esc(label)}</a>`;
+  }
+  document.addEventListener('click', (e) => {
+    const link = e.target && e.target.closest ? e.target.closest('a[data-out]') : null;
+    if (!link || e.defaultPrevented) return;
+    if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return; // let modified clicks behave normally
+    const href = link.href;
+    if (!href || href.charAt(0) === '#') return;
+    e.preventDefault();
+    let win = null;
+    try { win = window.open(href, '_blank'); } catch (_) { win = null; }
+    if (win) { try { win.opener = null; } catch (_) { /* ignore */ } return; }
+    // Pop-ups blocked (common inside preview frames) — navigate the top window instead.
+    try {
+      if (window.top && window.top !== window) { window.top.location.href = href; return; }
+    } catch (_) { /* cross-origin parent: fall through */ }
+    window.location.href = href;
+  });
+
   // ============================================================= images ===
   // Every image degrades to a branded initials tile if it is missing or fails to load.
   function fallbackTile(cls, label) {
@@ -92,8 +122,8 @@
   // ============================================================== cards ===
   function streamIcons(a) {
     const out = [];
-    if (a.spotify) out.push(`<a href="${esc(a.spotify)}" target="_blank" rel="noopener" class="w-9 h-9 rounded-full bg-spot text-bg flex items-center justify-center hover:scale-110 transition shadow-card" title="${esc(a.name)} on Spotify" aria-label="${esc(a.name)} on Spotify">${brand('spotify', 'w-[18px] h-[18px]')}</a>`);
-    if (a.apple) out.push(`<a href="${esc(a.apple)}" target="_blank" rel="noopener" class="w-9 h-9 rounded-full bg-gradient-to-br from-pink-500 to-red-500 text-white flex items-center justify-center hover:scale-110 transition shadow-card" title="${esc(a.name)} on Apple Music" aria-label="${esc(a.name)} on Apple Music">${brand('apple', 'w-4 h-4 -mt-0.5')}</a>`);
+    if (a.spotify) out.push(`<a href="${esc(a.spotify)}" target="_blank" rel="noopener" data-out class="w-9 h-9 rounded-full bg-spot text-bg flex items-center justify-center hover:scale-110 transition shadow-card" title="${esc(a.name)} on Spotify" aria-label="${esc(a.name)} on Spotify">${brand('spotify', 'w-[18px] h-[18px]')}</a>`);
+    if (a.apple) out.push(`<a href="${esc(a.apple)}" target="_blank" rel="noopener" data-out class="w-9 h-9 rounded-full bg-gradient-to-br from-pink-500 to-red-500 text-white flex items-center justify-center hover:scale-110 transition shadow-card" title="${esc(a.name)} on Apple Music" aria-label="${esc(a.name)} on Apple Music">${brand('apple', 'w-4 h-4 -mt-0.5')}</a>`);
     return out.join('');
   }
 
@@ -117,7 +147,8 @@
           <p class="text-sm text-muted mt-3 leading-relaxed flex-1">${esc(a.bio)}</p>
           <div class="mt-4 flex flex-wrap items-center gap-2">
             ${previewButton(ref ? { type: 'artist', id: ref.id } : null, `${a.name} — top tracks`, 'Preview')}
-            ${!ref && a.apple ? `<a href="${esc(a.apple)}" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-pink-500/15 border border-pink-500/40 text-pink-300 text-xs font-semibold hover:bg-pink-500 hover:text-white transition">${brand('apple', 'w-3.5 h-3.5')} Listen</a>` : ''}
+            ${spotifyBtn(a.spotify)}
+            ${appleBtn(a.apple)}
             ${feature ? `<a href="#article/${feature.slug}" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full border border-line text-ink/90 text-xs font-semibold hover:border-gold hover:text-gold transition"><i data-lucide="newspaper" class="w-3.5 h-3.5"></i> Read feature</a>` : ''}
           </div>
         </div>
@@ -140,8 +171,8 @@
                 data-preview data-type="${ref.type}" data-id="${ref.id}" data-title="${esc(title)}" aria-label="Preview ${esc(r.title)} by ${esc(r.artist)}">
                 <i data-lucide="play" class="w-6 h-6 ml-0.5"></i></button>` : ''}
             <div class="absolute bottom-2 left-2 right-2 flex gap-1.5">
-              ${r.spotify ? `<a href="${esc(r.spotify)}" target="_blank" rel="noopener" class="flex-1 inline-flex items-center justify-center gap-1 text-xs font-semibold py-1.5 rounded-lg bg-spot text-bg hover:opacity-90 transition">${brand('spotify', 'w-3.5 h-3.5')} Spotify</a>` : ''}
-              ${r.apple ? `<a href="${esc(r.apple)}" target="_blank" rel="noopener" class="flex-1 inline-flex items-center justify-center gap-1 text-xs font-semibold py-1.5 rounded-lg bg-gradient-to-r from-pink-500 to-red-500 text-white hover:opacity-90 transition">${brand('apple', 'w-3 h-3 -mt-px')} Apple</a>` : ''}
+              ${r.spotify ? `<a href="${esc(r.spotify)}" target="_blank" rel="noopener" data-out class="flex-1 inline-flex items-center justify-center gap-1 text-xs font-semibold py-1.5 rounded-lg bg-spot text-bg hover:opacity-90 transition">${brand('spotify', 'w-3.5 h-3.5')} Spotify</a>` : ''}
+              ${r.apple ? `<a href="${esc(r.apple)}" target="_blank" rel="noopener" data-out class="flex-1 inline-flex items-center justify-center gap-1 text-xs font-semibold py-1.5 rounded-lg bg-gradient-to-r from-pink-500 to-red-500 text-white hover:opacity-90 transition">${brand('apple', 'w-3 h-3 -mt-px')} Apple</a>` : ''}
             </div>
           </div>
           <div class="p-3">
@@ -183,7 +214,7 @@
             <i data-lucide="map-pin" class="w-4 h-4 mt-0.5 shrink-0 text-gold"></i><span>${esc(ev.venue)}</span>
           </p>
           ${ev.note ? `<p class="text-sm text-muted leading-relaxed">${esc(ev.note)}</p>` : ''}
-          ${ev.link ? `<a href="${esc(ev.link)}" target="_blank" rel="noopener" class="mt-auto pt-1 inline-flex items-center gap-1.5 text-sm font-semibold text-gold hover:text-ink transition">Tickets &amp; info <i data-lucide="arrow-up-right" class="w-4 h-4"></i></a>` : ''}
+          ${ev.link ? `<a href="${esc(ev.link)}" target="_blank" rel="noopener" data-out class="mt-auto pt-1 inline-flex items-center gap-1.5 text-sm font-semibold text-gold hover:text-ink transition">Tickets &amp; info <i data-lucide="arrow-up-right" class="w-4 h-4"></i></a>` : ''}
         </article>`;
   }
   function renderEvents() {
@@ -487,26 +518,21 @@
   }
 
   function listenBlock(a) {
-    if (a.listen) {
-      const ref = { type: a.listen.type, id: a.listen.id };
-      const height = ref.type === 'track' ? 152 : 352;
-      return `
+    const ref = a.listen ? { type: a.listen.type, id: a.listen.id } : null;
+    // Both platforms, always — whichever button the reader picks is where they land.
+    const buttons = `${spotifyBtn(ref ? spotifyUrl(ref) : a.spotify, 'Spotify')}${appleBtn(a.apple, 'Apple Music')}`;
+    if (!buttons) return '';
+    if (!ref) return `<p class="mt-8 flex flex-wrap gap-2">${buttons}</p>`;
+    const height = ref.type === 'track' ? 152 : 352;
+    return `
         <section class="mt-8 rounded-2xl glass p-4 sm:p-5" aria-label="Listen">
           <div class="flex flex-wrap items-center justify-between gap-3 mb-3">
             <p class="eyebrow">Listen</p>
-            <div class="flex flex-wrap gap-2">
-              <a href="${spotifyUrl(ref)}" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-spot text-bg text-xs font-semibold hover:opacity-90 transition">${brand('spotify', 'w-3.5 h-3.5')} Spotify</a>
-              ${a.apple ? `<a href="${esc(a.apple)}" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gradient-to-r from-pink-500 to-red-500 text-white text-xs font-semibold hover:opacity-90 transition">${brand('apple', 'w-3 h-3 -mt-px')} Apple Music</a>` : ''}
-            </div>
+            <div class="flex flex-wrap gap-2">${buttons}</div>
           </div>
           <iframe title="Spotify player: ${esc(a.listen.title)}" src="${embedSrc(ref)}" width="100%" height="${height}" frameborder="0" loading="lazy" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" style="border:0;border-radius:12px;display:block;background:#0a0a0b"></iframe>
-          <p class="text-xs text-muted mt-2">${esc(a.listen.title)} · Previews play right here; log in to Spotify for full tracks.</p>
+          <p class="text-xs text-muted mt-2">${esc(a.listen.title)} · Previews play right here — the buttons above open Spotify or Apple Music, wherever you listen.</p>
         </section>`;
-    }
-    if (a.apple) {
-      return `<p class="mt-8"><a href="${esc(a.apple)}" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-pink-500 to-red-500 text-white text-sm font-semibold hover:opacity-90 transition">${brand('apple', 'w-4 h-4 -mt-0.5')} Listen on Apple Music</a></p>`;
-    }
-    return '';
   }
 
   function articleHTML(a) {
