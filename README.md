@@ -13,7 +13,8 @@ data.js             ALL content: roster, Fresh Finds, releases, events, articles
 app.js              behaviour: article reader, comments, sharing, ▶ previews
 api/comments.js     comments API (Upstash Redis over HTTPS)
 api/share.js        /a/<slug> share pages with the article's own preview card
-images/artists/     artist photos used on cards
+images/artists/     artist photos used on cards and article previews
+images/covers/      official release artwork supplied by the labels (e.g. jennifer.jpg)
 images/articles/    article header images (collages, press shots, generated headers)
 images/brand/       7H avatar / favicon
 vercel.json         clean URLs, /a/:slug rewrite, cache headers
@@ -29,6 +30,14 @@ scripts/dev-server.mjs  local server that mimics Vercel (not deployed)
 - `listen: { type: 'album' | 'track' | 'artist', id, title }` adds a Spotify player inside the article;
   `apple` adds an Apple Music button.
 - `imgCaption` (optional) prints a "Pictured: …" credit on the article hero — use it for press photos.
+- **Cover rule**: an article about a single/album/EP sets `img` to that release's official artwork (and credits
+  it in `imgCaption`); an article about an artist sets `img` to the artist's picture. Release rows always keep
+  the original artwork, and songs discussed inside an article can also appear as `<figure>` blocks.
+- **Proofing**: run `codespell` over the repo and re-read new prose before publishing. Song/album titles keep
+  their official styling (`"Jus Sayin'"`, `LOVE ISNT ENOUGH`, `WHET`, `ASS TITUDE`, `Barna`, `Afro Netion`), so
+  spellcheck flags on those are false positives. Pronouns: AYMA, Joka, Quency, Echoled, Senté, Tungi, Mike
+  Mungu, Soundlykbb and the 7H roster are he/him; Amanya, Remz, Nana Nyadia and Amanda Moon are she/her.
+  The site writes British English (organiser, behaviour, favourite).
 - `category` must be one of `categories` (All · News · Press Release · Album Review · Interview · Industry Insights);
   the filter pills are generated from that list.
 - Article bodies are plain HTML. Besides `<p>`, `<h3 ' + H3 + '>`, links and `<em>`, these styled blocks are available:
@@ -70,11 +79,40 @@ scripts/dev-server.mjs  local server that mimics Vercel (not deployed)
   photo is his official Spotify artist image, hot-linked, so no local file is added. Two notes for later
   edits: Apple also carries a **duplicate Quency profile** (`6773025034`, ℗ Uncle Q Records 2026) that holds
   "Pg"/"THR33 4 THR33" — the artist buttons stay on `1587395509`, which has the full catalogue and the bio;
-  and `images/articles/quency-kampala-rap.jpg` is still his article hero (credited as an illustration).
+  and `images/articles/quency-kampala-rap.jpg` is no longer used — his card and article hero now show a press
+  shot from his Instagram (@quency_4sho), saved to `images/artists/quency.jpg`.
 - **Mr Fallback's "Jennifer"** (Oct 16, 2026) is live on both platforms — Spotify album
-  `4Vb1RrTyRhPfnJfiwNX9Rh`, Apple Music "Jennifer - Single" `6822713688` — so its release card now uses the
-  official cover art and the press-release article plays the single instead of the artist top-tracks fallback.
-  The article hero keeps the 7H illustration.
+  `4Vb1RrTyRhPfnJfiwNX9Rh`, Apple Music "Jennifer - Single" `6822713688`. The official 2Puff Records cover art
+  (supplied by the label) is saved locally at `images/covers/jennifer.jpg` and used on the release card, as an
+  in-article figure and in share previews; the article hero carries the cover art itself (song-article rule).
+- **Joka's "READY"** (Oct 2, 2026 — Villaggio Media / Zonke Africa / Ria Entertainment; Apple album
+  `6813492187`) has its own momentum article, `joka-ready-new-era`, plus a release row carrying the official
+  Apple artwork and an updated "Latest" row in his spotlight factbox. As with his other rows, the Spotify
+  button uses his artist page (`7umpHJB8guUwgjaP2ZryKw`) until the single's own Spotify URL is confirmed.
+- **Fresh Finds round 3 (Oct 2026): ECEE & YUKO** — the "Focus" collaboration pair, each with a spotlight
+  article, a Fresh Find card (Spotify artist photos) and release rows with official artwork on both platforms.
+  ECEE: Spotify `4Fjy32nOkX6jFJlDjSjabL` / Apple `496045825` (Ecee UG). YUKO: Spotify `20AESzvXafH4xLWjicmKLV` /
+  Apple `1772291652` (YUKOLAND; "Kingdom" on PALAGROOVE / RAIN. LABS) — note a second, unrelated Apple "yuko"
+  profile (`1705448763`) exists with only an EMI feature; keep every button on `1772291652`.
+- **AUMEX** (Amplify Ugandan Music Expo) gets an Industry Insights piece, `aumex-artist-accelerator-conference`:
+  the 12-week Artist Accelerator Programme, the ARMC Johannesburg delegation (Mbeewo, Vini Mercy, Amanya,
+  Matt Travers, Nana Nyadia — Uganda focus country, May 22-23, 2026) and the AUMEX Conference in Kampala on
+  November 14, 2026, which is also in the events list and the live-season calendar. Its header is a generated
+  illustration, `images/articles/aumex-conference-2026.jpg`. Nana Nyadia's spotlight now says "the programme's
+  second cohort" (the founder's wording) instead of "first".
+- **Strictly Nyigos (Oct 2026)**: two *Events* articles at the head of `articles` — the explainer
+  `strictly-nyigos-in-the-jungle` (DJ Alza's "The Most Killa Experience" concept; the jungle edition ran a full
+  24 hours, Oct 9 12:00 → Oct 10 12:00, at Nyungu Yamawe Forest Park, Kitukutwe; presented by **Club Canvas**
+  with **Club Pilsner** backing the organising; flyer badges NO CAMERAS / NO MEDIA, 18+, early bird USh50,000
+  and gate USh100,000; flyer bill headlined King Micheal, Soundlykbb ("Sound Lyk BB") and Beenie Gunter over
+  Echoled, Eckostar, Ziggy Dee, Ali Bomaye and more — the flyer is archived, pause-icon cleaned, as
+  `images/articles/strictly-nyigos-flyer.jpg`; residency home is **Silo 15**, Bandali Rise, Bugolobi; *nyigos*
+  is Kampala slang for coupling up on the dancefloor, as in Koshen's "Couple Up") and the first-person diary
+  `strictly-nyigos-first-timer-diary`, bylined **Mike 1ne**
+  (label admin; avatar `artist-mike-1ne.jpg`; embeds Soundlykbb's top tracks with the matching Apple Music
+  artist link, plus a Soundlykbb figure in the body). Both headers are generated illustrations:
+  `images/articles/strictly-nyigos-jungle.jpg` and `images/articles/strictly-nyigos-dawn.jpg`. The party is
+  past, so no row was added to the `events` calendar (rows there are for upcoming listings only).
 - **Platform pairing is enforced**: every roster artist, Fresh Find, release and article must carry **both** a
   Spotify and an Apple Music link. There is **no single-platform fallback** — cards always render the pair
   (icons top-right, labelled *Spotify* + *Apple Music* buttons in the footer), built by `spotifyBtn()` /
@@ -182,20 +220,21 @@ Artist photos are official artist/press images: Spotify artist profile photos an
 Apple Music "Up Next" artwork (Kyle Simbwa), the "Treasure" press photo (Mike Mungu & Darkua — cropped),
 and 7H's own roster photos. Press photos (credited on each article): Joshua Baraka on the Brakaland Tour —
 Sqoop (Mbarara) and Nile Post (Mbale); Echoled — Nile Post; UG Hip Hop Awards '25 launch — Nile Post.
-Remz's portrait is her Spotify artist photo; Ali Bomaye's Fresh Find card uses his Spotify artist photo while
-his release card and article hero use the official *Ali Bomaye the Ep* cover (Apple Music).
+Remz's portrait is her Spotify artist photo; Ali Bomaye's Fresh Find card and article hero use his Spotify
+artist photo while his release card keeps the official *Ali Bomaye the Ep* cover (Apple Music).
 `images/articles/ali-bomaye-card.jpg` is a 7H-designed card (regenerated when the artist's
 name was corrected to **Ali Bomaye**). Fresh Finds round 2 (Tai Dai, Amanda Moon, AYMA, Nana Nyadia) uses
 official Spotify artist photos, hot-linked, on both the Fresh Find cards and the article heroes (credited in
 each `imgCaption`). No local image files were added for these artists.
-Quency's Fresh Find card likewise uses his official Spotify artist photo (hot-linked); his article hero is the
-7H illustration `images/articles/quency-kampala-rap.jpg` (credited in `imgCaption`), and his release rows mix
-official Spotify cover art with Apple Music artwork for "Pg". Mr Fallback's "Jennifer" release card uses the
-official Spotify cover art, while that article's hero stays the 7H illustration
-`images/articles/mr-fallback-jennifer.jpg`.
-Joka's Fresh Find card and all four of his release cards use official Apple Music cover art (hot-linked from
-Apple's CDN). The seven news/events/trends articles and the Joka spotlight use original 7H-generated header
-illustrations in `images/articles/` (no press photos, no logos, no identifiable faces) —
-`nyege-nyege-2026-nile.jpg`, `blankets-and-wine-2026.jpg`, `kampala-live-season.jpg`, `uganda-music-economy.jpg`,
-`east-africa-streaming-wave.jpg`, `african-music-global-2026.jpg` and `joka-kampala-afropop.jpg` — each credited
-as an illustration in its article's `imgCaption`. Event listings carry a source link instead of a photo.
+Since the Oct 2026 artwork pass the cover rule is: **if an article speaks about a song, album or EP, its hero
+and share preview carry that release's official artwork; if it speaks about an artist (spotlight, Fresh Find,
+signing, profile), they carry the artist's own picture** (roster photo, Spotify artist photo, press photo or
+the artist's own Instagram shot). Release rows always keep their original cover artwork. So the *Jennifer*,
+*Kiwatto*, *Chapters I Never Wrote* (press release + review), *Badman*, *Siteesa*, *Ali Bomaye the Ep*,
+*Recess II*, *Commando*, *ASS TITUDE*, *READY* and *Kush After Hour* articles wear cover art, while Joka's and
+Quency's cards and spotlights use the Instagram shots saved to `images/artists/joka.jpg` and
+`images/artists/quency.jpg`. Only the six news/events/trends pieces with no single featured artist keep
+original 7H-generated header illustrations in `images/articles/` (no press photos, no logos, no identifiable
+faces) — `nyege-nyege-2026-nile.jpg`, `blankets-and-wine-2026.jpg`, `kampala-live-season.jpg`,
+`uganda-music-economy.jpg`, `east-africa-streaming-wave.jpg` and `african-music-global-2026.jpg` — each
+credited as an illustration in its article's `imgCaption`. Event listings carry a source link instead of a photo.
