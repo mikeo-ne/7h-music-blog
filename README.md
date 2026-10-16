@@ -55,11 +55,18 @@ scripts/dev-server.mjs  local server that mimics Vercel (not deployed)
   **AYMA** (`45p8xCFhR0gkXgzyWW0Wos` · Apple `1818880233` · `ayma-gone-ass-titude`) and
   **Nana Nyadia** (`2SzY2nJnBs8mzh2jgqOmdL` · Apple `1766006884` · `nana-nyadia-afro-fusion-spotlight`).
   The four `listen` ids used in those articles are the same Spotify artist ids.
-- **Joka** (Apple Music artist `1620053754`) joined Fresh Finds in Oct 2026 with the article
-  `joka-sky-blue-to-no-condition`. He has **no verifiable Spotify profile** — the artist `6UcKW6kd69P55blULHLNpR`
-  is an unrelated Polish act — so his card is Apple-led (pink *Listen* button, no ▶ FAB) and his four release
-  cards link to Apple only. If the correct Spotify page turns up, add `spotify` to his `freshFinds` entry and
-  the matching release rows, and drop the "no Spotify profile" note in the article.
+- **Joka** (Spotify `7umpHJB8guUwgjaP2ZryKw`, Apple Music `1620053754`) joined Fresh Finds in Oct 2026 with the
+  article `joka-sky-blue-to-no-condition`. His Spotify page was confirmed through his credits on "I Miss You"
+  (Amanda Moon) and "I Give You My Life" (GEOXwill) — **two other acts share the name on Spotify** (a Polish
+  rapper and a Dutch hardstyle project), so keep the ID, not a name search, as the reference. His own 2022-24
+  albums remain Apple/Deezer-first, so his four release rows carry the Spotify *artist* link (the ▶ button
+  plays his top tracks) alongside the Apple album link.
+- **Platform pairing is enforced**: every roster artist, Fresh Find, release and article must carry **both** a
+  Spotify and an Apple Music link. Cards render both icons top-right; a card only falls back to the pink Apple
+  *Listen* button when there is genuinely no Spotify link. `listen: { type, id, title }` plus `apple` is the
+  pattern for articles — news and industry pieces pair a scene-relevant artist (the Nyege Nyege preview embeds
+  King Saha, the Blankets & Wine piece embeds Fave, the streaming-trends piece embeds Kabza De Small). The
+  validator fails if any of those links goes missing.
 - **Events** (`data.js` → `events`) drive the `#events` section (*Events & Live Calendar*), rendered by
   `renderEvents()` in `app.js` and sorted earliest-first. Each row: `name`, `date` (`'Nov 19-22, 2026'`),
   `venue`, `city`, `note`, `link` (must be https). Listings are editor-curated from organiser/press listings —
