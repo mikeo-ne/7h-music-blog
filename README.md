@@ -9,12 +9,12 @@ real **comments** and per-article **link previews** for WhatsApp / X / Facebook.
 
 ```
 index.html          page layout + styles (Tailwind CDN)
-data.js             ALL content: roster, Fresh Finds, releases, articles  ← edit this
+data.js             ALL content: roster, Fresh Finds, releases, events, articles  ← edit this
 app.js              behaviour: article reader, comments, sharing, ▶ previews
 api/comments.js     comments API (Upstash Redis over HTTPS)
 api/share.js        /a/<slug> share pages with the article's own preview card
 images/artists/     artist photos used on cards
-images/articles/    article header images (collages, press shots)
+images/articles/    article header images (collages, press shots, generated headers)
 images/brand/       7H avatar / favicon
 vercel.json         clean URLs, /a/:slug rewrite, cache headers
 scripts/dev-server.mjs  local server that mimics Vercel (not deployed)
@@ -41,8 +41,51 @@ scripts/dev-server.mjs  local server that mimics Vercel (not deployed)
   `prerelease/…` (pre-save) link shows the Spotify button without a preview. **Recess II** (Joshua Baraka) is a
   pre-save until **Nov 12, 2026** — then swap its `spotify` link for the album URL and drop "Pre-save" from `type`.
 - Links must be real URLs. Optional ones (e.g. an artist with no Spotify) can simply be left out — the button disappears.
-- **Ali Boomaye** has no verified press photo or Spotify profile yet; his card shows an "AB" tile.
-  Add `images/artists/ali-boomaye.jpg` and set his `img` to use it.
+- **Ali Bomaye** (Spotify artist `4H285cJrK0S0I7vtraU1Z3`, Apple Music artist `488394174`) now has a verified
+  Spotify profile — his card photo is the official Spotify artist image, his card, EP release card and article
+  all carry the artist link (and the in-article ▶ player). The release card and article hero still use the
+  "Ali Bomaye the Ep" cover from Apple's CDN; drop a portrait in `images/artists/ali-bomaye.jpg` and set `img`
+  if a separate press photo turns up. His article slug stays `ali-boomaye-new-single` (live comments key).
+- **Remz** (Spotify `2UJWgPQKyu8nm5eHE2WAL8`, Apple Music `1873055478`) joined Fresh Finds in Oct 2026 with
+  the article `remz-down-new-wave-spotlight`; all of her artwork is hot-linked from Apple/Spotify CDNs.
+- **Fresh Finds round 2** (Oct 2026) added four artists, each with a Fresh Find card, release cards and a
+  spotlight article. All card photos are official Spotify artist images (hot-linked, 640px):
+  **Tai Dai** (`77G1P2NHQOnx0leyvpN3ym` · Apple `1426402603` · `tai-dai-whet-new-wave-spotlight`),
+  **Amanda Moon** (`5lqRfQ6FpBufPWHpXy8HeO` · Apple `1746973428` · `amanda-moon-afro-pop-singles`),
+  **AYMA** (`45p8xCFhR0gkXgzyWW0Wos` · Apple `1818880233` · `ayma-gone-ass-titude`) and
+  **Nana Nyadia** (`2SzY2nJnBs8mzh2jgqOmdL` · Apple `1766006884` · `nana-nyadia-afro-fusion-spotlight`).
+  The four `listen` ids used in those articles are the same Spotify artist ids.
+- **Joka** (Spotify `7umpHJB8guUwgjaP2ZryKw`, Apple Music `1620053754`) joined Fresh Finds in Oct 2026 with the
+  article `joka-sky-blue-to-no-condition`. His Spotify page was confirmed through his credits on "I Miss You"
+  (Amanda Moon) and "I Give You My Life" (GEOXwill) — **two other acts share the name on Spotify** (a Polish
+  rapper and a Dutch hardstyle project), so keep the ID, not a name search, as the reference. His own 2022-24
+  albums remain Apple/Deezer-first, so his four release rows carry the Spotify *artist* link (the ▶ button
+  plays his top tracks) alongside the Apple album link.
+- **Platform pairing is enforced**: every roster artist, Fresh Find, release and article must carry **both** a
+  Spotify and an Apple Music link. There is **no single-platform fallback** — cards always render the pair
+  (icons top-right, labelled *Spotify* + *Apple Music* buttons in the footer), built by `spotifyBtn()` /
+  `appleBtn()` in `app.js`. `listen: { type, id, title }` plus `apple` is the pattern for articles — news and
+  industry pieces pair a scene-relevant artist (the Nyege Nyege preview embeds King Saha, the Blankets & Wine
+  piece embeds Fave, the streaming-trends piece embeds Kabza De Small). The validator fails if any link is
+  missing.
+- **Redirects always land**: every external link is tagged `data-out` and handled by one delegated click
+  listener. A normal click opens the chosen platform in a new tab; if the environment blocks pop-ups (common
+  inside sandboxed preview frames, where a bare `target="_blank"` silently does nothing) the handler falls back
+  to navigating the top window. Modified clicks (ctrl/cmd/shift/middle) are never hijacked, and the real `href`
+  stays on the anchor for right-click, keyboard and crawlers.
+- **Events** (`data.js` → `events`) drive the `#events` section (*Events & Live Calendar*), rendered by
+  `renderEvents()` in `app.js` and sorted earliest-first. Each row: `name`, `date` (`'Nov 19-22, 2026'`),
+  `venue`, `city`, `note`, `link` (must be https). Listings are editor-curated from organiser/press listings —
+  keep them factual, and never write a first-person "we were there" report.
+- **News/events/trends coverage** (Oct 2026): seven articles sit at the head of `articles` —
+  Nyege Nyege 2026 preview (`nyege-nyege-2026-wakaliwood-edition-preview`), Joshua Baraka × Tiwa Savage
+  "Commando" (`joshua-baraka-tiwa-savage-commando`), the Kampala live-season calendar
+  (`kampala-live-season-chameleone-levixone-mesach`), Blankets & Wine 2026 (`blankets-and-wine-2026-season`),
+  East African streaming trends (`east-africa-streaming-2026-gen-z-amapiano`), the Uganda industry numbers
+  (`uganda-music-economy-atlas-report-2026`) and African music on the global stage
+  (`african-music-global-october-2026`). They introduced the new **Events** filter category, which must stay
+  in `categories`.
+- Cross-links between articles use `href="#article/<slug>"`; the validator checks every one resolves.
 
 ## Comments — one-time setup (≈2 minutes)
 
@@ -99,3 +142,15 @@ Artist photos are official artist/press images: Spotify artist profile photos an
 Apple Music "Up Next" artwork (Kyle Simbwa), the "Treasure" press photo (Mike Mungu & Darkua — cropped),
 and 7H's own roster photos. Press photos (credited on each article): Joshua Baraka on the Brakaland Tour —
 Sqoop (Mbarara) and Nile Post (Mbale); Echoled — Nile Post; UG Hip Hop Awards '25 launch — Nile Post.
+Remz's portrait is her Spotify artist photo; Ali Bomaye's Fresh Find card uses his Spotify artist photo while
+his release card and article hero use the official *Ali Bomaye the Ep* cover (Apple Music).
+`images/articles/ali-bomaye-card.jpg` is a 7H-designed card (regenerated when the artist's
+name was corrected to **Ali Bomaye**). Fresh Finds round 2 (Tai Dai, Amanda Moon, AYMA, Nana Nyadia) uses
+official Spotify artist photos, hot-linked, on both the Fresh Find cards and the article heroes (credited in
+each `imgCaption`). No local image files were added for these artists.
+Joka's Fresh Find card and all four of his release cards use official Apple Music cover art (hot-linked from
+Apple's CDN). The seven news/events/trends articles and the Joka spotlight use original 7H-generated header
+illustrations in `images/articles/` (no press photos, no logos, no identifiable faces) —
+`nyege-nyege-2026-nile.jpg`, `blankets-and-wine-2026.jpg`, `kampala-live-season.jpg`, `uganda-music-economy.jpg`,
+`east-africa-streaming-wave.jpg`, `african-music-global-2026.jpg` and `joka-kampala-afropop.jpg` — each credited
+as an illustration in its article's `imgCaption`. Event listings carry a source link instead of a photo.
