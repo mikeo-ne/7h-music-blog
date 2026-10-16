@@ -13,7 +13,8 @@ data.js             ALL content: roster, Fresh Finds, releases, events, articles
 app.js              behaviour: article reader, comments, sharing, ▶ previews
 api/comments.js     comments API (Upstash Redis over HTTPS)
 api/share.js        /a/<slug> share pages with the article's own preview card
-images/artists/     artist photos used on cards
+images/artists/     artist photos used on cards and article previews
+images/covers/      official release artwork supplied by the labels (e.g. jennifer.jpg)
 images/articles/    article header images (collages, press shots, generated headers)
 images/brand/       7H avatar / favicon
 vercel.json         clean URLs, /a/:slug rewrite, cache headers
@@ -70,11 +71,12 @@ scripts/dev-server.mjs  local server that mimics Vercel (not deployed)
   photo is his official Spotify artist image, hot-linked, so no local file is added. Two notes for later
   edits: Apple also carries a **duplicate Quency profile** (`6773025034`, ℗ Uncle Q Records 2026) that holds
   "Pg"/"THR33 4 THR33" — the artist buttons stay on `1587395509`, which has the full catalogue and the bio;
-  and `images/articles/quency-kampala-rap.jpg` is still his article hero (credited as an illustration).
+  and `images/articles/quency-kampala-rap.jpg` is no longer used — his card and article hero now show a press
+  shot from his Instagram (@quency_4sho), saved to `images/artists/quency.jpg`.
 - **Mr Fallback's "Jennifer"** (Oct 16, 2026) is live on both platforms — Spotify album
-  `4Vb1RrTyRhPfnJfiwNX9Rh`, Apple Music "Jennifer - Single" `6822713688` — so its release card now uses the
-  official cover art and the press-release article plays the single instead of the artist top-tracks fallback.
-  The article hero keeps the 7H illustration.
+  `4Vb1RrTyRhPfnJfiwNX9Rh`, Apple Music "Jennifer - Single" `6822713688`. The official 2Puff Records cover art
+  (supplied by the label) is saved locally at `images/covers/jennifer.jpg` and used on the release card, as an
+  in-article figure and in share previews; the article itself previews with Mr Fallback's photo.
 - **Platform pairing is enforced**: every roster artist, Fresh Find, release and article must carry **both** a
   Spotify and an Apple Music link. There is **no single-platform fallback** — cards always render the pair
   (icons top-right, labelled *Spotify* + *Apple Music* buttons in the footer), built by `spotifyBtn()` /
@@ -182,20 +184,20 @@ Artist photos are official artist/press images: Spotify artist profile photos an
 Apple Music "Up Next" artwork (Kyle Simbwa), the "Treasure" press photo (Mike Mungu & Darkua — cropped),
 and 7H's own roster photos. Press photos (credited on each article): Joshua Baraka on the Brakaland Tour —
 Sqoop (Mbarara) and Nile Post (Mbale); Echoled — Nile Post; UG Hip Hop Awards '25 launch — Nile Post.
-Remz's portrait is her Spotify artist photo; Ali Bomaye's Fresh Find card uses his Spotify artist photo while
-his release card and article hero use the official *Ali Bomaye the Ep* cover (Apple Music).
+Remz's portrait is her Spotify artist photo; Ali Bomaye's Fresh Find card and article hero use his Spotify
+artist photo while his release card keeps the official *Ali Bomaye the Ep* cover (Apple Music).
 `images/articles/ali-bomaye-card.jpg` is a 7H-designed card (regenerated when the artist's
 name was corrected to **Ali Bomaye**). Fresh Finds round 2 (Tai Dai, Amanda Moon, AYMA, Nana Nyadia) uses
 official Spotify artist photos, hot-linked, on both the Fresh Find cards and the article heroes (credited in
 each `imgCaption`). No local image files were added for these artists.
-Quency's Fresh Find card likewise uses his official Spotify artist photo (hot-linked); his article hero is the
-7H illustration `images/articles/quency-kampala-rap.jpg` (credited in `imgCaption`), and his release rows mix
-official Spotify cover art with Apple Music artwork for "Pg". Mr Fallback's "Jennifer" release card uses the
-official Spotify cover art, while that article's hero stays the 7H illustration
-`images/articles/mr-fallback-jennifer.jpg`.
-Joka's Fresh Find card and all four of his release cards use official Apple Music cover art (hot-linked from
-Apple's CDN). The seven news/events/trends articles and the Joka spotlight use original 7H-generated header
-illustrations in `images/articles/` (no press photos, no logos, no identifiable faces) —
-`nyege-nyege-2026-nile.jpg`, `blankets-and-wine-2026.jpg`, `kampala-live-season.jpg`, `uganda-music-economy.jpg`,
-`east-africa-streaming-wave.jpg`, `african-music-global-2026.jpg` and `joka-kampala-afropop.jpg` — each credited
-as an illustration in its article's `imgCaption`. Event listings carry a source link instead of a photo.
+Since the Oct 2026 artwork pass, **every article about an artist previews with that artist's own picture**
+(roster photo, Spotify artist photo, press photo or the artist's own Instagram shot), while **every release
+row keeps its original cover artwork**. Joka's card and spotlight hero use a live shot from his Instagram
+(@joka_ug) saved to `images/artists/joka.jpg`; Quency's card and spotlight hero use a press shot from his
+Instagram (@quency_4sho) saved to `images/artists/quency.jpg`. The single-specific press releases and reviews
+(Island Kiss, Chapters, Kiwatto, Badman, Siteesa, Ali Bomaye the Ep) now preview with the artist's photo
+instead of the single's cover. Only the six news/events/trends pieces with no single featured artist keep
+original 7H-generated header illustrations in `images/articles/` (no press photos, no logos, no identifiable
+faces) — `nyege-nyege-2026-nile.jpg`, `blankets-and-wine-2026.jpg`, `kampala-live-season.jpg`,
+`uganda-music-economy.jpg`, `east-africa-streaming-wave.jpg` and `african-music-global-2026.jpg` — each
+credited as an illustration in its article's `imgCaption`. Event listings carry a source link instead of a photo.
