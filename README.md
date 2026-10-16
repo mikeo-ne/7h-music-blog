@@ -41,12 +41,20 @@ scripts/dev-server.mjs  local server that mimics Vercel (not deployed)
   `prerelease/…` (pre-save) link shows the Spotify button without a preview. **Recess II** (Joshua Baraka) is a
   pre-save until **Nov 12, 2026** — then swap its `spotify` link for the album URL and drop "Pre-save" from `type`.
 - Links must be real URLs. Optional ones (e.g. an artist with no Spotify) can simply be left out — the button disappears.
-- **Ali Bomaye** (Apple Music artist `488394174`) has no Spotify profile, so his card and article show a
-  Spotify-free "Apple Music" listen button and a real ▶ preview is not available. His card art is the
-  "Ali Bomaye the Ep" cover from Apple's CDN; drop a portrait in `images/artists/ali-bomaye.jpg` and set
-  `img` if a press photo turns up. His article slug stays `ali-boomaye-new-single` (live comments key).
+- **Ali Bomaye** (Spotify artist `4H285cJrK0S0I7vtraU1Z3`, Apple Music artist `488394174`) now has a verified
+  Spotify profile — his card photo is the official Spotify artist image, his card, EP release card and article
+  all carry the artist link (and the in-article ▶ player). The release card and article hero still use the
+  "Ali Bomaye the Ep" cover from Apple's CDN; drop a portrait in `images/artists/ali-bomaye.jpg` and set `img`
+  if a separate press photo turns up. His article slug stays `ali-boomaye-new-single` (live comments key).
 - **Remz** (Spotify `2UJWgPQKyu8nm5eHE2WAL8`, Apple Music `1873055478`) joined Fresh Finds in Oct 2026 with
   the article `remz-down-new-wave-spotlight`; all of her artwork is hot-linked from Apple/Spotify CDNs.
+- **Fresh Finds round 2** (Oct 2026) added four artists, each with a Fresh Find card, release cards and a
+  spotlight article. All card photos are official Spotify artist images (hot-linked, 640px):
+  **Tai Dai** (`77G1P2NHQOnx0leyvpN3ym` · Apple `1426402603` · `tai-dai-whet-new-wave-spotlight`),
+  **Amanda Moon** (`5lqRfQ6FpBufPWHpXy8HeO` · Apple `1746973428` · `amanda-moon-afro-pop-singles`),
+  **AYMA** (`45p8xCFhR0gkXgzyWW0Wos` · Apple `1818880233` · `ayma-gone-ass-titude`) and
+  **Nana Nyadia** (`2SzY2nJnBs8mzh2jgqOmdL` · Apple `1766006884` · `nana-nyadia-afro-fusion-spotlight`).
+  The four `listen` ids used in those articles are the same Spotify artist ids.
 
 ## Comments — one-time setup (≈2 minutes)
 
@@ -103,6 +111,9 @@ Artist photos are official artist/press images: Spotify artist profile photos an
 Apple Music "Up Next" artwork (Kyle Simbwa), the "Treasure" press photo (Mike Mungu & Darkua — cropped),
 and 7H's own roster photos. Press photos (credited on each article): Joshua Baraka on the Brakaland Tour —
 Sqoop (Mbarara) and Nile Post (Mbale); Echoled — Nile Post; UG Hip Hop Awards '25 launch — Nile Post.
-Remz's portrait is her Spotify artist photo; Ali Bomaye's card is the official *Ali Bomaye the Ep* cover
-(Apple Music). `images/articles/ali-bomaye-card.jpg` is a 7H-designed card (regenerated when the artist's
-name was corrected to **Ali Bomaye**).
+Remz's portrait is her Spotify artist photo; Ali Bomaye's Fresh Find card uses his Spotify artist photo while
+his release card and article hero use the official *Ali Bomaye the Ep* cover (Apple Music).
+`images/articles/ali-bomaye-card.jpg` is a 7H-designed card (regenerated when the artist's
+name was corrected to **Ali Bomaye**). Fresh Finds round 2 (Tai Dai, Amanda Moon, AYMA, Nana Nyadia) uses
+official Spotify artist photos, hot-linked, on both the Fresh Find cards and the article heroes (credited in
+each `imgCaption`). No local image files were added for these artists.
