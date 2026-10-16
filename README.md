@@ -87,6 +87,32 @@ scripts/dev-server.mjs  local server that mimics Vercel (not deployed)
   in `categories`.
 - Cross-links between articles use `href="#article/<slug>"`; the validator checks every one resolves.
 
+## Publishing workflow (how edits go live)
+
+**Vercel deploys automatically on every push — there is no need to click "Redeploy".** The catch is which
+branch you push to:
+
+| Branch | Vercel environment | Effect on the live site |
+| --- | --- | --- |
+| `main` | **Production** | The live site (`https://7h-music-blog.vercel.app`) updates ~30s after the push |
+| any other branch, incl. `arena/…` | **Preview** | Builds a throwaway `…-mike-1-ne.vercel.app` URL; the live site does **not** change |
+
+So a commit that only lands on a side branch produces a green preview deployment and a live site that looks
+unchanged — which is exactly the "why isn't Vercel updating?" symptom. **Anything meant to be public has to
+reach `main`.**
+
+The day-to-day flow for this repo:
+
+1. Content changes are made in `data.js` (articles, Fresh Finds, releases, events) — everything else
+   (`index.html`, `app.js`) only changes when the layout itself changes.
+2. Changes are committed and pushed to the working branch.
+3. That branch is merged into `main` (via pull request).
+4. Vercel sees the new commit on `main` and builds a **Production** deployment automatically.
+
+`data.js` is served with `must-revalidate`, so readers see new content as soon as the deploy finishes — no
+cache purging needed. If a browser still shows an old article list, a hard refresh (Ctrl/Cmd + Shift + R)
+clears the local copy.
+
 ## Comments — one-time setup (≈2 minutes)
 
 Comments are stored in Redis so every visitor sees them. Until storage is connected, the site still works:
