@@ -102,9 +102,13 @@ scripts/dev-server.mjs  local server that mimics Vercel (not deployed)
   second cohort" (the founder's wording) instead of "first".
 - **Strictly Nyigos (Oct 2026)**: two *Events* articles at the head of `articles` — the explainer
   `strictly-nyigos-in-the-jungle` (DJ Alza's "The Most Killa Experience" concept; the jungle edition ran a full
-  24 hours, Oct 9 12:00 → Oct 10 12:00, at Nyungu Yamawe Forest Park, Kitukutwe; no cameras, 18+, tickets from
-  USh100,000 on Quicket; residency home is **Silo 15**, Bandali Rise, Bugolobi — the club backing behind the
-  forest edition's production) and the first-person diary `strictly-nyigos-first-timer-diary`, bylined **Mike 1ne**
+  24 hours, Oct 9 12:00 → Oct 10 12:00, at Nyungu Yamawe Forest Park, Kitukutwe; presented by **Club Canvas**
+  with **Club Pilsner** backing the organising; flyer badges NO CAMERAS / NO MEDIA, 18+, early bird USh50,000
+  and gate USh100,000; flyer bill headlined King Micheal, Soundlykbb ("Sound Lyk BB") and Beenie Gunter over
+  Echoled, Eckostar, Ziggy Dee, Ali Bomaye and more — the flyer is archived, pause-icon cleaned, as
+  `images/articles/strictly-nyigos-flyer.jpg`; residency home is **Silo 15**, Bandali Rise, Bugolobi; *nyigos*
+  is Kampala slang for coupling up on the dancefloor, as in Koshen's "Couple Up") and the first-person diary
+  `strictly-nyigos-first-timer-diary`, bylined **Mike 1ne**
   (label admin; avatar `artist-mike-1ne.jpg`; embeds Soundlykbb's top tracks with the matching Apple Music
   artist link, plus a Soundlykbb figure in the body). Both headers are generated illustrations:
   `images/articles/strictly-nyigos-jungle.jpg` and `images/articles/strictly-nyigos-dawn.jpg`. The party is
