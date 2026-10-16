@@ -153,6 +153,44 @@
     }).join('');
   }
 
+  // ============================================================ events ===
+  // Event listings come straight from SITE_DATA.events — verified dates only.
+  const eventsData = (DATA.events || []).slice().sort((a, b) => new Date(eventISO(a.date)) - new Date(eventISO(b.date)));
+  function eventISO(date) {
+    const m = /^([A-Za-z]{3})[a-z]*\s+(\d{1,2})/.exec(String(date || '').trim());
+    const months = { jan: '01', feb: '02', mar: '03', apr: '04', may: '05', jun: '06', jul: '07', aug: '08', sep: '09', oct: '10', nov: '11', dec: '12' };
+    const ym = /(\d{4})/.exec(String(date || ''));
+    if (!m || !ym) return String(date || '');
+    return `${ym[1]}-${months[m[1].toLowerCase()] || '01'}-${String(m[2]).padStart(2, '0')}`;
+  }
+  function eventCard(ev) {
+    const m = /^([A-Za-z]{3})[a-z]*\s+(\d{1,2})(?:\s*-\s*(\d{1,2}))?/.exec(String(ev.date || '').trim());
+    const month = m ? m[1].toUpperCase() : '';
+    const days = m ? (m[3] ? `${m[2]}–${m[3]}` : m[2]) : '••';
+    return `
+        <article class="metal-card card-hover rounded-2xl p-5 reveal flex flex-col gap-3">
+          <div class="flex items-start gap-3">
+            <div class="w-16 shrink-0 rounded-xl border border-gold/40 bg-gold/10 py-2 text-center">
+              <p class="font-display font-black text-lg leading-none text-gold">${esc(days)}</p>
+              <p class="text-[10px] font-semibold tracking-widest text-muted mt-1">${esc(month)}</p>
+            </div>
+            <div class="min-w-0">
+              <h3 class="font-display font-bold text-base leading-snug text-ink">${esc(ev.name)}</h3>
+              <p class="text-xs text-muted mt-1">${esc(ev.date)}${ev.city ? ` · ${esc(ev.city)}` : ''}</p>
+            </div>
+          </div>
+          <p class="text-sm text-muted flex items-start gap-2">
+            <i data-lucide="map-pin" class="w-4 h-4 mt-0.5 shrink-0 text-gold"></i><span>${esc(ev.venue)}</span>
+          </p>
+          ${ev.note ? `<p class="text-sm text-muted leading-relaxed">${esc(ev.note)}</p>` : ''}
+          ${ev.link ? `<a href="${esc(ev.link)}" target="_blank" rel="noopener" class="mt-auto pt-1 inline-flex items-center gap-1.5 text-sm font-semibold text-gold hover:text-ink transition">Tickets &amp; info <i data-lucide="arrow-up-right" class="w-4 h-4"></i></a>` : ''}
+        </article>`;
+  }
+  function renderEvents() {
+    const grid = $('#eventGrid');
+    if (grid) grid.innerHTML = eventsData.map(eventCard).join('');
+  }
+
   // ============================================================ article list ===
   let activeCategory = 'All';
   let searchQuery = '';
@@ -739,6 +777,7 @@
   renderArtists();
   renderFresh();
   renderReleases();
+  renderEvents();
   renderFilters();
   renderArticles();
   refreshIcons();

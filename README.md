@@ -9,12 +9,12 @@ real **comments** and per-article **link previews** for WhatsApp / X / Facebook.
 
 ```
 index.html          page layout + styles (Tailwind CDN)
-data.js             ALL content: roster, Fresh Finds, releases, articles  ← edit this
+data.js             ALL content: roster, Fresh Finds, releases, events, articles  ← edit this
 app.js              behaviour: article reader, comments, sharing, ▶ previews
 api/comments.js     comments API (Upstash Redis over HTTPS)
 api/share.js        /a/<slug> share pages with the article's own preview card
 images/artists/     artist photos used on cards
-images/articles/    article header images (collages, press shots)
+images/articles/    article header images (collages, press shots, generated headers)
 images/brand/       7H avatar / favicon
 vercel.json         clean URLs, /a/:slug rewrite, cache headers
 scripts/dev-server.mjs  local server that mimics Vercel (not deployed)
@@ -55,6 +55,24 @@ scripts/dev-server.mjs  local server that mimics Vercel (not deployed)
   **AYMA** (`45p8xCFhR0gkXgzyWW0Wos` · Apple `1818880233` · `ayma-gone-ass-titude`) and
   **Nana Nyadia** (`2SzY2nJnBs8mzh2jgqOmdL` · Apple `1766006884` · `nana-nyadia-afro-fusion-spotlight`).
   The four `listen` ids used in those articles are the same Spotify artist ids.
+- **Joka** (Apple Music artist `1620053754`) joined Fresh Finds in Oct 2026 with the article
+  `joka-sky-blue-to-no-condition`. He has **no verifiable Spotify profile** — the artist `6UcKW6kd69P55blULHLNpR`
+  is an unrelated Polish act — so his card is Apple-led (pink *Listen* button, no ▶ FAB) and his four release
+  cards link to Apple only. If the correct Spotify page turns up, add `spotify` to his `freshFinds` entry and
+  the matching release rows, and drop the "no Spotify profile" note in the article.
+- **Events** (`data.js` → `events`) drive the `#events` section (*Events & Live Calendar*), rendered by
+  `renderEvents()` in `app.js` and sorted earliest-first. Each row: `name`, `date` (`'Nov 19-22, 2026'`),
+  `venue`, `city`, `note`, `link` (must be https). Listings are editor-curated from organiser/press listings —
+  keep them factual, and never write a first-person "we were there" report.
+- **News/events/trends coverage** (Oct 2026): seven articles sit at the head of `articles` —
+  Nyege Nyege 2026 preview (`nyege-nyege-2026-wakaliwood-edition-preview`), Joshua Baraka × Tiwa Savage
+  "Commando" (`joshua-baraka-tiwa-savage-commando`), the Kampala live-season calendar
+  (`kampala-live-season-chameleone-levixone-mesach`), Blankets & Wine 2026 (`blankets-and-wine-2026-season`),
+  East African streaming trends (`east-africa-streaming-2026-gen-z-amapiano`), the Uganda industry numbers
+  (`uganda-music-economy-atlas-report-2026`) and African music on the global stage
+  (`african-music-global-october-2026`). They introduced the new **Events** filter category, which must stay
+  in `categories`.
+- Cross-links between articles use `href="#article/<slug>"`; the validator checks every one resolves.
 
 ## Comments — one-time setup (≈2 minutes)
 
@@ -117,3 +135,9 @@ his release card and article hero use the official *Ali Bomaye the Ep* cover (Ap
 name was corrected to **Ali Bomaye**). Fresh Finds round 2 (Tai Dai, Amanda Moon, AYMA, Nana Nyadia) uses
 official Spotify artist photos, hot-linked, on both the Fresh Find cards and the article heroes (credited in
 each `imgCaption`). No local image files were added for these artists.
+Joka's Fresh Find card and all four of his release cards use official Apple Music cover art (hot-linked from
+Apple's CDN). The seven news/events/trends articles and the Joka spotlight use original 7H-generated header
+illustrations in `images/articles/` (no press photos, no logos, no identifiable faces) —
+`nyege-nyege-2026-nile.jpg`, `blankets-and-wine-2026.jpg`, `kampala-live-season.jpg`, `uganda-music-economy.jpg`,
+`east-africa-streaming-wave.jpg`, `african-music-global-2026.jpg` and `joka-kampala-afropop.jpg` — each credited
+as an illustration in its article's `imgCaption`. Event listings carry a source link instead of a photo.
