@@ -161,8 +161,8 @@ scripts/dev-server.mjs  local server that mimics Vercel (not deployed)
 - **Likdul FP / Red Bull Dance Your Style** (`likdul-fp-red-bull-dance-your-style-visa-rejected`, id 48) is a
   breaking-news report based on the dancer's TikTok statement and two supplied Google share links. It explains
   the crowd-voted freestyle battle format, attributes the visa rejection and its personal impact to Likdul FP,
-  and does not speculate about the refusal reason. The hero is an explicitly labelled editorial illustration
-  (`images/articles/likdul-fp-visa-rejection.jpg`), not a likeness of the dancer.
+  and does not speculate about the refusal reason. The hero is the supplied winner photograph, with Likdul FP identified second from right holding the trophy
+  (`images/articles/likdul-fp-red-bull-win.jpg`).
 - **News/events/trends coverage** (Oct 2026): seven articles sit at the head of `articles` —
   Nyege Nyege 2026 preview (`nyege-nyege-2026-wakaliwood-edition-preview`), Joshua Baraka × Tiwa Savage
   "Commando" (`joshua-baraka-tiwa-savage-commando`), the Kampala live-season calendar
