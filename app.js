@@ -184,6 +184,75 @@
     }).join('');
   }
 
+  // ==================================================== songs of the week ===
+  // Weekly picks live in SITE_DATA.weeklyPicks (newest first), so publishing a new
+  // file is a data edit — no HTML or JS changes. Each card carries the week's rank,
+  // the ▶ preview, and the required Spotify + Apple Music pair.
+  const weekly = (DATA.weeklyPicks || []).slice().sort((a, b) => String(b.weekOf).localeCompare(String(a.weekOf)))[0];
+
+  function weeklyCard(p) {
+    const ref = spotifyRef(p.spotify);
+    return `
+      <article class="metal-card card-hover rounded-2xl overflow-hidden reveal flex flex-col">
+        <div class="relative">
+          ${img(p.img, `${p.title} cover art`, 'w-full aspect-square object-cover', { label: p.title })}
+          <span class="absolute top-2.5 left-2.5 w-9 h-9 rounded-full bg-gold text-bg font-display font-black text-sm flex items-center justify-center shadow-glow"><span class="sr-only">Number ${p.rank} this week: </span>${p.rank}</span>
+          ${ref ? `<button type="button" class="preview-fab absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-ink/90 text-bg flex items-center justify-center shadow-glow hover:bg-gold transition"
+              data-preview data-type="${ref.type}" data-id="${ref.id}" data-title="${esc(`${p.title} — ${p.artist}`)}" aria-label="Preview ${esc(p.title)} by ${esc(p.artist)}">
+              <i data-lucide="play" class="w-5 h-5 ml-0.5"></i></button>` : ''}
+        </div>
+        <div class="p-4 flex flex-col flex-1">
+          <p class="text-[10px] uppercase tracking-[0.18em] text-gold font-semibold">${esc(p.tag || '')}</p>
+          <h3 class="font-display font-bold text-base mt-1 leading-snug text-ink">${esc(p.title)}</h3>
+          <p class="text-sm text-gold mt-0.5">${esc(p.artist)}</p>
+          <p class="text-xs text-muted mt-2 leading-relaxed flex-1">${esc(p.why)}</p>
+          <div class="mt-3 flex flex-wrap gap-1.5">
+            ${spotifyBtn(p.spotify, 'Spotify', 'flex-1 px-2.5 py-1.5')}
+            ${appleBtn(p.apple, 'Apple', 'flex-1 px-2.5 py-1.5')}
+          </div>
+          ${p.article ? `<a href="#article/${esc(p.article)}" class="mt-2.5 inline-flex items-center gap-1 text-xs font-semibold text-muted hover:text-gold transition">The story <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></a>` : ''}
+        </div>
+      </article>`;
+  }
+
+  function bubblingChip(b) {
+    const label = `<span class="font-semibold text-ink">${esc(b.title)}</span><span class="text-muted"> · ${esc(b.artist)}</span>`;
+    return `
+      <span class="inline-flex items-center gap-2.5 rounded-full border border-line bg-surface/60 pl-3.5 pr-2 py-1.5">
+        ${b.article ? `<a href="#article/${esc(b.article)}" class="text-sm hover:text-gold transition">${label}</a>` : `<span class="text-sm">${label}</span>`}
+        <span class="inline-flex items-center gap-1.5 border-l border-line pl-2">
+          ${b.spotify ? `<a href="${esc(b.spotify)}" target="_blank" rel="noopener" data-out class="text-spot hover:opacity-80 transition" aria-label="${esc(b.title)} on Spotify" title="Spotify">${brand('spotify', 'w-3.5 h-3.5')}</a>` : ''}
+          ${b.apple ? `<a href="${esc(b.apple)}" target="_blank" rel="noopener" data-out class="text-ink/70 hover:text-ink transition" aria-label="${esc(b.title)} on Apple Music" title="Apple Music">${brand('apple', 'w-3 h-3')}</a>` : ''}
+        </span>
+      </span>`;
+  }
+
+  function renderWeekly() {
+    const section = document.getElementById('weekly');
+    if (!section) return;
+    if (!weekly) { section.classList.add('hidden'); return; }
+    const label = document.getElementById('weeklyLabel');
+    if (label) label.textContent = `${weekly.label || 'This week'} — five ranked records, refreshed weekly.`;
+    const intro = document.getElementById('weeklyIntro');
+    if (intro) intro.textContent = weekly.intro || '';
+    const grid = document.getElementById('weeklyPicks');
+    if (grid) grid.innerHTML = (weekly.picks || []).map(weeklyCard).join('');
+    const bubbling = document.getElementById('weeklyBubbling');
+    if (bubbling) {
+      const list = weekly.bubblingUnder || [];
+      bubbling.innerHTML = list.length ? `
+        <p class="eyebrow mb-3">Bubbling under</p>
+        <div class="flex flex-wrap gap-2">${list.map(bubblingChip).join('')}</div>` : '';
+    }
+    const link = document.getElementById('weeklyArticleLink');
+    if (link) {
+      if (weekly.article) link.href = `#article/${weekly.article}`;
+      else link.classList.add('hidden');
+    }
+    refreshIcons();
+    observeReveal();
+  }
+
   // ============================================================ events ===
   // Event listings come straight from SITE_DATA.events — verified dates only.
   const eventsData = (DATA.events || []).slice().sort((a, b) => new Date(eventISO(a.date)) - new Date(eventISO(b.date)));
@@ -243,6 +312,17 @@
     const b = e.target.closest('.filter-pill');
     if (!b) return;
     activeCategory = b.dataset.cat;
+    renderFilters();
+    renderArticles();
+  });
+
+  // "All Top Hot Releases" jumps to the Articles section with the category already selected.
+  document.addEventListener('click', (e) => {
+    const jump = e.target.closest('[data-filter-jump]');
+    if (!jump) return;
+    const cat = jump.dataset.filterJump;
+    if (!categories.includes(cat)) return;
+    activeCategory = cat;
     renderFilters();
     renderArticles();
   });
@@ -810,6 +890,7 @@
   renderArtists();
   renderFresh();
   renderReleases();
+  renderWeekly();
   renderEvents();
   renderFilters();
   renderArticles();

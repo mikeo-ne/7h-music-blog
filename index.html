@@ -269,6 +269,9 @@
           <a href="#releases" class="inline-flex items-center gap-2 px-6 py-3 rounded-full glass text-ink font-semibold hover:border-gold/50 transition">
             <i data-lucide="headphones" class="w-5 h-5 text-spot"></i> Preview New Music
           </a>
+          <a href="#weekly" class="inline-flex items-center gap-2 px-6 py-3 rounded-full glass text-ink font-semibold hover:border-gold/50 transition">
+            <i data-lucide="flame" class="w-5 h-5 text-gold"></i> Songs of the Week
+          </a>
         </div>
 
         <div class="mt-12 grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-2xl">
@@ -347,6 +350,36 @@
     </div>
   </section>
 
+  <!-- ============ SONGS OF THE WEEK (Top Hot Releases) ============ -->
+  <section id="weekly" class="py-20 sm:py-28 relative bg-bg">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-4 reveal">
+        <div>
+          <p class="eyebrow">Top Hot Releases</p>
+          <h2 class="font-display font-black text-3xl sm:text-5xl mt-2 text-ink">Songs of the Week</h2>
+        </div>
+        <p id="weeklyLabel" class="text-muted max-w-md"></p>
+      </div>
+
+      <p id="weeklyIntro" class="text-muted max-w-3xl mb-8 reveal"></p>
+
+      <div id="weeklyPicks" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
+        <!-- weekly picks injected by app.js from SITE_DATA.weeklyPicks -->
+      </div>
+
+      <div id="weeklyBubbling" class="mt-8 reveal"></div>
+
+      <div class="mt-8 flex flex-wrap items-center gap-4 reveal">
+        <a id="weeklyArticleLink" href="#articles" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-ink text-bg font-semibold text-sm shadow-glow hover:bg-gold transition">
+          Read the full roundup <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </a>
+        <a href="#articles" data-filter-jump="Top Hot Releases" class="inline-flex items-center gap-2 text-sm font-semibold text-gold hover:text-ink transition">
+          All Top Hot Releases <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
   <!-- ============ EVENTS ============ -->
   <section id="events" class="py-20 sm:py-28 relative bg-surface">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -379,7 +412,7 @@
           <p class="eyebrow">Editorial</p>
           <h2 class="font-display font-black text-3xl sm:text-5xl mt-2 text-ink">Articles &amp; News</h2>
         </div>
-        <p class="text-muted max-w-md">Press releases, reviews, interviews, and industry insights — 7H and beyond.</p>
+        <p class="text-muted max-w-md">Songs of the Week, press releases, reviews, interviews and industry insights — 7H and beyond.</p>
       </div>
 
       <div class="glass rounded-2xl p-4 sm:p-5 mb-8 reveal">

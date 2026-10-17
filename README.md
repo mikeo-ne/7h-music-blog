@@ -1,6 +1,6 @@
 # 7H Music Blog
 
-Editorial site for **7H Music Group** (Kampala, Uganda) — news, reviews, interviews and *Fresh Finds* from the wider Ugandan scene.
+Editorial site for **7H Music Group** (Kampala, Uganda) — news, reviews, interviews, *Songs of the Week* and *Fresh Finds* from the wider Ugandan scene.
 
 Static HTML + vanilla JS, deployed on **Vercel**, with two tiny serverless functions (no npm dependencies):
 real **comments** and per-article **link previews** for WhatsApp / X / Facebook.
@@ -9,7 +9,7 @@ real **comments** and per-article **link previews** for WhatsApp / X / Facebook.
 
 ```
 index.html          page layout + styles (Tailwind CDN)
-data.js             ALL content: roster, Fresh Finds, releases, events, articles  ← edit this
+data.js             ALL content: roster, Fresh Finds, releases, weekly picks, events, articles  ← edit this
 app.js              behaviour: article reader, comments, sharing, ▶ previews
 api/comments.js     comments API (Upstash Redis over HTTPS)
 api/share.js        /a/<slug> share pages with the article's own preview card
@@ -38,8 +38,17 @@ scripts/dev-server.mjs  local server that mimics Vercel (not deployed)
   spellcheck flags on those are false positives. Pronouns: AYMA, Joka, Quency, Echoled, Senté, Tungi, Mike
   Mungu, Soundlykbb and the 7H roster are he/him; Amanya, Remz, Nana Nyadia and Amanda Moon are she/her.
   The site writes British English (organiser, behaviour, favourite).
-- `category` must be one of `categories` (All · News · Press Release · Album Review · Interview · Industry Insights);
-  the filter pills are generated from that list.
+- `category` must be one of `categories` (All · Top Hot Releases · News · Events · Press Release · Album Review ·
+  Interview · Industry Insights); the filter pills are generated from that list.
+- **Songs of the Week / Top Hot Releases** (`data.js` → `weeklyPicks`): the homepage `#weekly` section and the
+  category's first article. One object per week, newest first. Each week supplies `label`, `intro`, the
+  roundup's `article` slug, five ranked `picks` and four `bubblingUnder` records. A pick needs `rank`, `title`,
+  `artist`, `tag`, a one-line `why`, `img`, **both** `spotify` and `apple` links, and (where we covered it) an
+  `article` slug. `bubblingUnder` rows need both platform links too. Only `weeklyPicks[0]` is rendered, so
+  publish a new week by adding an object above the last one and writing its article with the same category
+  `Top Hot Releases`. The cards' ▶ previews come from `spotify` (album/track/artist); use the artist page only
+  when the single has no Spotify URL of its own. Keep the framing editorial — a ranked listening file, never
+  invented chart positions or stream counts. First file: `songs-of-the-week-october-17-2026`.
 - Article bodies are plain HTML. Besides `<p>`, `<h3 ' + H3 + '>`, links and `<em>`, these styled blocks are available:
   `<figure><img src="images/…"><figcaption>…</figcaption></figure>` (inline photo),
   `<blockquote>"…"<cite>Name</cite></blockquote>` (pull quote),
@@ -163,7 +172,8 @@ scripts/dev-server.mjs  local server that mimics Vercel (not deployed)
   the crowd-voted freestyle battle format, attributes the visa rejection and its personal impact to Likdul FP,
   and does not speculate about the refusal reason. The hero is the supplied winner photograph, with Likdul FP identified second from right holding the trophy
   (`images/articles/likdul-fp-red-bull-win.jpg`).
-- **News/events/trends coverage** (Oct 2026): seven articles sit at the head of `articles` —
+- **News/events/trends coverage** (Oct 2026): seven articles sit below the Songs of the Week roundup in
+  `articles` —
   Nyege Nyege 2026 preview (`nyege-nyege-2026-wakaliwood-edition-preview`), Joshua Baraka × Tiwa Savage
   "Commando" (`joshua-baraka-tiwa-savage-commando`), the Kampala live-season calendar
   (`kampala-live-season-chameleone-levixone-mesach`), Blankets & Wine 2026 (`blankets-and-wine-2026-season`),
@@ -270,6 +280,7 @@ Quency's cards and spotlights use the Instagram shots saved to `images/artists/j
 `images/artists/quency.jpg`. Only the news/events/trends pieces with no single featured artist keep
 original 7H-generated header illustrations in `images/articles/` (no press photos, no logos, no identifiable
 faces) — `nyege-nyege-2026-nile.jpg`, `blankets-and-wine-2026.jpg`, `kampala-live-season.jpg`,
-`uganda-music-economy.jpg`, `east-africa-streaming-wave.jpg`, `african-music-global-2026.jpg` and
-`aumex-showcase-2025.jpg` (the Nasty C/AUMEX showcase piece) — each
-credited as an illustration in its article's `imgCaption`. Event listings carry a source link instead of a photo.
+`uganda-music-economy.jpg`, `east-africa-streaming-wave.jpg`, `african-music-global-2026.jpg`,
+`aumex-showcase-2025.jpg` (the Nasty C/AUMEX showcase piece) and `songs-of-the-week-oct-17.jpg`
+(the Songs of the Week roundup) — each credited as an illustration in its article's `imgCaption`.
+Event listings carry a source link instead of a photo.
