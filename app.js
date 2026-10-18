@@ -155,8 +155,8 @@
       </article>`;
   }
 
-  function renderArtists() { $('#artistGrid').innerHTML = artists.map(artistCard).join(''); }
-  function renderFresh() { $('#freshGrid').innerHTML = freshFinds.map(artistCard).join(''); }
+  function renderArtists() { $('#artistGrid').innerHTML = ''; }
+  function renderFresh() { const combined = [...artists, ...freshFinds].sort((a, b) => a.name.localeCompare(b.name)); $('#freshGrid').innerHTML = combined.map(artistCard).join(''); }
 
   function renderReleases() {
     $('#releaseGrid').innerHTML = releases.map((r) => {
@@ -269,7 +269,7 @@
     const days = m ? (m[3] ? `${m[2]}–${m[3]}` : m[2]) : '••';
     return `
         <article class="metal-card card-hover rounded-2xl overflow-hidden reveal flex flex-col">
-          ${ev.img ? `<a href="${ev.article ? `#article/${esc(ev.article)}` : esc(ev.link || '#events')}" class="block overflow-hidden" aria-label="${ev.article ? `Read the ${esc(ev.name)} preview` : `View ${esc(ev.name)} information`}">${img(ev.img, `${ev.name} event artwork`, 'w-full h-52 object-cover transition duration-500 hover:scale-105', { pos: ev.imgPos || 'center 30%' })}</a>` : ''}
+          ${ev.img ? `<a href="${ev.article ? `#article/${esc(ev.article)}` : esc(ev.link || '#events')}" class="group block overflow-hidden bg-black/90" aria-label="${ev.article ? `Read the ${esc(ev.name)} preview` : `View ${esc(ev.name)} information`}">${img(ev.img, `${ev.name} event artwork`, 'w-full aspect-[4/5] object-contain bg-black/90 transition duration-300 group-hover:brightness-110', { pos: ev.imgPos || 'center 30%' })}</a>` : ''}
           <div class="p-5 flex flex-col gap-3 flex-1">
             <div class="flex items-start gap-3">
               <div class="w-16 shrink-0 rounded-xl border border-gold/40 bg-gold/10 py-2 text-center">
@@ -329,7 +329,7 @@
 
   function filteredArticles() {
     const q = searchQuery.trim().toLowerCase();
-    return articles.filter((a) => (activeCategory === 'All' || a.category === activeCategory) && (!q || searchIndex.get(a.slug).includes(q)));
+    return articles.filter((a) => (activeCategory === 'All' || a.category === activeCategory) && (!q || searchIndex.get(a.slug).includes(q))).sort((a, b) => new Date(b.date) - new Date(a.date));
   }
 
   function countBadge(slug) {
@@ -640,7 +640,7 @@
 
         <div class="article-body mt-6 leading-relaxed space-y-4">${a.body}</div>
 
-        ${listenBlock(a)}
+        ${a.slug === 'songs-of-the-week-october-17-2026' ? '' : listenBlock(a)}
 
         <div class="mt-8 p-4 rounded-xl glass flex items-center gap-4">
           ${img(a.author.avatar, a.author.name, 'w-14 h-14 rounded-full object-cover border-2 border-gold/40 flex-none')}
