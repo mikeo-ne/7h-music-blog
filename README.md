@@ -36,7 +36,9 @@ scripts/dev-server.mjs  local server that mimics Vercel (not deployed)
 - **Proofing**: run `codespell` over the repo and re-read new prose before publishing. Song/album titles keep
   their official styling (`"Jus Sayin'"`, `LOVE ISNT ENOUGH`, `WHET`, `ASS TITUDE`, `Barna`, `Afro Netion`), so
   spellcheck flags on those are false positives. Pronouns: AYMA, Joka, Quency, Echoled, Senté, Tungi, Mike
-  Mungu, Soundlykbb and the 7H roster are he/him; Amanya, Remz, Nana Nyadia and Amanda Moon are she/her.
+  Mungu, Soundlykbb and the 7H roster are he/him; Amanya, Remz, Tai Dai, Nana Nyadia and Amanda Moon are she/her.
+  Keep Sopreno C, Expect XHAVI and Mayanja on the Beat consistent across cards and features; preserve
+  the corrected song title “Kawaida” and use “a cappella” in prose (official release titles stay unchanged).
   The site writes British English (organiser, behaviour, favourite).
 - `category` must be one of `categories` (All · Top Hot Releases · News · Events · Press Release · Album Review ·
   Interview · Industry Insights); the filter pills are generated from that list.
