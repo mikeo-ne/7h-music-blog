@@ -4,10 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>7H Music Blog — The Voice of the Independent Sound</title>
-  <meta name="description" content="Official news, editorial pieces, and artist spotlights from 7H Music Group — Kampala, Uganda. Covering 7H artists and the wider music scene." />
+  <meta name="description" content="Official news, editorial pieces, and artist spotlights from 7H Music Group — Kampala, Uganda. Covering independent artists, new releases and entertainment across Uganda and Kenya." />
   <meta property="og:site_name" content="7H Music Blog" />
   <meta property="og:title" content="7H Music Blog — The Voice of the Independent Sound" />
-  <meta property="og:description" content="Discover Uganda’s rising artists, new releases and the live events bringing Kampala’s music community together." />
+  <meta property="og:description" content="From Kampala to Nairobi: discover independent voices, new releases and the stories connecting East Africa’s music scenes." />
   <meta property="og:type" content="website" />
   <meta property="og:image" content="https://7hmusicgroupug.vercel.app/images/hero.jpg" />
   <meta name="twitter:card" content="summary_large_image" />
@@ -209,6 +209,7 @@
           <a href="#fresh" class="nav-link px-3 py-2 text-sm text-muted hover:text-ink transition">Fresh Finds</a>
           <a href="#releases" class="nav-link px-3 py-2 text-sm text-muted hover:text-ink transition">Releases</a>
           <a href="#events" class="nav-link px-3 py-2 text-sm text-muted hover:text-ink transition">Events &amp; Tickets</a>
+          <a href="#kenya" class="nav-link px-3 py-2 text-sm text-muted hover:text-ink transition">Kenya</a>
           <a href="#articles" class="nav-link px-3 py-2 text-sm text-muted hover:text-ink transition">Articles &amp; News</a>
         </nav>
 
@@ -226,6 +227,7 @@
         <a href="#fresh" class="mobile-link px-3 py-2 rounded-lg text-muted hover:bg-surface hover:text-ink transition">Fresh Finds</a>
         <a href="#releases" class="mobile-link px-3 py-2 rounded-lg text-muted hover:bg-surface hover:text-ink transition">Releases</a>
         <a href="#events" class="mobile-link px-3 py-2 rounded-lg text-muted hover:bg-surface hover:text-ink transition">Events &amp; Tickets</a>
+        <a href="#kenya" class="mobile-link px-3 py-2 rounded-lg text-muted hover:bg-surface hover:text-ink transition">Kenya</a>
         <a href="#articles" class="mobile-link px-3 py-2 rounded-lg text-muted hover:bg-surface hover:text-ink transition">Articles &amp; News</a>
       </div>
     </div>
@@ -249,9 +251,10 @@
           <span class="text-gradient">INDEPENDENT SOUND</span>
         </h1>
         <p class="mt-6 text-lg sm:text-xl text-muted max-w-2xl leading-relaxed">
-          Discover Uganda’s rising artists, new releases and the live events bringing Kampala’s music community together.
+          From Kampala to Nairobi: discover independent voices, new releases and the stories connecting East Africa’s music scenes.
         </p>
         <div class="mt-9 flex flex-wrap gap-4">
+          <a href="#kenya" class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gold text-bg font-bold hover:bg-ink transition">Explore Kenya <span aria-hidden="true">→</span></a>
           <a href="#articles" class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-ink text-bg font-bold shadow-glow hover:bg-gold transition">
             <i data-lucide="newspaper" class="w-5 h-5"></i> Explore Articles
           </a>
@@ -285,6 +288,18 @@
           </div>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- ============ EAST AFRICA DESK ============ -->
+  <section id="kenya" class="py-20 sm:py-28 relative bg-surface border-y border-line">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-8 reveal">
+        <div><p class="eyebrow">East Africa desk · October 16, 2026</p><h2 class="font-display font-black text-3xl sm:text-5xl mt-2 text-ink">Kampala roots. Nairobi discoveries.</h2><p class="text-muted mt-4 max-w-2xl">Maya Amolo, Xenia Manasseh, Toxic Lyrikali and more: Kenyan R&B, alternative sounds and rap, with sourced stories and music to explore.</p></div>
+        <a href="#articles" data-scene-jump="Kenya" class="inline-flex items-center gap-2 text-gold font-semibold shrink-0">Explore Kenya <i data-lucide="arrow-right" class="w-4 h-4"></i></a>
+      </div>
+      <div id="kenyaGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+      <a href="#article/kampala-nairobi-music-listening-route" class="block mt-8 rounded-2xl border border-gold/30 bg-gold/5 p-5 text-ink hover:border-gold transition"><span class="text-gold text-xs font-semibold tracking-widest uppercase">The listening route</span><span class="block font-display font-bold text-xl mt-2">Follow the credits from Kampala to Nairobi →</span><span class="block text-sm text-muted mt-2">Njerae → Watendawili → Bensoul → Bien → Joshua Baraka. Start anywhere. Keep listening.</span></a>
     </div>
   </section>
 
@@ -324,7 +339,6 @@
     </div>
   </section>
 
-  <!-- ============ FRESH FINDS ============ -->
   <section id="fresh" class="py-20 sm:py-28 relative bg-bg">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-12 reveal">
@@ -332,9 +346,10 @@
           <p class="eyebrow">Fresh Finds</p>
           <h2 class="font-display font-black text-3xl sm:text-5xl mt-2 text-ink">Fresh Finds — the artists to watch</h2>
         </div>
-        <p class="text-muted max-w-md">Beyond 7H — emerging artists we're watching across Uganda.</p>
+        <p class="text-muted max-w-md">Beyond 7H — new discoveries and established voices worth exploring across Uganda and Kenya.</p>
       </div>
 
+      <div class="mb-6"><label for="freshCountry" class="text-sm text-muted mr-3">Explore a scene</label><select id="freshCountry" class="field rounded-xl bg-surface border border-line text-ink px-4 py-2"><option value="All">All scenes</option><option value="Uganda">Uganda</option><option value="Kenya">Kenya</option></select></div>
       <div id="freshGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         <!-- Fresh finds injected by app.js -->
       </div>
@@ -355,6 +370,7 @@
         </p>
       </div>
 
+      <div class="mb-6"><label for="releaseCountry" class="text-sm text-muted mr-3">Listening shelf</label><select id="releaseCountry" class="field rounded-xl bg-surface border border-line text-ink px-4 py-2"><option value="All">All scenes</option><option value="Uganda">Uganda</option><option value="Kenya">Kenya</option></select><p class="text-xs text-muted mt-2">New releases sit alongside labelled catalogue discoveries. Open a player to listen.</p></div>
       <div id="releaseGrid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
         <!-- Releases injected by app.js -->
       </div>
@@ -404,6 +420,7 @@
         </p>
       </div>
 
+      <div class="mb-6 flex flex-wrap items-center gap-4"><label for="eventScope" class="text-sm text-muted">Show events</label><select id="eventScope" class="field rounded-xl bg-surface border border-line text-ink px-4 py-2"><option value="upcoming">Upcoming</option><option value="past">Past / archive</option><option value="all">All events</option></select><p id="eventResults" class="text-sm text-muted" role="status"></p></div>
       <div id="eventGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <!-- Events injected by app.js -->
       </div>
@@ -440,6 +457,10 @@
         </div>
       </div>
 
+      <div class="flex flex-wrap items-center justify-between gap-3 mb-6">
+        <div id="countryFilters" class="flex flex-wrap gap-2" role="group" aria-label="Filter articles by scene"></div>
+        <p id="articleResults" class="text-sm text-muted" role="status" aria-live="polite"></p>
+      </div>
       <div id="articleGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <!-- articles injected -->
       </div>
