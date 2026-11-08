@@ -286,3 +286,22 @@ faces) — `nyege-nyege-2026-nile.jpg`, `blankets-and-wine-2026.jpg`, `kampala-l
 `aumex-showcase-2025.jpg` (the Nasty C/AUMEX showcase piece) and `songs-of-the-week-oct-17.jpg`
 (the Songs of the Week roundup) — each credited as an illustration in its article's `imgCaption`.
 Event listings carry a source link instead of a photo.
+
+
+### East Africa desk checks
+
+The 16 October 2026 editorial refresh is documented in
+[`docs/editorial-refresh-2026-10-16.md`](docs/editorial-refresh-2026-10-16.md),
+including sources, corrections, date boundaries and facts still needing review.
+
+- `node scripts/check-editorial.cjs` checks content links, assets, categories,
+  campaign preservation and new social-share pages without dependencies.
+- UI behaviour can be checked without adding dependencies to the site:
+  `npm install --prefix /tmp/7h-ui-tests jsdom@26 --no-save`, then
+  `NODE_PATH=/tmp/7h-ui-tests/node_modules node scripts/check-ui.cjs`.
+  This tests DOM behaviour, not real-browser layout or external media playback.
+
+The country selectors are editorial navigation, not artist nationality verification.
+Existing Uganda coverage uses the Uganda default; new Kenyan content is explicitly
+tagged and multi-market editorial features use Regional. Event upcoming/archive
+views use the reader's current local calendar date, including the final day of ranges.

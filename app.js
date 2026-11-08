@@ -156,10 +156,11 @@
   }
 
   function renderArtists() { $('#artistGrid').innerHTML = ''; }
-  function renderFresh() { const combined = [...artists, ...freshFinds].sort((a, b) => a.name.localeCompare(b.name)); $('#freshGrid').innerHTML = combined.map(artistCard).join(''); }
+  function renderFresh() { const scene = $('#freshCountry')?.value || 'All'; const combined = [...artists, ...freshFinds].filter(a => scene === 'All' || (a.country || 'Uganda') === scene).sort((a, b) => a.name.localeCompare(b.name)); $('#freshGrid').innerHTML = combined.map(artistCard).join(''); }
 
   function renderReleases() {
-    $('#releaseGrid').innerHTML = releases.map((r) => {
+    const scene = $('#releaseCountry')?.value || 'All';
+    $('#releaseGrid').innerHTML = releases.filter(r => scene === 'All' || (r.country || 'Uganda') === scene).map((r) => {
       const ref = spotifyRef(r.spotify);
       const title = ref && ref.type === 'artist' ? `${r.artist} — top tracks` : `${r.title} — ${r.artist}`;
       return `
@@ -295,16 +296,30 @@
   }
   function renderEvents() {
     const grid = $('#eventGrid');
-    if (grid) grid.innerHTML = eventsData.map(eventCard).join('');
+    const scope = $('#eventScope')?.value || 'upcoming';
+    const today = new Date(); today.setHours(0, 0, 0, 0);
+    const list = eventsData.filter(ev => {
+      const iso = eventISO(ev.date);
+      const range = /^([A-Za-z]{3})[a-z]*\s+\d{1,2}\s*-\s*(\d{1,2})/.exec(ev.date);
+      const end = range ? iso.slice(0, 8) + range[2].padStart(2, '0') : iso;
+      const past = new Date(end + 'T23:59:59') < today;
+      return scope === 'all' || (scope === 'past' ? past : !past);
+    });
+    if (grid) grid.innerHTML = list.length ? list.map(eventCard).join('') : '<p class="text-muted">No events in this view. Try the archive or check back for confirmed listings.</p>';
+    if ($('#eventResults')) $('#eventResults').textContent = `${list.length} event${list.length === 1 ? '' : 's'}`;
+    refreshIcons(); observeReveal();
   }
 
   // ============================================================ article list ===
   let activeCategory = 'All';
+  let activeCountry = 'All';
+  const articleCountry = a => a.country || ([7, 16, 31, 33].includes(a.id) ? 'Regional' : 'Uganda');
   let searchQuery = '';
   let commentCounts = {};
-  const searchIndex = new Map(articles.map((a) => [a.slug, (a.title + ' ' + a.excerpt + ' ' + a.category + ' ' + a.author.name + ' ' + stripTags(a.body)).toLowerCase()]));
+  const searchIndex = new Map(articles.map((a) => [a.slug, (articleCountry(a) + ' ' + a.title + ' ' + a.excerpt + ' ' + a.category + ' ' + a.author.name + ' ' + stripTags(a.body)).toLowerCase()]));
 
   function renderFilters() {
+    $('#countryFilters').innerHTML = ['All', 'Uganda', 'Kenya', 'Regional'].map(c => `<button type="button" data-country="${c}" aria-pressed="${activeCountry === c}" class="filter-pill px-4 py-2 rounded-full text-sm border border-line text-muted ${activeCountry === c ? 'active' : ''}">${c === 'All' ? 'All scenes' : c}</button>`).join('');
     $('#filterBar').innerHTML = categories.map((c) => `
       <button type="button" class="filter-pill px-4 py-2 rounded-full text-sm border border-line text-muted hover:border-gold/50 ${c === activeCategory ? 'active' : ''}" data-cat="${esc(c)}" aria-pressed="${c === activeCategory}">${esc(c)}</button>`).join('');
   }
@@ -323,13 +338,14 @@
     const cat = jump.dataset.filterJump;
     if (!categories.includes(cat)) return;
     activeCategory = cat;
+    activeCountry = 'All';
     renderFilters();
     renderArticles();
   });
 
   function filteredArticles() {
     const q = searchQuery.trim().toLowerCase();
-    return articles.filter((a) => (activeCategory === 'All' || a.category === activeCategory) && (!q || searchIndex.get(a.slug).includes(q))).sort((a, b) => new Date(b.date) - new Date(a.date));
+    return articles.filter((a) => (activeCountry === 'All' || articleCountry(a) === activeCountry) && (activeCategory === 'All' || a.category === activeCategory) && (!q || searchIndex.get(a.slug).includes(q))).sort((a, b) => new Date(b.date) - new Date(a.date));
   }
 
   function countBadge(slug) {
@@ -339,18 +355,19 @@
 
   function renderArticles() {
     const list = filteredArticles();
+    $('#articleResults').textContent = `${list.length} stor${list.length === 1 ? 'y' : 'ies'} · ${activeCountry === 'All' ? 'All scenes' : activeCountry}`;
     const grid = $('#articleGrid');
     $('#emptyState').classList.toggle('hidden', list.length > 0);
     grid.innerHTML = list.map((a) => `
       <a href="#article/${a.slug}" class="article-card metal-card card-hover rounded-2xl overflow-hidden reveal flex flex-col group focus:outline-none focus-visible:ring-2 focus-visible:ring-gold" aria-label="Read article: ${esc(a.title)}">
         <div class="relative overflow-hidden">
-          ${img(a.img, a.title, 'w-full h-48 object-cover transition duration-500 group-hover:scale-105', { pos: a.imgPos })}
+          ${img(a.img, a.title, a.coverFit === 'contain' ? 'w-full aspect-[4/5] object-contain bg-black' : 'w-full h-48 object-cover transition duration-500 group-hover:scale-105', { pos: a.imgPos })}
           <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full text-xs font-semibold bg-bg/80 backdrop-blur border border-gold/40 text-gold">${esc(a.category)}</span>
         </div>
         <div class="p-5 flex flex-col flex-1">
           <div class="flex items-center gap-3 text-xs text-muted">
-            <span class="flex items-center gap-1"><i data-lucide="calendar" class="w-3.5 h-3.5"></i>${esc(a.date)}</span>
-            <span class="flex items-center gap-1"><i data-lucide="clock" class="w-3.5 h-3.5"></i>${esc(a.readTime)}</span>
+            <span class="flex items-center gap-1"><i data-lucide="calendar" class="w-3.5 h-3.5"></i>${esc(a.date)}</span>${a.updated ? `<span class="text-gold">Updated ${esc(a.updated)}</span>` : ''}
+            <span class="flex items-center gap-1"><i data-lucide="clock" class="w-3.5 h-3.5"></i>${esc(a.readTime)}</span><span class="text-gold">${esc(articleCountry(a))}</span>
             ${countBadge(a.slug)}
           </div>
           <h3 class="font-display font-bold text-lg mt-3 leading-snug text-ink group-hover:text-gold transition">${esc(a.title)}</h3>
@@ -361,6 +378,21 @@
     refreshIcons();
     observeReveal();
   }
+
+  $('#countryFilters').addEventListener('click', e => {
+    const b = e.target.closest('[data-country]'); if (!b) return;
+    activeCountry = b.dataset.country; renderFilters(); renderArticles();
+  });
+  document.addEventListener('click', e => {
+    const b = e.target.closest('[data-scene-jump]'); if (!b) return;
+    activeCountry = b.dataset.sceneJump; activeCategory = 'All'; searchQuery = ''; $('#searchInput').value = '';
+    renderFilters(); renderArticles();
+  });
+  $('#freshCountry').addEventListener('change', () => { renderFresh(); refreshIcons(); observeReveal(); });
+  $('#releaseCountry').addEventListener('change', () => { renderReleases(); refreshIcons(); observeReveal(); });
+  $('#eventScope').addEventListener('change', renderEvents);
+  const kenyaStories = [62, 63, 64, 60, 57, 58, 59].map(id => articles.find(a => a.id === id)).filter(Boolean);
+  $('#kenyaGrid').innerHTML = kenyaStories.map(a => `<a href="#article/${a.slug}" class="metal-card card-hover rounded-2xl overflow-hidden reveal group">${img(a.img, a.title, 'w-full aspect-square object-cover')}<div class="p-5"><p class="text-xs text-gold">Kenya · ${esc(a.category)}</p><h3 class="font-display font-bold text-lg text-ink mt-2 group-hover:text-gold">${esc(a.title)}</h3><p class="text-sm text-muted mt-3">${esc(a.excerpt)}</p><span class="block mt-4 text-sm text-gold font-semibold">Read story →</span></div></a>`).join('');
 
   $('#searchInput').addEventListener('input', (e) => { searchQuery = e.target.value; renderArticles(); });
 
@@ -600,8 +632,8 @@
 
   function relatedArticles(a) {
     const others = articles.filter((x) => x.slug !== a.slug);
-    const same = others.filter((x) => x.category === a.category);
-    return same.concat(others.filter((x) => x.category !== a.category)).slice(0, 3);
+    const score = x => (articleCountry(x) === articleCountry(a) ? 2 : 0) + (x.category === a.category ? 1 : 0);
+    return others.sort((x, y) => score(y) - score(x) || new Date(y.date) - new Date(x.date)).slice(0, 3);
   }
 
   function listenBlock(a) {
@@ -625,7 +657,7 @@
   function articleHTML(a) {
     return `
       <header class="relative">
-        ${img(a.img, a.title, 'w-full h-56 sm:h-80 object-cover', { pos: a.imgPos, eager: true })}
+        ${img(a.img, a.title, a.coverFit === 'contain' ? 'w-full max-h-[80vh] object-contain bg-black' : 'w-full h-56 sm:h-80 object-cover', { pos: a.imgPos, eager: true })}
         <div class="absolute inset-0 bg-gradient-to-t from-surface via-surface/10 to-transparent pointer-events-none"></div>
         ${a.imgCaption ? `<p class="absolute bottom-3 right-4 left-4 text-right text-[11px] text-ink/70">Pictured: ${esc(a.imgCaption)}</p>` : ''}
       </header>
@@ -633,8 +665,8 @@
         <span class="inline-block px-2.5 py-1 rounded-full text-xs font-semibold bg-gold/15 border border-gold/40 text-gold">${esc(a.category)}</span>
         <h2 id="modalTitle" tabindex="-1" class="font-display font-black text-2xl sm:text-4xl mt-3 leading-tight text-ink focus:outline-none">${esc(a.title)}</h2>
         <div class="flex flex-wrap items-center gap-x-4 gap-y-2 mt-3 text-sm text-muted">
-          <span class="flex items-center gap-1.5"><i data-lucide="calendar" class="w-4 h-4"></i>${esc(a.date)}</span>
-          <span class="flex items-center gap-1.5"><i data-lucide="clock" class="w-4 h-4"></i>${esc(a.readTime)}</span>
+          <span class="flex items-center gap-1.5"><i data-lucide="calendar" class="w-4 h-4"></i>${esc(a.date)}</span>${a.updated ? `<span class="text-gold">Updated ${esc(a.updated)}</span>` : ''}
+          <span class="flex items-center gap-1.5"><i data-lucide="clock" class="w-4 h-4"></i>${esc(a.readTime)}</span><span class="text-gold">${esc(articleCountry(a))}</span>
           <a href="#comments" data-scroll-comments class="flex items-center gap-1.5 hover:text-gold transition"><i data-lucide="message-circle" class="w-4 h-4"></i><span id="modalCommentCount">Comments</span></a>
         </div>
 
@@ -876,7 +908,7 @@
       navLinks.forEach((l) => l.classList.toggle('active', l.getAttribute('href') === `#${en.target.id}`));
     });
   }, { rootMargin: '-45% 0px -50% 0px' });
-  ['home', 'artists', 'fresh', 'releases', 'articles', 'submit'].forEach((id) => { const s = document.getElementById(id); if (s) sectionObserver.observe(s); });
+  ['home', 'artists', 'kenya', 'fresh', 'releases', 'events', 'articles', 'submit'].forEach((id) => { const s = document.getElementById(id); if (s) sectionObserver.observe(s); });
 
   // ============================================================= reveal ===
   const revealObserver = 'IntersectionObserver' in window
