@@ -13,3 +13,8 @@ test('Pajen approved concise profile preserves supplied background and genre tag
  for(const text of ['Kawempe','Seyi Vibez','Fik Fameica','Zinoleesky','Luganda','English','Tonta']) assert.ok(a.body.includes(text),text);
  assert.match(a.body,/biographical background supplied by the editor/);assert.equal(a.readTime,'2 min read');assert.ok(!a.title.includes('&amp;'));
 });
+
+test('Pajen Instagram is linked on his card and in his feature without tracking parameters',()=>{
+ const card=data.freshFinds.find(a=>a.name==='Pajen');assert.equal(card.instagram,'https://www.instagram.com/pajenthis/');
+ assert.ok(data.articles.find(a=>a.slug===card.article).body.includes('href="'+card.instagram+'"'));
+});

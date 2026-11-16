@@ -3,6 +3,8 @@ const {JSDOM}=require('jsdom');const fs=require('fs'),assert=require('node:asser
 const dom=new JSDOM(fs.readFileSync('index.html','utf8'),{runScripts:'outside-only',url:'http://localhost:3000/',pretendToBeVisual:true});const w=dom.window;
 w.IntersectionObserver=class {observe(){} unobserve(){} disconnect(){}};w.scrollTo=()=>{};w.HTMLElement.prototype.scrollIntoView=()=>{};w.fetch=async()=>({ok:true,json:async()=>({counts:{},comments:[]})});
 w.eval(fs.readFileSync('data.js','utf8'));w.eval(fs.readFileSync('app.js','utf8'));const doc=w.document;const q=s=>doc.querySelector(s),all=s=>doc.querySelectorAll(s);const change=(s,v)=>{q(s).value=v;q(s).dispatchEvent(new w.Event('change',{bubbles:true}))};
+assert.ok(q('#freshGrid a[aria-label="Pajen on Instagram"]'));
+assert.equal(q('#freshGrid a[aria-label="Pajen on Instagram"]').href,'https://www.instagram.com/pajenthis/');
 assert.equal(q('#statStories').textContent, String(w.SITE_DATA.articles.length)); assert.equal(q('#statReleases').textContent, String(w.SITE_DATA.releases.length));
 assert.equal(all('#kenyaGrid > a').length,8);assert.equal(all('#articleGrid > a').length,w.SITE_DATA.articles.length);
 q('[data-country="Kenya"]').click();assert.equal(all('#articleGrid > a').length,8);

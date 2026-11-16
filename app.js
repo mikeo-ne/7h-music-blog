@@ -124,6 +124,7 @@
     const out = [];
     if (a.spotify) out.push(`<a href="${esc(a.spotify)}" target="_blank" rel="noopener" data-out class="w-9 h-9 rounded-full bg-spot text-bg flex items-center justify-center hover:scale-110 transition shadow-card" title="${esc(a.name)} on Spotify" aria-label="${esc(a.name)} on Spotify">${brand('spotify', 'w-[18px] h-[18px]')}</a>`);
     if (a.apple) out.push(`<a href="${esc(a.apple)}" target="_blank" rel="noopener" data-out class="w-9 h-9 rounded-full bg-gradient-to-br from-pink-500 to-red-500 text-white flex items-center justify-center hover:scale-110 transition shadow-card" title="${esc(a.name)} on Apple Music" aria-label="${esc(a.name)} on Apple Music">${brand('apple', 'w-4 h-4 -mt-0.5')}</a>`);
+    if (a.instagram) out.push(`<a href="${esc(a.instagram)}" target="_blank" rel="noopener" data-out class="w-9 h-9 rounded-full bg-gradient-to-br from-purple-600 to-pink-500 text-white flex items-center justify-center hover:scale-110 transition shadow-card" title="${esc(a.name)} on Instagram" aria-label="${esc(a.name)} on Instagram"><i data-lucide="instagram" class="w-[18px] h-[18px]"></i></a>`);
     return out.join('');
   }
 
@@ -196,7 +197,7 @@
     return `
       <article class="metal-card card-hover rounded-2xl overflow-hidden reveal flex flex-col">
         <div class="relative">
-          ${img(p.img, `${p.title} cover art`, 'w-full aspect-square object-cover', { label: p.title })}
+          ${img(p.img, p.imgAlt || `${p.title} cover art`, 'w-full aspect-square object-cover', { label: p.title })}
           <span class="absolute top-2.5 left-2.5 w-9 h-9 rounded-full bg-gold text-bg font-display font-black text-sm flex items-center justify-center shadow-glow"><span class="sr-only">Number ${p.rank} this week: </span>${p.rank}</span>
           ${ref ? `<button type="button" class="preview-fab absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-ink/90 text-bg flex items-center justify-center shadow-glow hover:bg-gold transition"
               data-preview data-type="${ref.type}" data-id="${ref.id}" data-title="${esc(`${p.title} — ${p.artist}`)}" aria-label="Preview ${esc(p.title)} by ${esc(p.artist)}">
