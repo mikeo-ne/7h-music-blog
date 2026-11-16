@@ -305,3 +305,9 @@ The country selectors are editorial navigation, not artist nationality verificat
 Existing Uganda coverage uses the Uganda default; new Kenyan content is explicitly
 tagged and multi-market editorial features use Regional. Event upcoming/archive
 views use the reader's current local calendar date, including the final day of ranges.
+
+**Tai Dai privacy preference:** Use only her professional name, Tai Dai, in all
+published copy, artist bios, excerpts, image descriptions and social metadata.
+Do not add her legal/given names from songwriting credits or external biographies.
+Keep she/her pronouns. Catalogue credits may be linked without reproducing
+private-name details in our editorial copy.

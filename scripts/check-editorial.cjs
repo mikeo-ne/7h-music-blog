@@ -33,3 +33,32 @@ assert.equal(data.articles.find(a => a.id === 13).category, 'Fresh Finds');
 assert.ok(!data.articles.find(a => a.id === 13).body.includes('says Pryce Teeba'));
 assert.equal(data.articles.find(a => a.id === 56).img, 'images/articles/baranga-ughha-2026-vote-now.jpg');
 console.log(`PASS: ${data.articles.length} articles, ${data.freshFinds.length} discoveries, ${data.releases.length} releases; links, categories, assets, campaign preservation and new share metadata.`);
+
+const tai = data.articles.find(a => a.slug === 'tai-dai-whet-new-wave-spotlight');
+const taiCard = data.freshFinds.find(a => a.name === 'Tai Dai');
+assert.ok(tai && taiCard, 'Tai Dai feature and discovery card exist');
+assert.ok(!/\bborn\b|given names|writing credits/i.test([tai.excerpt, tai.body, taiCard.bio].join(' ')), 'no personal-name biographical introduction');
+for (const label of ['Album of the Year', 'Female Rapper of the Year', 'Lyricist of the Year']) {
+  assert.ok(tai.body.includes(label), `verified Tai Dai category: ${label}`);
+}
+assert.ok(tai.body.includes('https://survey.zohopublic.com/zs/oRBBCU'), 'direct ballot link');
+assert.ok(tai.body.includes('nominations, not announced wins'), 'nomination/win distinction');
+assert.ok(tai.body.includes('https://music.apple.com/ug/album/whet-ep/6782961962'), 'primary WHET listing linked');
+let taiShare = '';
+share({headers: {host: 'preview.example'}, query: {slug: tai.slug}}, {
+  setHeader() {}, end(body) {taiShare = body;}
+});
+assert.ok(taiShare.includes('three nominations'), 'updated social excerpt');
+console.log('PASS: Tai Dai public-copy structure, verified nomination categories, listening sources and social excerpt.');
+
+assert.ok(tai.body.includes('Dai Hards'), 'approved editorial nickname included');
+assert.ok(tai.body.includes('not an official fanbase name'), 'nickname is not presented as artist-endorsed');
+for (const event of data.events) {
+  if (event.article) assert.ok(slugs.has(event.article), `event article exists: ${event.name}`);
+}
+for (const edition of data.weeklyPicks) {
+  if (edition.article) assert.ok(slugs.has(edition.article), 'weekly edition article exists');
+  for (const pick of [...(edition.picks || []), ...(edition.bubblingUnder || [])]) {
+    if (pick.article) assert.ok(slugs.has(pick.article), `weekly pick article exists: ${pick.title}`);
+  }
+}
