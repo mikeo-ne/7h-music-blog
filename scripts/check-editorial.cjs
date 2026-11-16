@@ -20,7 +20,7 @@ for (const a of data.articles) {
 }
 for (const a of data.articles.filter(a => a.id >= 57)) {
   assert.equal(a.date, 'Oct 16, 2026');
-  assert.match(a.body, /Sources & listening/);
+  assert.match(a.body, /Sources &(?:amp;)? listening/);
   let html = '';
   share({ headers: {host: 'preview.example', 'x-forwarded-proto': 'https'}, query: {slug: a.slug}}, {
     setHeader() {}, end(body) {html = body;}

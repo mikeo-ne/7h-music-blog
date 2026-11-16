@@ -5,7 +5,7 @@
   "description": "7H Music Blog and private Uganda/Kenya editorial inbox",
   "scripts": {
     "dev": "node scripts/dev-server.mjs",
-    "test": "node --test test/editorial.test.cjs test/automatic-articles.test.cjs && node scripts/check-editorial.cjs",
+    "test": "node --test test/editorial.test.cjs test/automatic-articles.test.cjs test/pajen.test.cjs && node scripts/check-editorial.cjs",
     "test:ui": "node scripts/check-ui.cjs && node --test test/editorial-ui.test.cjs test/automatic-ui.test.cjs"
   },
   "dependencies": {

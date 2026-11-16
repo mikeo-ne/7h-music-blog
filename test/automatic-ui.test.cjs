@@ -4,9 +4,9 @@ test('dynamic notice opens from direct hash and adds an attributed box without r
  const dom=new JSDOM(fs.readFileSync('index.html','utf8'),{runScripts:'outside-only',url:'https://blog.example/#article/official-release-123456789',pretendToBeVisual:true});const w=dom.window;
  w.IntersectionObserver=class{observe(){} unobserve(){} disconnect(){}};w.scrollTo=()=>{};w.HTMLElement.prototype.scrollIntoView=()=>{};w.AbortSignal=AbortSignal;
  w.fetch=async path=>({ok:true,json:async()=>path==='/api/updates'?{articles:[notice]}:{counts:{},comments:[]}});
- w.eval(fs.readFileSync('data.js','utf8'));const prior=w.SITE_DATA.articles.find(a=>a.slug===notice.relatedSlug).body;
+ w.eval(fs.readFileSync('data.js','utf8'));const initialCount=w.SITE_DATA.articles.length;const prior=w.SITE_DATA.articles.find(a=>a.slug===notice.relatedSlug).body;
  w.eval(fs.readFileSync('app.js','utf8'));await new Promise(r=>setTimeout(r,40));
- assert.equal(w.SITE_DATA.articles.length,65);assert.match(w.document.querySelector('#modalContent').textContent,/Test Release/);
+ assert.equal(w.SITE_DATA.articles.length,initialCount+1);assert.match(w.document.querySelector('#modalContent').textContent,/Test Release/);
  const updated=w.SITE_DATA.articles.find(a=>a.slug===notice.relatedSlug);assert.ok(updated.body.endsWith(prior));assert.match(updated.body,/data-auto-update/);
  await new Promise(r=>setImmediate(r));dom.window.close();
 });

@@ -391,8 +391,8 @@
   $('#freshCountry').addEventListener('change', () => { renderFresh(); refreshIcons(); observeReveal(); });
   $('#releaseCountry').addEventListener('change', () => { renderReleases(); refreshIcons(); observeReveal(); });
   $('#eventScope').addEventListener('change', renderEvents);
-  const kenyaStories = [62, 63, 64, 60, 57, 58, 59].map(id => articles.find(a => a.id === id)).filter(Boolean);
-  $('#kenyaGrid').innerHTML = kenyaStories.map(a => `<a href="#article/${a.slug}" class="metal-card card-hover rounded-2xl overflow-hidden reveal group">${img(a.img, a.title, 'w-full aspect-square object-cover')}<div class="p-5"><p class="text-xs text-gold">Kenya · ${esc(a.category)}</p><h3 class="font-display font-bold text-lg text-ink mt-2 group-hover:text-gold">${esc(a.title)}</h3><p class="text-sm text-muted mt-3">${esc(a.excerpt)}</p><span class="block mt-4 text-sm text-gold font-semibold">Read story →</span></div></a>`).join('');
+  const kenyaStories = [65, 62, 63, 64, 60, 57, 58, 59].map(id => articles.find(a => a.id === id)).filter(Boolean);
+  $('#kenyaGrid').innerHTML = kenyaStories.map(a => `<a href="#article/${a.slug}" class="metal-card card-hover rounded-2xl overflow-hidden reveal group">${img(a.img, a.title, a.coverFit === 'contain' ? 'w-full aspect-square object-contain bg-black' : 'w-full aspect-square object-cover')}<div class="p-5"><p class="text-xs text-gold">Kenya · ${esc(a.category)}</p><h3 class="font-display font-bold text-lg text-ink mt-2 group-hover:text-gold">${esc(a.title)}</h3><p class="text-sm text-muted mt-3">${esc(a.excerpt)}</p><span class="block mt-4 text-sm text-gold font-semibold">Read story →</span></div></a>`).join('');
 
   $('#searchInput').addEventListener('input', (e) => { searchQuery = e.target.value; renderArticles(); });
 
