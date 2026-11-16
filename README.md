@@ -311,3 +311,19 @@ published copy, artist bios, excerpts, image descriptions and social metadata.
 Do not add her legal/given names from songwriting credits or external biographies.
 Keep she/her pronouns. Catalogue credits may be linked without reproducing
 private-name details in our editorial copy.
+
+### Private Uganda/Kenya editorial inbox
+
+Visit `/editorial` for the new review-first desk. Use **Explore a sample inbox**
+for fictional, in-memory examples without credentials. Real leads require a
+server-side `EDITORIAL_ADMIN_TOKEN` and Redis storage; there is no public-data
+fallback. Approval means ready for drafting, never automatic publication.
+
+See [`docs/editorial-inbox.md`](docs/editorial-inbox.md) for secure setup, RSS
+sources, collection limitations, manual event/release links and test commands.
+Use `npm ci`, `npm run dev`, `npm test` and `npm run test:ui`.
+
+## Automatic official release notices
+
+See [automatic publishing](docs/automatic-publishing.md) for the twice-daily workflow,
+Supabase isolation, two-notice daily cap, dated historical-feature updates and activation checks.

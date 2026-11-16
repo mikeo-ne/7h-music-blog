@@ -45,7 +45,7 @@ function persist() {
   saveTimer = setTimeout(() => {
     fs.mkdirSync(path.dirname(KV_FILE), { recursive: true });
     const obj = {};
-    for (const [k, v] of kv) if (v.type === 'list') obj[k] = v; // rate-limit keys are ephemeral
+    for (const [k, v] of kv) if (v.type === 'list' || v.type === 'hash' || (k.startsWith('editorial:') && !v.expires)) obj[k] = v; // rate-limit keys are ephemeral
     fs.writeFileSync(KV_FILE, JSON.stringify(obj));
   }, 200);
 }
@@ -67,7 +67,17 @@ function runCommand([cmd, ...args]) {
       if (up.includes('NX') && live(key)) return null;
       const exIdx = up.indexOf('EX');
       kv.set(key, { type: 'string', value: String(value), expires: exIdx >= 0 ? Date.now() + Number(opts[exIdx + 1]) * 1000 : 0 });
+      if (key.startsWith('editorial:') && !up.includes('EX')) persist();
       return 'OK';
+    }
+    case 'HGETALL': { const e = live(args[0]); return e ? Object.entries(e.value).flat() : []; }
+    case 'HGET': { const e = live(args[0]); return e ? e.value[args[1]] ?? null : null; }
+    case 'HSET': case 'HSETNX': {
+      const [key, field, value] = args; const e = live(key);
+      if (e && e.type !== 'hash') throw new Error('WRONGTYPE');
+      const hash = e ? {...e.value} : {}; const exists = Object.hasOwn(hash, field);
+      if (C === 'HSETNX' && exists) return 0;
+      hash[field] = String(value); kv.set(key, {type: 'hash', value: hash, expires: 0}); persist(); return exists ? 0 : 1;
     }
     case 'INCR': {
       const e = live(args[0]);
@@ -125,7 +135,7 @@ async function runFunction(name, req, res, url, rawBody) {
   const file = path.join(ROOT, 'api', `${name}.js`);
   if (!/^[a-z0-9_-]+$/i.test(name) || !fs.existsSync(file)) { res.writeHead(404, { 'Content-Type': 'text/plain' }); return res.end('Not found'); }
   // hot reload: drop cached copies of the function and data.js
-  for (const k of Object.keys(require.cache)) if (k.startsWith(path.join(ROOT, 'api')) || k === path.join(ROOT, 'data.js')) delete require.cache[k];
+  for (const k of Object.keys(require.cache)) if (k.startsWith(path.join(ROOT, 'api')) || k.startsWith(path.join(ROOT, 'lib')) || k === path.join(ROOT, 'data.js')) delete require.cache[k];
   const handler = require(file);
   enhance(req, res, url, rawBody);
   try { await (handler.default || handler)(req, res); }

@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><meta name="referrer" content="no-referrer">
+<title>Editorial desk · 7H Music Blog</title>
+<link rel="stylesheet" href="/editorial.css"><script src="/editorial.js" defer></script>
+</head>
+<body>
+<header><a href="/" class="brand">7H <span>MUSIC</span> BLOG</a><span class="private">PRIVATE EDITORIAL DESK</span><button id="lock" hidden>Lock inbox</button></header>
+<main>
+<section class="intro"><p class="eyebrow">KAMPALA ROOTS. REGIONAL RADAR.</p><h1>Catch the story.<br><span>Keep your own voice.</span></h1><p class="lede">One review queue for Uganda and Kenya’s music scenes. Collect the leads, check the details, then decide what deserves a story.</p><div class="chips"><span>Uganda</span><span>Kenya</span><span>News · Events · Releases</span></div></section>
+<section id="gate" class="panel gate"><div><p class="eyebrow">EDITOR ACCESS</p><h2>Your next story starts here.</h2><p>Private notes and candidates are protected by the server. Approval here means ready for drafting—not published on the blog.</p></div><form id="unlockForm"><label for="token">Editorial access token</label><input id="token" type="password" autocomplete="off" required placeholder="Enter your server-configured token"><button class="gold" type="submit">Unlock editorial inbox →</button><button type="button" id="demo">Explore a sample inbox</button><small>Use the token set securely in your deployment settings. Never use a news-provider API key here. Sample mode contains fictional examples only.</small></form></section>
+<p id="message" role="status" aria-live="polite"></p>
+<section id="desk" hidden>
+<div id="demoBanner" class="notice" hidden>SAMPLE MODE · Fictional examples, kept only in memory. No live collection or shared storage. Lock the inbox to leave.</div>
+<div class="toolbar"><div><p class="eyebrow">THE ASSIGNMENT BOARD</p><h2>Editorial inbox <span id="total"></span></h2><p class="muted">Source material is a lead, not verified reporting. Always open the original.</p></div><div class="actions"><button id="export">Export drafting queue ↓</button><button id="addToggle">+ Add a lead</button><button id="refresh" class="gold">Collect latest feeds ↗</button></div></div>
+<div class="metrics" id="metrics"></div>
+<details class="sources"><summary>Sources & collection health <span id="lastRun">Not collected yet</span></summary><div id="sources"></div><p class="muted">Publisher RSS only. No article-body scraping. Headlines and short source excerpts are collected for internal review. Release/event labels are suggestions—not verified schedules or catalogue monitoring.</p></details>
+<form id="addForm" class="panel" hidden>
+<h3>Add an official announcement or reporting lead</h3><p class="muted">Use an artist, organiser, ticketing or publisher link. This saves a reference; it does not scrape the page.</p>
+<div class="formgrid"><label>Headline<input name="title" required minlength="5" maxlength="200"></label><label>Source URL<input name="url" type="url" placeholder="https://…" required maxlength="2000"></label><label>Scene<select name="country"><option>Uganda</option><option>Kenya</option><option>Regional</option></select></label><label>Lead type<select name="type"><option>News</option><option>Event</option><option>Release</option></select></label><label>Publisher / artist / organiser<input name="source" maxlength="80"></label><label>Source publication date (optional)<input name="publishedAt" type="date"></label><label class="wide">Short context<textarea name="summary" rows="2" maxlength="280" placeholder="Why is this worth following? Avoid copying a whole article."></textarea></label></div><button class="gold">Save lead</button>
+</form>
+<div class="filterbar"><label class="search">Search leads<input id="search" type="search" placeholder="Artist, headline, source or note…"></label><label>Scene<select id="country"><option value="all">All scenes</option><option>Uganda</option><option>Kenya</option><option>Regional</option></select></label><label>Type<select id="type"><option value="all">All types</option><option>News</option><option>Event</option><option>Release</option></select></label><label>Review status<select id="status"><option value="all">All statuses</option><option value="pending">Pending</option><option value="follow-up">Follow-up</option><option value="approved">Approved for drafting</option><option value="rejected">Rejected</option></select></label></div>
+<div id="items"></div><div id="empty" class="panel empty" hidden><h3>No leads in this view.</h3><p>Try another filter, collect the publisher feeds or add a source link yourself.</p><button id="reset">Reset filters</button></div>
+</section>
+<footer>7H EDITORIAL · HUMAN JUDGEMENT FIRST <span>No automatic publishing. No claims of verification.</span></footer>
+</main>
+</body></html>

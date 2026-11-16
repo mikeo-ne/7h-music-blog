@@ -30,6 +30,13 @@ module.exports = function handler(req, res) {
   const query = req.query || Object.fromEntries(new URL(req.url, 'http://x').searchParams);
   const slug = String(query.slug || '').toLowerCase();
   const article = articles.find((a) => a.slug === slug);
+  if (!article && /^official-release-\d+$/.test(slug)) {
+    return require('../lib/automatic-articles').published().then(list => render(req, res, slug, list.find(a => a.slug === slug))).catch(() => {res.statusCode=503;res.setHeader('Cache-Control','no-store');res.end('Release feed temporarily unavailable. Please try again.');});
+  }
+  return render(req, res, slug, article);
+};
+
+function render(req, res, slug, article) {
 
   if (!article) {
     res.statusCode = 302;

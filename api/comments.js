@@ -27,6 +27,12 @@ const crypto = require('crypto');
 const { articles } = require('../data.js');
 
 const SLUGS = new Set(articles.map((a) => a.slug));
+async function knownSlug(slug) {
+  if (SLUGS.has(slug)) return true;
+  if (!/^official-release-\d+$/.test(slug)) return false;
+  try { return (await require('../lib/automatic-articles').published()).some(a => a.slug === slug); }
+  catch { return false; }
+}
 const NAME_MIN = 2;
 const NAME_MAX = 40;
 const TEXT_MIN = 2;
@@ -167,7 +173,7 @@ module.exports = async function handler(req, res) {
         return send(res, 200, { counts });
       }
       const slug = String(query.article || '');
-      if (!SLUGS.has(slug)) return send(res, 400, { error: 'unknown_article', message: 'Unknown article.' });
+      if (!(await knownSlug(slug))) return send(res, 400, { error: 'unknown_article', message: 'Unknown article.' });
       const [items, total] = await redis(cfg, [
         ['LRANGE', listKey(slug), '0', String(PAGE_SIZE - 1)],
         ['LLEN', listKey(slug)],
@@ -180,7 +186,7 @@ module.exports = async function handler(req, res) {
     if (req.method === 'POST') {
       const body = readBody(req);
       const slug = String(body.article || '');
-      if (!SLUGS.has(slug)) return send(res, 400, { error: 'unknown_article', message: 'Unknown article.' });
+      if (!(await knownSlug(slug))) return send(res, 400, { error: 'unknown_article', message: 'Unknown article.' });
 
       const name = clean(body.name);
       const text = clean(body.text, { multiline: true });
@@ -226,7 +232,7 @@ module.exports = async function handler(req, res) {
 
       const slug = String(query.article || '');
       const id = String(query.id || '');
-      if (!SLUGS.has(slug) || !id) return send(res, 400, { error: 'bad_request', message: 'article and id are required.' });
+      if (!(await knownSlug(slug)) || !id) return send(res, 400, { error: 'bad_request', message: 'article and id are required.' });
 
       const [items] = await redis(cfg, [['LRANGE', listKey(slug), '0', '-1']]);
       const raw = (items || []).find((s) => (parseComment(s) || {}).id === id);
