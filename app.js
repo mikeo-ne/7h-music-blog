@@ -233,7 +233,7 @@
     if (!section) return;
     if (!weekly) { section.classList.add('hidden'); return; }
     const label = document.getElementById('weeklyLabel');
-    if (label) label.textContent = `${weekly.label || 'This week'} — five ranked records, refreshed weekly.`;
+    if (label) label.textContent = `${weekly.label || 'Editor’s selection'} — five ranked records from this edition.`;
     const intro = document.getElementById('weeklyIntro');
     if (intro) intro.textContent = weekly.intro || '';
     const grid = document.getElementById('weeklyPicks');
@@ -919,6 +919,10 @@
   }
 
   // =============================================================== init ===
+  // Counts follow the content, avoiding stale promotional totals.
+  for (const [id, count] of [['statArtists', artists.length], ['statReleases', releases.length], ['statStories', articles.length]]) {
+    const el = document.getElementById(id); if (el) el.textContent = String(count);
+  }
   renderArtists();
   renderFresh();
   renderReleases();
