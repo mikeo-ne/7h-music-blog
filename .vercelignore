@@ -2,3 +2,6 @@
 scripts/
 .dev-data/
 image-search/
+
+# Private tooling and test fixtures
+test/

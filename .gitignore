@@ -8,3 +8,6 @@ node_modules/
 .env
 .env.*
 .DS_Store
+
+# Private editorial queue exports
+7h-private-drafting-queue*.json

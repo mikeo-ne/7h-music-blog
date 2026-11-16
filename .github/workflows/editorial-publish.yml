@@ -1,0 +1,23 @@
+name: Official music release desk
+on:
+  schedule:
+    - cron: '0 6,18 * * *'
+  workflow_dispatch:
+permissions:
+  contents: read
+  id-token: write
+concurrency:
+  group: official-music-release-desk
+  cancel-in-progress: false
+jobs:
+  publish:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Collect official catalogue updates and publish eligible notices
+        run: node scripts/run-autopublish.cjs

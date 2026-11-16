@@ -933,6 +933,37 @@
   refreshIcons();
   observeReveal();
   loadCounts();
+  // Published official notices are persisted outside Git; never replace historical prose.
+  async function loadAutomaticUpdates() {
+    try {
+      const response = await fetch('/api/updates', { signal: AbortSignal.timeout(5000) });
+      if (!response.ok) return;
+      const payload = await response.json();
+      if (!Array.isArray(payload.articles)) return;
+      const notices = payload.articles.filter(a => a.automatic && /^official-release-\d+$/.test(a.slug));
+      if (!notices.length) return;
+      const affected = new Set();
+      for (const notice of notices) {
+        if (!bySlug(notice.slug)) articles.unshift(notice);
+        affected.add(notice.relatedSlug);
+      }
+      for (const slug of affected) {
+        const target = bySlug(slug); if (!target) continue;
+        const matching = notices.filter(a => a.relatedSlug === slug).slice(0, 6);
+        target.body = matching.map(a => a.updateHtml).join('') + target.body;
+        target.updated = matching[0].date;
+      }
+      for (const a of articles) searchIndex.set(a.slug, (articleCountry(a) + ' ' + a.title + ' ' + a.excerpt + ' ' + a.category + ' ' + a.author.name + ' ' + stripTags(a.body)).toLowerCase());
+      renderArticles();
+      const count = document.getElementById('statStories'); if (count) count.textContent = String(articles.length);
+      if (current && affected.has(current.slug)) {
+        const body = document.querySelector('#modalContent .article-body'); if (body) body.innerHTML = current.body;
+      }
+      const route = parseHash(); if (route && !isOpen()) showArticle(route);
+    } catch (_) { /* Keep the complete static blog usable during provider outages. */ }
+  }
+  loadAutomaticUpdates();
+
   const initial = parseHash();
   if (initial) showArticle(initial); // deep link, e.g. /#article/kyle-simbwa-apple-music-up-next
 })();
